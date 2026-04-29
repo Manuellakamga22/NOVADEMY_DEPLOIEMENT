@@ -1,0 +1,29 @@
+.env
+
+# BACKEND
+backend/.env
+backend/node_modules
+backend/coverage
+
+# FRONTEND
+frontend/.env
+frontend/node_modules
+
+# RACINE
+node_modules
+
+# GLOBAL
+*.log
+.DS_Store
+Thumbs.db
+
+# BUILD
+dist
+frontend/dist
+
+# DOCKER / DOUBLONS WINDOWS
+*.txt
+!README.md
+
+# DATABASE DUMPS
+*.sql

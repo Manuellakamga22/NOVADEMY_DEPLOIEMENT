@@ -1,0 +1,262 @@
+body {
+  font-size: 18px;
+}
+
+h1 {
+  font-size: 38px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+p, label, li {
+  font-size: 20px;
+}
+
+button {
+  font-size: 18px;
+}
+
+input, select, textarea {
+  font-size: 18px;
+}
+
+.app-page {
+  min-height: 100vh;
+}
+
+.app-header {
+  background: white;
+  padding: 24px 36px;
+  border-bottom: 1px solid #ddd;
+}
+
+.app-logo {
+  margin: 0;
+  font-size: 30px;
+  color: #6d28d9;
+}
+
+.app-subtitle {
+  margin: 6px 0 0 0;
+  font-size: 16px;
+  color: #64748b;
+}
+
+.app-nav {
+  margin-top: 14px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.app-nav a {
+  text-decoration: none;
+  color: #222;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.app-main {
+  padding: 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+  color: white;
+  padding: 32px;
+  border-radius: 18px;
+  margin-bottom: 30px;
+  box-shadow: 0 15px 35px rgba(124, 58, 237, 0.2);
+}
+
+.hero-card h1 {
+  margin: 0;
+  font-size: 40px;
+}
+
+.hero-card p {
+  font-size: 21px;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.stat-label {
+  margin: 0;
+  font-size: 18px;
+  color: #666;
+}
+
+.stat-value {
+  margin-top: 12px;
+  margin-bottom: 0;
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.ui-card {
+  background: white;
+  padding: 28px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.ui-card h3 {
+  margin-top: 0;
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.ui-card p,
+.ui-card li,
+.ui-card label {
+  font-size: 20px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.ui-btn {
+  margin-top: 14px;
+  padding: 14px 18px;
+  background: #6d28d9;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.ui-btn.secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.ui-btn.danger {
+  background: #ef4444;
+  color: white;
+}
+
+.ui-input,
+.ui-select,
+.ui-textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 18px;
+  background: #fafafa;
+  margin-top: 8px;
+  box-sizing: border-box;
+}
+
+.ui-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.ui-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.status-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.badge {
+  padding: 9px 14px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.badge.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge.valid {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge.reported {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge.refused {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge.done {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+/* REGISTER NOVADEMY FIX UX */
+
+.register-container h1 {
+  font-size: 36px !important;
+  font-weight: 700;
+}
+
+.register-container h2 {
+  font-size: 22px !important;
+}
+
+.register-container label {
+  font-size: 18px !important;
+  font-weight: 600;
+}
+
+.register-container input,
+.register-container select {
+  font-size: 18px !important;
+  padding: 16px !important;
+  border-radius: 10px !important;
+}
+
+.register-container button {
+  font-size: 20px !important;
+  padding: 16px !important;
+  border-radius: 12px !important;
+}
+
+.register-container p {
+  font-size: 17px !important;
+}
+
+.register-container {
+  zoom: 1.05;
+}

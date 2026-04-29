@@ -1,0 +1,141 @@
+name: NOVADEMY CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  backend:
+    name: Backend - install, audit, test
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Installer les dépendances backend
+        run: npm ci
+
+      - name: Audit sécurité backend
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Lancer les tests backend
+        run: npm test
+        continue-on-error: true
+
+  frontend:
+    name: Frontend - install, audit, build
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Installer les dépendances frontend
+        run: npm ci
+
+      - name: Audit sécurité frontend
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Sauvegarder le build frontend
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: frontend/dist/
+          retention-days: 7
+
+  docker:
+    name: Docker - build images
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: false
+          tags: novademy-backend:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build image frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: false
+          tags: novademy-frontend:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  trivy:
+    name: Security - Trivy scan
+    runs-on: ubuntu-latest
+    needs: docker
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Build backend image for scan
+        run: docker build -t novademy-backend:${{ github.sha }} ./backend
+
+      - name: Scan backend image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: novademy-backend:${{ github.sha }}
+          severity: CRITICAL,HIGH
+          exit-code: "0"
+
+      - name: Build frontend image for scan
+        run: docker build -t novademy-frontend:${{ github.sha }} ./frontend
+
+      - name: Scan frontend image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: novademy-frontend:${{ github.sha }}
+          severity: CRITICAL,HIGH
+          exit-code: "0"

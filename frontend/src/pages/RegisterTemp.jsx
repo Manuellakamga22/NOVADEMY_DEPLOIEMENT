@@ -1,97 +1,31 @@
 function RegisterTemp() {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#f7f7f7",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      <header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "20px 40px",
-          backgroundColor: "white",
-          borderBottom: "2px solid #2e8b57",
-        }}
-      >
-        <h2 style={{ margin: 0, color: "#1f2f46" }}>NOVADEMY</h2>
-        <p style={{ margin: 0, fontWeight: "bold", color: "#1f2f46" }}>
-          Bienvenue
-        </p>
+    <div style={{ minHeight: "100vh", background: "#F9FAFB", fontFamily: "'Segoe UI', sans-serif" }}>
+      <header style={{ background: "#fff", borderBottom: "1px solid #E5E7EB", padding: "0 48px", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ fontSize: 20, fontWeight: 800 }}>NOVA<span style={{ color: "#2563EB" }}>DEMY</span></span>
+        <span style={{ fontSize: 14, fontWeight: 600, color: "#9CA3AF" }}>Bienvenue</span>
       </header>
 
-      <main
-        style={{
-          maxWidth: "900px",
-          margin: "0 auto",
-          padding: "60px 20px",
-          textAlign: "center",
-        }}
-      >
-        <h1 style={{ fontSize: "42px", marginBottom: "16px", color: "#1f2f46" }}>
-          Bienvenue sur NOVADEMY
-        </h1>
+      <div style={{ minHeight: "calc(100vh - 60px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "60px 24px" }}>
+        <div style={{ maxWidth: 780, width: "100%", textAlign: "center" }}>
+          <h1 style={{ fontSize: 38, fontWeight: 800, marginBottom: 12 }}>Bienvenue sur NOVADEMY</h1>
+          <p style={{ fontSize: 16, color: "#9CA3AF" }}>Pour créer votre compte, choisissez le profil qui vous correspond.</p>
 
-        <p style={{ fontSize: "18px", color: "#555", marginBottom: "50px" }}>
-          Pour créer votre compte, choisissez le profil qui vous correspond.
-        </p>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "30px",
-            flexWrap: "wrap",
-          }}
-        >
-          <a
-            href="/register/student"
-            style={{
-              width: "320px",
-              padding: "35px 25px",
-              border: "1px solid #ddd",
-              borderRadius: "16px",
-              backgroundColor: "white",
-              textDecoration: "none",
-              color: "#1f2f46",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-            }}
-          >
-            <div style={{ fontSize: "42px", marginBottom: "16px" }}>🎓</div>
-            <h3 style={{ marginBottom: "12px" }}>J&apos;ai besoin de cours</h3>
-            <p style={{ color: "#666", lineHeight: "1.5" }}>
-              Recherchez un professeur adapté à votre niveau, vos objectifs et
-              vos disponibilités.
-            </p>
-          </a>
-
-          <a
-            href="/register/teacher"
-            style={{
-              width: "320px",
-              padding: "35px 25px",
-              border: "1px solid #ddd",
-              borderRadius: "16px",
-              backgroundColor: "white",
-              textDecoration: "none",
-              color: "#1f2f46",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-            }}
-          >
-            <div style={{ fontSize: "42px", marginBottom: "16px" }}>👩‍🏫</div>
-            <h3 style={{ marginBottom: "12px" }}>Je veux devenir professeur</h3>
-            <p style={{ color: "#666", lineHeight: "1.5" }}>
-              Créez votre profil, renseignez vos matières, vos disponibilités
-              et commencez à donner des cours.
-            </p>
-          </a>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22, marginTop: 32 }}>
+            {[{href:"/register/student",icon:"🎓",title:"J'ai besoin de cours",desc:"Recherchez un professeur adapté à votre niveau, vos objectifs et vos disponibilités.",btnTxt:"Créer un compte élève",btnCol:"#059669"},
+              {href:"/register/teacher",icon:"👩‍🏫",title:"Je veux devenir professeur",desc:"Créez votre profil, renseignez vos matières, vos disponibilités et commencez à donner des cours.",btnTxt:"Créer un compte professeur",btnCol:"#2563EB"}].map(c => (
+              <a key={c.href} href={c.href} style={{ background: "#fff", border: "2px solid #E5E7EB", borderRadius: 16, padding: "32px 24px", textAlign: "center", cursor: "pointer", textDecoration: "none", color: "inherit", display: "block" }}>
+                <div style={{ fontSize: 42, marginBottom: 14 }}>{c.icon}</div>
+                <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{c.title}</div>
+                <div style={{ fontSize: 13, color: "#9CA3AF", lineHeight: 1.6, marginBottom: 18 }}>{c.desc}</div>
+                <div style={{ background: c.btnCol, color: "#fff", padding: "11px", borderRadius: 8, fontWeight: 600, fontSize: 13 }}>{c.btnTxt}</div>
+              </a>
+            ))}
+          </div>
+          <p style={{ marginTop: 28, fontSize: 13, color: "#9CA3AF" }}>Déjà un compte ? <a href="/login" style={{ color: "#2563EB", fontWeight: 600, textDecoration: "none" }}>Se connecter</a></p>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
-
 export default RegisterTemp;

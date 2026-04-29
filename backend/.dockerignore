@@ -1,0 +1,9 @@
+node_modules
+.env
+.env.*
+coverage
+.husky
+npm-debug.log
+*.md
+.git
+.gitignore

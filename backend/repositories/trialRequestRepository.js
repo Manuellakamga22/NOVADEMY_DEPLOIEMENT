@@ -1,0 +1,171 @@
+const db = require("../db");
+
+exports.findExistingTrialRequest = async (
+  announcement_id,
+  student_id,
+  teacher_id
+) => {
+  const [rows] = await db.query(
+    `
+    SELECT *
+    FROM trial_requests
+    WHERE announcement_id = ? 
+      AND student_id = ? 
+      AND teacher_id = ?
+      AND status IN ('pending', 'accepted', 'reported')
+    `,
+    [announcement_id, student_id, teacher_id]
+  );
+
+  return rows[0] || null;
+};
+
+exports.countActiveTrialsByStudent = async (studentId) => {
+  const [rows] = await db.query(
+    `
+    SELECT COUNT(*) AS total
+    FROM trial_requests
+    WHERE student_id = ?
+      AND status IN ('pending', 'accepted', 'reported')
+    `,
+    [studentId]
+  );
+
+  return rows[0].total;
+};
+
+exports.createTrialRequest = async ({
+  announcement_id,
+  student_id,
+  teacher_id,
+  planning_id,
+  requested_day,
+  requested_start_time,
+  requested_end_time,
+}) => {
+  const [result] = await db.query(
+    `
+    INSERT INTO trial_requests
+    (
+      announcement_id,
+      student_id,
+      teacher_id,
+      planning_id,
+      requested_day,
+      requested_start_time,
+      requested_end_time,
+      status
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')
+    `,
+    [
+      announcement_id,
+      student_id,
+      teacher_id,
+      planning_id,
+      requested_day,
+      requested_start_time,
+      requested_end_time,
+    ]
+  );
+
+  return result;
+};
+
+exports.getTeacherTrials = async (teacherId) => {
+  // je joins sur users pour récupérer les infos de l'élève
+  const [rows] = await db.query(
+    `SELECT tr.*, u.prenom AS student_prenom, u.nom AS student_nom, u.email AS student_email
+     FROM trial_requests tr
+     LEFT JOIN users u ON u.id = tr.student_id
+     WHERE tr.teacher_id = ?
+     ORDER BY tr.created_at DESC`,
+    [teacherId]
+  );
+  return rows;
+};
+
+exports.getStudentTrials = async (studentId) => {
+  // je joins sur users pour récupérer les infos du prof
+  const [rows] = await db.query(
+    `SELECT tr.*, u.prenom AS teacher_prenom, u.nom AS teacher_nom, u.email AS teacher_email
+     FROM trial_requests tr
+     LEFT JOIN users u ON u.id = tr.teacher_id
+     WHERE tr.student_id = ?
+     ORDER BY tr.created_at DESC`,
+    [studentId]
+  );
+  return rows;
+};
+
+exports.getTrialById = async (trialId) => {
+  const [rows] = await db.query(
+    `
+    SELECT *
+    FROM trial_requests
+    WHERE id = ?
+    LIMIT 1
+    `,
+    [trialId]
+  );
+
+  return rows[0] || null;
+};
+
+exports.hasAcceptedTrialBetweenUsers = async (studentId, teacherId) => {
+  const [rows] = await db.query(
+    `
+    SELECT id
+    FROM trial_requests
+    WHERE student_id = ?
+      AND teacher_id = ?
+      AND status = 'accepted'
+    LIMIT 1
+    `,
+    [studentId, teacherId]
+  );
+
+  return !!rows[0];
+};
+
+exports.updateTrialStatus = async (id, status) => {
+  const [result] = await db.query(
+    `
+    UPDATE trial_requests
+    SET status = ?
+    WHERE id = ?
+    `,
+    [status, id]
+  );
+
+  return result;
+};
+
+// Route admin : tous les trials avec noms élève/prof et matière
+exports.getAllTrials = async () => {
+  const [rows] = await db.query(
+    `SELECT tr.*,
+       u_student.prenom AS student_prenom, u_student.nom AS student_nom,
+       u_teacher.prenom AS teacher_prenom, u_teacher.nom AS teacher_nom,
+       a.subject
+     FROM trial_requests tr
+     LEFT JOIN users u_student ON u_student.id = tr.student_id
+     LEFT JOIN users u_teacher ON u_teacher.id = tr.teacher_id
+     LEFT JOIN announcements a ON a.id = tr.announcement_id
+     ORDER BY tr.created_at DESC`
+  );
+  return rows;
+};
+
+exports.saveVisioLink = async (trialId, visioLink) => {
+  const [result] = await db.query(
+    `
+    UPDATE trial_requests
+    SET visio_link = ?
+    WHERE id = ?
+    `,
+    [visioLink, trialId]
+  );
+
+  return result;
+};

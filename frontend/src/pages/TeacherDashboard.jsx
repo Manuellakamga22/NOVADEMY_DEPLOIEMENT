@@ -1,394 +1,713 @@
+import React, { useEffect, useMemo, useState } from "react";
+
+const S = {
+  wrap: {
+    fontFamily: "'Segoe UI', sans-serif",
+    minHeight: "100vh",
+    background: "#F9FAFB",
+  },
+
+  logo: { fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em" },
+  logoEm: { color: "#2563EB" },
+
+  dash: {
+    display: "grid",
+    gridTemplateColumns: "260px 1fr",
+    minHeight: "100vh",
+  },
+
+  sidebar: {
+    background: "#fff",
+    borderRight: "1px solid #E5E7EB",
+    display: "flex",
+    flexDirection: "column",
+    position: "sticky",
+    top: 0,
+    height: "100vh",
+    overflowY: "auto",
+  },
+
+  sbBrand: {
+    padding: "24px 22px",
+    borderBottom: "1px solid #E5E7EB",
+  },
+
+  sbRole: {
+    display: "inline-block",
+    marginTop: 8,
+    fontSize: 12,
+    fontWeight: 700,
+    letterSpacing: ".08em",
+    textTransform: "uppercase",
+    padding: "4px 12px",
+    borderRadius: 20,
+    background: "#EFF6FF",
+    color: "#2563EB",
+  },
+
+  sbNav: { padding: 14, flex: 1 },
+
+  sbLabel: {
+    fontSize: 11,
+    fontWeight: 700,
+    letterSpacing: ".12em",
+    textTransform: "uppercase",
+    color: "#9CA3AF",
+    padding: "0 10px",
+    margin: "18px 0 6px",
+    display: "block",
+  },
+
+  sbLink: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    padding: "12px 14px",
+    borderRadius: 9,
+    fontSize: 15,
+    fontWeight: 500,
+    color: "#4B5563",
+    textDecoration: "none",
+    marginBottom: 2,
+  },
+
+  sbLinkActive: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    padding: "12px 14px",
+    borderRadius: 9,
+    fontSize: 15,
+    fontWeight: 600,
+    color: "#2563EB",
+    background: "#EFF6FF",
+    textDecoration: "none",
+    marginBottom: 2,
+  },
+
+  sbBadge: {
+    marginLeft: "auto",
+    background: "#2563EB",
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: 700,
+    padding: "2px 8px",
+    borderRadius: 10,
+  },
+
+  sbUser: {
+    padding: "18px 22px",
+    borderTop: "1px solid #E5E7EB",
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+  },
+
+  av: {
+    width: 38,
+    height: 38,
+    borderRadius: "50%",
+    background: "linear-gradient(135deg,#2563EB,#1D4ED8)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#fff",
+    fontWeight: 700,
+    fontSize: 15,
+    flexShrink: 0,
+  },
+
+  main: { padding: "36px 36px" },
+
+  pageTitle: {
+    fontSize: 28,
+    fontWeight: 800,
+    letterSpacing: "-0.01em",
+    marginBottom: 8,
+  },
+
+  pageSub: {
+    fontSize: 16,
+    color: "#9CA3AF",
+    lineHeight: 1.6,
+  },
+
+  pageHead: {
+    marginBottom: 32,
+    paddingBottom: 24,
+    borderBottom: "1px solid #F3F4F6",
+  },
+
+  stats: {
+    display: "grid",
+    gridTemplateColumns: "repeat(4,1fr)",
+    gap: 16,
+    marginBottom: 28,
+  },
+
+  statAccent: {
+    background: "#2563EB",
+    border: "1px solid #2563EB",
+    borderRadius: 14,
+    padding: "20px 22px",
+  },
+
+  stat: {
+    background: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: 14,
+    padding: "20px 22px",
+  },
+
+  statLabelW: {
+    fontSize: 12,
+    fontWeight: 600,
+    color: "rgba(255,255,255,.7)",
+    textTransform: "uppercase",
+    letterSpacing: ".06em",
+    marginBottom: 10,
+  },
+
+  statLabel: {
+    fontSize: 12,
+    fontWeight: 600,
+    color: "#9CA3AF",
+    textTransform: "uppercase",
+    letterSpacing: ".06em",
+    marginBottom: 10,
+  },
+
+  statValW: { fontSize: 30, fontWeight: 800, color: "#fff" },
+  statVal: { fontSize: 30, fontWeight: 800, color: "#111827" },
+
+  g2: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 18,
+    marginBottom: 18,
+  },
+
+  card: {
+    background: "#fff",
+    border: "1px solid #E5E7EB",
+    borderRadius: 14,
+    padding: "22px 24px",
+  },
+
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: 700,
+    marginBottom: 16,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
+  cardAction: {
+    fontSize: 13,
+    fontWeight: 500,
+    color: "#2563EB",
+    textDecoration: "none",
+  },
+
+  cardDesc: {
+    fontSize: 15,
+    color: "#9CA3AF",
+    lineHeight: 1.7,
+    marginBottom: 16,
+  },
+
+  btn: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontFamily: "inherit",
+    fontSize: 14,
+    fontWeight: 600,
+    padding: "10px 20px",
+    borderRadius: 9,
+    border: "none",
+    cursor: "pointer",
+    textDecoration: "none",
+  },
+
+  btnPrimary: { background: "#2563EB", color: "#fff" },
+  btnGhost: { background: "#F3F4F6", color: "#4B5563" },
+  btnOutline: {
+    background: "transparent",
+    color: "#2563EB",
+    border: "1.5px solid #2563EB",
+  },
+
+  btnFull: {
+    width: "100%",
+    justifyContent: "center",
+    padding: "13px",
+    marginTop: 14,
+    fontSize: 15,
+  },
+
+  empty: {
+    textAlign: "center",
+    padding: "28px 20px",
+    color: "#9CA3AF",
+  },
+
+  emptyIcon: { fontSize: 32, marginBottom: 12 },
+  emptyText: { fontSize: 15 },
+
+  pill: {
+    fontSize: 12,
+    fontWeight: 600,
+    padding: "4px 12px",
+    borderRadius: 20,
+    display: "inline-block",
+  },
+
+  profileGrid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 10,
+  },
+
+  profileItem: {
+    background: "#F9FAFB",
+    border: "1px solid #E5E7EB",
+    borderRadius: 9,
+    padding: 14,
+  },
+
+  profileLabel: {
+    fontSize: 12,
+    color: "#9CA3AF",
+    marginBottom: 4,
+  },
+
+  profileValue: {
+    fontSize: 15,
+    fontWeight: 600,
+    color: "#111827",
+  },
+};
+
 function TeacherDashboard() {
+  const savedUser = localStorage.getItem("user");
+  const user = savedUser ? JSON.parse(savedUser) : null;
+  const token = localStorage.getItem("token");
+
+  const [teacherProfile, setTeacherProfile] = useState({});
+  const [announcements, setAnnouncements] = useState([]);
+  const [planning, setPlanning] = useState([]);
+  const [trials, setTrials] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
+
+    const headers = { Authorization: `Bearer ${token}` };
+
+    const loadDashboardData = async () => {
+      try {
+        const [planningRes, trialsRes, announcementsRes, profileRes] =
+          await Promise.all([
+            fetch(
+              `http://localhost:5000/api/teacher-planning/teacher/${user.id}`,
+              { headers }
+            ),
+            fetch(
+              `http://localhost:5000/api/trials/teacher/${user.id}`,
+              { headers }
+            ),
+            fetch(
+              `http://localhost:5000/api/announcements`,
+              { headers }
+            ),
+            fetch(
+              `http://localhost:5000/api/teacher-profile/${user.id}`,
+              { headers }
+            ),
+          ]);
+
+        const planningData = planningRes.ok ? await planningRes.json() : [];
+        setPlanning(Array.isArray(planningData) ? planningData : []);
+
+        const trialsData = trialsRes.ok ? await trialsRes.json() : [];
+        setTrials(Array.isArray(trialsData) ? trialsData : []);
+
+        if (announcementsRes.ok) {
+          const allAnnouncements = await announcementsRes.json();
+          const filtered = Array.isArray(allAnnouncements)
+            ? allAnnouncements.filter(
+                (item) => Number(item.teacher_id) === Number(user.id)
+              )
+            : [];
+          setAnnouncements(filtered);
+        }
+
+        const profileData = profileRes.ok ? await profileRes.json() : {};
+        setTeacherProfile(profileData || {});
+      } catch {
+        // silencieux : les compteurs resteront à 0
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDashboardData();
+  }, []);
+
+  const pendingTrialsCount = useMemo(
+    () => trials.filter((t) => t.status === "pending").length,
+    [trials]
+  );
+
+  const activeStudentsCount = useMemo(() => {
+    const ids = trials
+      .filter((t) => t.status === "accepted")
+      .map((t) => t.student_id);
+    return new Set(ids).size;
+  }, [trials]);
+
+  const profileCompletionCount = [
+    teacherProfile?.city,
+    teacherProfile?.preferred_mode,
+    teacherProfile?.headline,
+    teacherProfile?.presentation,
+    teacherProfile?.diplomas,
+    teacherProfile?.experience,
+    teacherProfile?.methodology,
+  ].filter(Boolean).length;
+
+  const profileCompletionPercent = Math.round(
+    (profileCompletionCount / 7) * 100
+  );
+
+  const profileLevel = useMemo(() => {
+    if (profileCompletionPercent >= 90) return { label: "Expert",        commission: "3 %" };
+    if (profileCompletionPercent >= 70) return { label: "Avancé",        commission: "7 %" };
+    if (profileCompletionPercent >= 40) return { label: "Intermédiaire", commission: "12 %" };
+    return                                     { label: "Débutant",      commission: "15 %" };
+  }, [profileCompletionPercent]);
+
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f7f7f7" }}>
-      <header
-        style={{
-          backgroundColor: "white",
-          padding: "20px 40px",
-          borderBottom: "1px solid #ddd",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "16px",
-        }}
-      >
-        <h2>NOVADEMY - Espace Professeur</h2>
-
-        <nav style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-          <a href="#">Profil</a>
-          <a href="#">Planning</a>
-          <a href="#">Annonces</a>
-          <a href="#">Demandes d’essai</a>
-          <a href="#">Messages</a>
-          <a href="#">Revenus</a>
-        </nav>
-      </header>
-
-      <main style={{ padding: "30px 40px" }}>
-        <h1 style={{ marginBottom: "10px" }}>
-          Bienvenue dans votre espace professeur
-        </h1>
-
-        <p style={{ marginBottom: "30px", color: "#555" }}>
-          Gérez votre profil, vos disponibilités, vos annonces, vos demandes de
-          cours d’essai, vos packs, vos messages et vos revenus.
-        </p>
-
-        {/* Vue d’ensemble */}
-        <section style={{ marginBottom: "30px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Vue d’ensemble</h3>
-
-          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-            <div style={statCardStyle}>
-              <h4>Mes cours</h4>
-              <p style={statValueStyle}>0</p>
+    <div style={S.wrap}>
+      <div style={S.dash}>
+        {/* ── SIDEBAR ── */}
+        <aside style={S.sidebar}>
+          <div style={S.sbBrand}>
+            <div style={{ ...S.logo, fontSize: 20 }}>
+              NOVA<span style={S.logoEm}>DEMY</span>
             </div>
+            <span style={S.sbRole}>Professeur</span>
+          </div>
 
-            <div style={statCardStyle}>
-              <h4>Demandes d’essai</h4>
-              <p style={statValueStyle}>0</p>
+          <nav style={S.sbNav}>
+            <span style={S.sbLabel}>Principal</span>
+            <a style={S.sbLinkActive} href="/teacher/dashboard">
+              🏠 Tableau de bord
+            </a>
+            <a style={S.sbLink} href="/teacher/profile">
+              👤 Mon profil
+            </a>
+            <a style={S.sbLink} href="/teacher/announcements">
+              📢 Mes annonces
+            </a>
+            <a style={S.sbLink} href="/teacher/students">
+              🎓 Mes élèves
+            </a>
+
+            <span style={S.sbLabel}>Organisation</span>
+            <a style={S.sbLink} href="/teacher/planning">
+              📅 Planning
+            </a>
+            <a style={S.sbLink} href="/teacher/requests">
+              📬 Demandes d'essai{" "}
+              {pendingTrialsCount > 0 && (
+                <span style={S.sbBadge}>{pendingTrialsCount}</span>
+              )}
+            </a>
+            <a style={S.sbLink} href="/student/chat">
+              💬 Messages
+            </a>
+
+            <span style={S.sbLabel}>Compte</span>
+            <a style={S.sbLink} href="/teacher/revenue">
+              💳 Revenus
+            </a>
+            <a style={S.sbLink} href="/teacher/propose/formula">
+              📦 Nos formules
+            </a>
+            <a style={S.sbLink} href="/teacher/collective/classes">
+              👥 Classes collectives
+            </a>
+            <a style={S.sbLink} href="/">
+              ↩ Accueil
+            </a>
+          </nav>
+
+          <div style={S.sbUser}>
+            <div style={S.av}>
+              {user?.prenom ? user.prenom.charAt(0).toUpperCase() : "P"}
             </div>
-
-            <div style={statCardStyle}>
-              <h4>Heures enseignées</h4>
-              <p style={statValueStyle}>0 h</p>
-            </div>
-
-            <div style={statCardStyle}>
-              <h4>Mes revenus</h4>
-              <p style={statValueStyle}>0 €</p>
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 600 }}>
+                {user ? `${user.prenom} ${user.nom}` : "Prénom Nom"}
+              </div>
+              <div style={{ fontSize: 13, color: "#9CA3AF", marginTop: 2 }}>
+                Professeur
+              </div>
             </div>
           </div>
-        </section>
+        </aside>
 
-        {/* Statut professeur / commission */}
-        <section style={{ marginBottom: "30px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Statut professeur</h3>
-
-          <div style={boxStyle}>
-            <p>
-              <strong>Niveau actuel :</strong> Débutant
-            </p>
-            <p style={{ marginTop: "8px" }}>
-              <strong>Commission appliquée :</strong> 15%
-            </p>
-            <p style={{ marginTop: "8px", color: "#555" }}>
-              La commission évolue selon le nombre d’heures enseignées :
-            </p>
-
-            <ul style={{ marginTop: "10px", paddingLeft: "20px", color: "#555" }}>
-              <li>0 à 20 h : 15%</li>
-              <li>20 à 100 h : 12%</li>
-              <li>100 à 300 h : 7%</li>
-              <li>Plus de 300 h : 3%</li>
-            </ul>
-          </div>
-        </section>
-
-        {/* Profil */}
-        <section style={{ marginBottom: "30px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Profil</h3>
-
-          <div style={boxStyle}>
-            <p>
-              Complétez vos informations personnelles, vos matières enseignées,
-              vos diplômes et vos coordonnées.
-            </p>
-
-            <div style={{ marginTop: "16px", display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <button style={smallButtonStyle}>Informations</button>
-              <button style={smallButtonStyle}>Diplômes</button>
-              <button style={smallButtonStyle}>Coordonnées</button>
+        {/* ── MAIN ── */}
+        <main style={S.main}>
+          <div style={S.pageHead}>
+            <div style={S.pageTitle}>
+              👋 Bienvenue{user ? `, ${user.prenom}` : " dans votre espace professeur"}
+            </div>
+            <div style={S.pageSub}>
+              Gérez votre profil, vos annonces, vos disponibilités et les
+              demandes de cours d'essai depuis un seul espace.
             </div>
           </div>
-        </section>
 
-        {/* Planning */}
-        <section style={{ marginBottom: "30px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Planning</h3>
-
-          <div style={boxStyle}>
-            <p>
-              Définissez vos disponibilités, consultez vos cours d’essai, vos
-              cours confirmés et vos classes en groupe.
-            </p>
-
-            <div style={{ marginTop: "15px" }}>
-              <button style={smallButtonStyle}>Ajouter une disponibilité</button>
+          {/* ── STATS ── */}
+          <div style={S.stats}>
+            <div style={S.statAccent}>
+              <div style={S.statLabelW}>Mes annonces</div>
+              <div style={S.statValW}>{loading ? "…" : announcements.length}</div>
             </div>
-
-            <div style={{ marginTop: "20px" }}>
-              <p>
-                <strong>Créneaux disponibles :</strong>
-              </p>
-              <ul style={{ marginTop: "8px", paddingLeft: "20px", color: "#555" }}>
-                <li>Créneaux à définir</li>
-              </ul>
+            <div style={S.stat}>
+              <div style={S.statLabel}>Demandes d'essai</div>
+              <div style={S.statVal}>{loading ? "…" : trials.length}</div>
             </div>
-
-            <div style={{ marginTop: "20px" }}>
-              <p>
-                <strong>Cours d’essai :</strong>
-              </p>
-              <ul style={{ marginTop: "8px", paddingLeft: "20px", color: "#555" }}>
-                <li>Aucun cours d’essai planifié pour le moment</li>
-              </ul>
+            <div style={S.stat}>
+              <div style={S.statLabel}>Messages</div>
+              <div style={S.statVal}>
+                <a href="/student/chat" style={{ color: "#111827", textDecoration: "none" }}>→</a>
+              </div>
             </div>
-
-            <div style={{ marginTop: "20px" }}>
-              <p>
-                <strong>Cours confirmés :</strong>
-              </p>
-              <ul style={{ marginTop: "8px", paddingLeft: "20px", color: "#555" }}>
-                <li>Aucun cours confirmé pour le moment</li>
-              </ul>
-            </div>
-
-            <div style={{ marginTop: "20px" }}>
-              <p>
-                <strong>Classes en groupe :</strong>
-              </p>
-              <ul style={{ marginTop: "8px", paddingLeft: "20px", color: "#555" }}>
-                <li>Aucune classe groupe créée pour le moment</li>
-              </ul>
+            <div style={S.stat}>
+              <div style={S.statLabel}>Élèves actifs</div>
+              <div style={S.statVal}>{loading ? "…" : activeStudentsCount}</div>
             </div>
           </div>
-        </section>
 
-        {/* Annonces */}
-        <section style={{ marginBottom: "30px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Mes annonces</h3>
-
-          <div style={boxStyle}>
-            <p>
-              Créez une ou plusieurs annonces selon la matière et fixez votre
-              tarif de base.
-            </p>
-
-            <div style={{ marginTop: "16px" }}>
-              <button style={smallButtonStyle}>Créer une annonce</button>
-            </div>
-
-            <div style={{ marginTop: "20px" }}>
-              <p style={{ color: "#555" }}>
-                Aucune annonce publiée pour le moment.
+          {/* ── PROFIL + ANNONCES ── */}
+          <div style={S.g2}>
+            <div style={S.card}>
+              <div style={S.cardTitle}>
+                👤 Mon profil
+                <a href="/teacher/profile" style={S.cardAction}>Modifier →</a>
+              </div>
+              <p style={S.cardDesc}>
+                Complétez votre profil avec vos diplômes, votre expérience et
+                vos informations professionnelles.
               </p>
+
+              <div style={S.profileGrid}>
+                {[
+                  ["Ville",           teacherProfile?.city               || "—"],
+                  ["Niveau",          profileLevel.label],
+                  ["Commission",      profileLevel.commission],
+                  ["Profil complété", `${profileCompletionPercent} %`],
+                ].map(([lbl, val]) => (
+                  <div key={lbl} style={S.profileItem}>
+                    <div style={S.profileLabel}>{lbl}</div>
+                    <div style={S.profileValue}>{val}</div>
+                  </div>
+                ))}
+              </div>
+
+              <a
+                href="/teacher/profile"
+                style={{ ...S.btn, ...S.btnGhost, ...S.btnFull }}
+              >
+                Modifier mon profil
+              </a>
             </div>
-          </div>
-        </section>
 
-        {/* Demandes d’essai */}
-        <section style={{ marginBottom: "30px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Demandes de cours d’essai</h3>
+            <div style={S.card}>
+              <div style={S.cardTitle}>
+                📢 Mes annonces
+                <a href="/teacher/announcements" style={S.cardAction}>
+                  Créer / gérer →
+                </a>
+              </div>
+              <p style={S.cardDesc}>
+                Créez vos annonces par matière et rendez-les visibles aux élèves.
+              </p>
 
-          <div style={boxStyle}>
-            <p>
-              Consultez les demandes envoyées par les élèves et choisissez de
-              valider ou reporter le cours d’essai.
-            </p>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+                <span style={{ ...S.pill, background: "#EFF6FF", color: "#2563EB" }}>Active</span>
+                <span style={{ ...S.pill, background: "#F3F4F6", color: "#6B7280" }}>Brouillon</span>
+                <span style={{ ...S.pill, background: "#ECFDF5", color: "#059669" }}>Visible</span>
+              </div>
 
-            <div style={{ marginTop: "20px" }}>
-              <div style={requestCardStyle}>
-                <h4>Demande de cours d’essai</h4>
-                <p style={{ marginTop: "8px", color: "#555" }}>
-                  Les informations de la demande apparaîtront ici : matière,
-                  niveau, besoins, format souhaité et disponibilités.
-                </p>
-
-                <div
-                  style={{
-                    marginTop: "18px",
-                    display: "flex",
-                    gap: "10px",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <button style={smallButtonStyle}>Valider</button>
-                  <button style={secondaryButtonStyle}>Reporter</button>
-                  <button style={dangerButtonStyle}>Refuser</button>
+              {loading ? (
+                <div style={S.empty}><p style={S.emptyText}>Chargement des annonces…</p></div>
+              ) : announcements.length === 0 ? (
+                <div style={S.empty}>
+                  <div style={S.emptyIcon}>📢</div>
+                  <p style={S.emptyText}>Aucune annonce créée pour le moment.</p>
                 </div>
+              ) : (
+                <div style={S.empty}>
+                  <div style={S.emptyIcon}>📢</div>
+                  <p style={S.emptyText}>
+                    {announcements.length} annonce(s) disponible(s).
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* ── BOUTON FORMULE ── */}
+          <div style={{ marginBottom: 18 }}>
+            <a href="/teacher/propose/formula" style={{ ...S.btn, ...S.btnPrimary }}>
+              Proposer une formule
+            </a>
+          </div>
+
+          {/* ── PLANNING + DEMANDES ── */}
+          <div style={S.g2}>
+            <div style={S.card}>
+              <div style={S.cardTitle}>
+                📅 Mes disponibilités
+                <a href="/teacher/planning" style={S.cardAction}>Gérer →</a>
               </div>
+              <p style={S.cardDesc}>
+                Définissez vos créneaux pour permettre aux élèves de réserver un
+                cours d'essai selon votre planning.
+              </p>
+
+              {loading ? (
+                <div style={S.empty}><p style={S.emptyText}>Chargement des disponibilités…</p></div>
+              ) : planning.length === 0 ? (
+                <div style={S.empty}>
+                  <div style={S.emptyIcon}>🗓️</div>
+                  <p style={S.emptyText}>Aucune disponibilité ajoutée pour le moment.</p>
+                </div>
+              ) : (
+                <div style={S.empty}>
+                  <div style={S.emptyIcon}>🗓️</div>
+                  <p style={S.emptyText}>{planning.length} créneau(x) disponible(s).</p>
+                </div>
+              )}
             </div>
-          </div>
-        </section>
 
-        {/* Packs / formule */}
-        <section style={{ marginBottom: "30px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Formules et packs</h3>
+            <div style={S.card}>
+              <div style={S.cardTitle}>
+                📬 Demandes de cours d'essai
+                <a href="/teacher/requests" style={S.cardAction}>Voir →</a>
+              </div>
+              <p style={S.cardDesc}>
+                Consultez les demandes reçues et répondez en acceptant, reportant
+                ou refusant.
+              </p>
 
-          <div style={boxStyle}>
-            <p>
-              Après le cours d’essai, vous pouvez proposer une formule adaptée
-              à l’élève :
-            </p>
-
-            <ul style={{ marginTop: "10px", paddingLeft: "20px", color: "#555" }}>
-              <li>suivi régulier de 3 mois</li>
-              <li>pack d’heures sur 1 mois</li>
-            </ul>
-
-            <div style={{ marginTop: "16px" }}>
-              <button style={smallButtonStyle}>Proposer une formule</button>
-            </div>
-          </div>
-        </section>
-
-        {/* Classes en groupe */}
-        <section style={{ marginBottom: "30px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Classes en groupe</h3>
-
-          <div style={boxStyle}>
-            <p>
-              Vous pouvez proposer des cours en groupe si plusieurs élèves ont
-              les mêmes objectifs et des horaires compatibles.
-            </p>
-
-            <p style={{ marginTop: "10px", color: "#555" }}>
-              Exemple : 10 €/h pour une classe de 4 élèves.
-            </p>
-
-            <div style={{ marginTop: "16px" }}>
-              <button style={smallButtonStyle}>Créer une classe groupe</button>
-            </div>
-          </div>
-        </section>
-
-        {/* Chat */}
-        <section style={{ marginBottom: "30px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Chat</h3>
-
-          <div style={boxStyle}>
-            <p>
-              Échangez avec les élèves après validation du cours d’essai et
-              préparez la séance.
-            </p>
-
-            <p style={{ marginTop: "10px", color: "#9a3412" }}>
-              ⚠️ Les coordonnées personnelles ne doivent pas être échangées dans
-              le chat.
-            </p>
-
-            <div style={{ marginTop: "16px", display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <button style={smallButtonStyle}>Ouvrir la messagerie</button>
-              <button style={videoButtonStyle}>Rejoindre la classe virtuelle</button>
-            </div>
-          </div>
-        </section>
-
-        {/* Revenus */}
-        <section style={{ marginBottom: "30px" }}>
-          <h3 style={{ marginBottom: "15px" }}>Mes revenus</h3>
-
-          <div style={boxStyle}>
-            <p>
-              Suivez ici vos gains, vos heures réalisées et l’évolution de votre
-              commission.
-            </p>
-
-            <div style={{ marginTop: "16px", display: "flex", gap: "20px", flexWrap: "wrap" }}>
-              <div style={miniInfoCardStyle}>
-                <p style={miniInfoTitleStyle}>Tarif professeur</p>
-                <p style={miniInfoValueStyle}>À définir</p>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+                {[
+                  ["#FFF7ED", "#EA580C", "En attente"],
+                  ["#ECFDF5", "#059669", "Acceptée"],
+                  ["#EFF6FF", "#2563EB", "Reportée"],
+                  ["#FEF2F2", "#DC2626", "Refusée"],
+                ].map(([bg, col, lbl]) => (
+                  <span key={lbl} style={{ ...S.pill, background: bg, color: col }}>{lbl}</span>
+                ))}
               </div>
 
-              <div style={miniInfoCardStyle}>
-                <p style={miniInfoTitleStyle}>Prix affiché élève</p>
-                <p style={miniInfoValueStyle}>Calculé avec commission</p>
-              </div>
-
-              <div style={miniInfoCardStyle}>
-                <p style={miniInfoTitleStyle}>Total perçu</p>
-                <p style={miniInfoValueStyle}>0 €</p>
-              </div>
+              {loading ? (
+                <div style={S.empty}><p style={S.emptyText}>Chargement des demandes…</p></div>
+              ) : trials.length === 0 ? (
+                <div style={S.empty}>
+                  <div style={S.emptyIcon}>📭</div>
+                  <p style={S.emptyText}>Aucune demande reçue pour le moment.</p>
+                </div>
+              ) : (
+                <div style={S.empty}>
+                  <div style={S.emptyIcon}>📬</div>
+                  <p style={S.emptyText}>
+                    {trials.length} demande(s) reçue(s), dont {pendingTrialsCount} en attente.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-        </section>
-      </main>
+
+          {/* ── ÉLÈVES + MESSAGES ── */}
+          <div style={S.g2}>
+            <div style={S.card}>
+              <div style={S.cardTitle}>
+                🎓 Mes élèves
+                <a href="/teacher/students" style={S.cardAction}>Voir →</a>
+              </div>
+              <p style={S.cardDesc}>
+                Retrouvez ici les élèves qui suivent vos cours et vos formules actives.
+              </p>
+
+              {loading ? (
+                <div style={S.empty}><p style={S.emptyText}>Chargement des élèves…</p></div>
+              ) : activeStudentsCount === 0 ? (
+                <div style={S.empty}>
+                  <div style={S.emptyIcon}>🎓</div>
+                  <p style={S.emptyText}>Aucun élève actif pour le moment.</p>
+                </div>
+              ) : (
+                <div style={S.empty}>
+                  <div style={S.emptyIcon}>🎓</div>
+                  <p style={S.emptyText}>{activeStudentsCount} élève(s) actif(s).</p>
+                </div>
+              )}
+            </div>
+
+            <div style={S.card}>
+              <div style={S.cardTitle}>
+                💬 Messages
+                <a href="/student/chat" style={S.cardAction}>Ouvrir le chat →</a>
+              </div>
+              <p style={S.cardDesc}>
+                Échangez avec vos élèves dans la plateforme avant et après la
+                validation de la formule selon les règles du site.
+              </p>
+              {trials.filter((t) => t.status === "accepted").length === 0 ? (
+                <div style={S.empty}>
+                  <div style={S.emptyIcon}>💬</div>
+                  <p style={S.emptyText}>Aucune conversation active pour le moment.</p>
+                </div>
+              ) : (
+                <div style={S.empty}>
+                  <div style={S.emptyIcon}>💬</div>
+                  <p style={S.emptyText}>
+                    {trials.filter((t) => t.status === "accepted").length} conversation(s) active(s).
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* ── REVENUS ── */}
+          <div style={S.card}>
+            <div style={S.cardTitle}>
+              💳 Revenus
+              <a href="/teacher/revenue" style={S.cardAction}>Consulter →</a>
+            </div>
+            <p style={S.cardDesc}>
+              Consultez vos revenus liés aux cours actifs et aux formules validées.
+            </p>
+            <div style={S.empty}>
+              <div style={S.emptyIcon}>💳</div>
+              <p style={S.emptyText}>Aucun revenu affiché pour le moment.</p>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
-
-const statCardStyle = {
-  backgroundColor: "white",
-  border: "1px solid #ddd",
-  borderRadius: "12px",
-  padding: "20px",
-  width: "220px",
-};
-
-const statValueStyle = {
-  marginTop: "10px",
-  fontSize: "24px",
-  fontWeight: "bold",
-};
-
-const boxStyle = {
-  backgroundColor: "white",
-  border: "1px solid #ddd",
-  borderRadius: "12px",
-  padding: "20px",
-};
-
-const requestCardStyle = {
-  border: "1px solid #e5e5e5",
-  borderRadius: "10px",
-  padding: "20px",
-  backgroundColor: "#fafafa",
-};
-
-const miniInfoCardStyle = {
-  backgroundColor: "#fafafa",
-  border: "1px solid #e5e5e5",
-  borderRadius: "10px",
-  padding: "16px",
-  minWidth: "180px",
-};
-
-const miniInfoTitleStyle = {
-  color: "#555",
-  fontSize: "14px",
-};
-
-const miniInfoValueStyle = {
-  marginTop: "8px",
-  fontWeight: "bold",
-};
-
-const smallButtonStyle = {
-  padding: "10px 14px",
-  backgroundColor: "black",
-  color: "white",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const secondaryButtonStyle = {
-  padding: "10px 14px",
-  backgroundColor: "#e5e7eb",
-  color: "#111827",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const dangerButtonStyle = {
-  padding: "10px 14px",
-  backgroundColor: "#fee2e2",
-  color: "#991b1b",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const videoButtonStyle = {
-  padding: "10px 14px",
-  backgroundColor: "#dbeafe",
-  color: "#1e3a8a",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
 
 export default TeacherDashboard;

@@ -314,19 +314,19 @@ function TeacherDashboard() {
         const [planningRes, trialsRes, announcementsRes, profileRes] =
           await Promise.all([
             fetch(
-              `http://localhost:5000/api/teacher-planning/teacher/${user.id}`,
+              `http://localhost:5001/api/teacher-planning/teacher/${user.id}`,
               { headers }
             ),
             fetch(
-              `http://localhost:5000/api/trials/teacher/${user.id}`,
+              `http://localhost:5001/api/trials/teacher/${user.id}`,
               { headers }
             ),
             fetch(
-              `http://localhost:5000/api/announcements`,
+              `http://localhost:5001/api/announcements`,
               { headers }
             ),
             fetch(
-              `http://localhost:5000/api/teacher-profile/${user.id}`,
+              `http://localhost:5001/api/teacher-profile/${user.id}`,
               { headers }
             ),
           ]);
@@ -431,6 +431,9 @@ function TeacherDashboard() {
             </a>
             <a style={S.sbLink} href="/student/chat">
               💬 Messages
+            </a>
+            <a style={S.sbLink} href="/notifications">
+              🔔 Notifications
             </a>
 
             <span style={S.sbLabel}>Compte</span>

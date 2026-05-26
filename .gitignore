@@ -1,29 +1,86 @@
+# ============================================================
+#  NOVADEMY_DEPLOIEMENT — .gitignore racine
+#  Auteur  : KAMGA MAFFO Rosalie Manuella
+#  Module  : Déploiement de projet informatique (Diginova)
+#  Mis à jour : Séance 2 — Bloc 3
+# ============================================================
+
+# --- DEPENDANCES NODE ---
+node_modules/
+**/node_modules/
+
+# --- VARIABLES D'ENVIRONNEMENT (jamais commiter de secrets) ---
 .env
-
-# BACKEND
+.env.*
+!.env.example
 backend/.env
-backend/node_modules
-backend/coverage
-
-# FRONTEND
+backend/.env.*
+!backend/.env.example
 frontend/.env
-frontend/node_modules
+frontend/.env.*
+!frontend/.env.example
 
-# RACINE
-node_modules
+# --- BUILDS / ARTEFACTS ---
+dist/
+build/
+frontend/dist/
+backend/dist/
 
-# GLOBAL
+# --- TESTS / COUVERTURE ---
+coverage/
+backend/coverage/
+*.lcov
+.nyc_output/
+
+# --- LOGS ---
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+backend/logs/
+frontend/logs/
+
+# --- BASES DE DONNEES / DUMPS ---
+*.sql
+!novademy_db.schema.sql      # schéma vide autorisé si on souhaite versionner la structure
+*.sqlite
+*.sqlite3
+*.db
+
+# --- UPLOADS UTILISATEURS (Multer) ---
+backend/uploads/
+!backend/uploads/.gitkeep
+
+# --- IDE / EDITEURS ---
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*.suo
+*.code-workspace
+
+# --- FICHIERS SYSTEME ---
 .DS_Store
 Thumbs.db
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
 
-# BUILD
-dist
-frontend/dist
+# --- TEMPORAIRES ---
+*.tmp
+*.bak
+*.cache
+*~
 
-# DOCKER / DOUBLONS WINDOWS
-*.txt
-!README.md
+# --- DOCKER ---
+.docker-volumes/
 
-# DATABASE DUMPS
-*.sql
+# --- DOCUMENTS LOURDS GENERES LOCALEMENT (mémoire, DP, exports PDF) ---
+*.docx.~lock
+*.pdf.~lock
+
+# --- CI / OUTILS ---
+.npm/
+.eslintcache
+.stylelintcache

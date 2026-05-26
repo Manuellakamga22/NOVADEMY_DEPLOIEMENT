@@ -57,7 +57,7 @@ function StudentTeachers() {
     const fetchTeachers = async () => {
       try {
         const res  = await fetch(
-          `http://localhost:5000/api/trials/student/${user.id}`,
+          `http://localhost:5001/api/trials/student/${user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) return;
@@ -65,7 +65,7 @@ function StudentTeachers() {
 
         // je récupère aussi les formules acceptées/payées
         const resP = await fetch(
-          `http://localhost:5000/api/packs/student/${user.id}`,
+          `http://localhost:5001/api/packs/student/${user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const proposals = resP.ok ? await resP.json() : [];

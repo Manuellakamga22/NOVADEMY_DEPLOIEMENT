@@ -351,7 +351,7 @@ function StudentPacks() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:5000/api/packs/student/${user.id}`,
+        `http://localhost:5001/api/packs/student/${user.id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
@@ -379,7 +379,7 @@ function StudentPacks() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:5000/api/packs/accept/${proposalId}`,
+        `http://localhost:5001/api/packs/accept/${proposalId}`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },

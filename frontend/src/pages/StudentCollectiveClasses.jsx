@@ -1,672 +1,399 @@
 import React, { useEffect, useState } from "react";
 
 const S = {
-  wrap: {
-    fontFamily: "'Segoe UI', sans-serif",
-    minHeight: "100vh",
-    background: "#F9FAFB",
-  },
-
-  logo: { fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em" },
+  wrap: { fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#F9FAFB" },
+  dash: { display: "grid", gridTemplateColumns: "260px 1fr", minHeight: "100vh" },
+  sidebar: { background: "#fff", borderRight: "1px solid #E5E7EB", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", overflowY: "auto" },
+  sbBrand: { padding: "24px 22px", borderBottom: "1px solid #E5E7EB" },
+  logo: { fontSize: 20, fontWeight: 800, letterSpacing: "-0.02em" },
   logoEm: { color: "#2563EB" },
-
-  dash: {
-    display: "grid",
-    gridTemplateColumns: "280px 1fr",
-    minHeight: "100vh",
-  },
-
-  sidebar: {
-    background: "#fff",
-    borderRight: "1px solid #E5E7EB",
-    display: "flex",
-    flexDirection: "column",
-    position: "sticky",
-    top: 0,
-    height: "100vh",
-    overflowY: "auto",
-  },
-
-  sbBrand: {
-    padding: "26px 22px",
-    borderBottom: "1px solid #E5E7EB",
-  },
-
-  sbRole: {
-    display: "inline-block",
-    marginTop: 10,
-    fontSize: 13,
-    fontWeight: 700,
-    letterSpacing: ".08em",
-    textTransform: "uppercase",
-    padding: "5px 12px",
-    borderRadius: 20,
-    background: "#ECFDF5",
-    color: "#059669",
-  },
-
+  sbRole: { display: "inline-block", marginTop: 8, fontSize: 12, fontWeight: 700, textTransform: "uppercase", padding: "4px 12px", borderRadius: 20, background: "#ECFDF5", color: "#059669" },
   sbNav: { padding: 14, flex: 1 },
-
-  sbLabel: {
-    fontSize: 12,
-    fontWeight: 700,
-    letterSpacing: ".12em",
-    textTransform: "uppercase",
-    color: "#9CA3AF",
-    padding: "0 10px",
-    margin: "18px 0 8px",
-    display: "block",
-  },
-
-  sbLink: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    padding: "14px 15px",
-    borderRadius: 10,
-    fontSize: 17,
-    fontWeight: 500,
-    color: "#4B5563",
-    textDecoration: "none",
-    marginBottom: 4,
-  },
-
-  sbLinkActive: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    padding: "14px 15px",
-    borderRadius: 10,
-    fontSize: 17,
-    fontWeight: 700,
-    color: "#2563EB",
-    background: "#EFF6FF",
-    textDecoration: "none",
-    marginBottom: 4,
-  },
-
-  sbBadge: {
-    marginLeft: "auto",
-    background: "#2563EB",
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: 700,
-    padding: "3px 9px",
-    borderRadius: 10,
-  },
-
-  sbUser: {
-    padding: "18px 22px",
-    borderTop: "1px solid #E5E7EB",
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-  },
-
-  av: {
-    width: 42,
-    height: 42,
-    borderRadius: "50%",
-    background: "linear-gradient(135deg,#059669,#0891B2)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#fff",
-    fontWeight: 700,
-    fontSize: 16,
-    flexShrink: 0,
-  },
-
-  main: {
-    padding: "30px 30px",
-  },
-
-  topBar: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    gap: 16,
-    marginBottom: 22,
-    flexWrap: "wrap",
-  },
-
-  smallTitle: {
-    fontSize: 28,
-    fontWeight: 800,
-    color: "#111827",
-    margin: 0,
-  },
-
-  smallSub: {
-    fontSize: 17,
-    color: "#6B7280",
-    marginTop: 8,
-    lineHeight: 1.7,
-    maxWidth: "920px",
-  },
-
-  infoBanner: {
-    background: "#EFF6FF",
-    border: "1px solid #BFDBFE",
-    color: "#1D4ED8",
-    borderRadius: 14,
-    padding: "16px 18px",
-    fontSize: 16,
-    lineHeight: 1.7,
-    marginBottom: 20,
-  },
-
-  formulaGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: 16,
-    marginBottom: 20,
-  },
-
-  formulaCard: {
-    background: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: 18,
-    padding: "22px 22px",
-    boxShadow: "0 4px 14px rgba(0,0,0,0.03)",
-  },
-
-  formulaCardActive: {
-    background: "#fff",
-    border: "2px solid #2563EB",
-    borderRadius: 18,
-    padding: "22px 22px",
-    boxShadow: "0 6px 18px rgba(37,99,235,0.08)",
-  },
-
-  formulaTop: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    gap: 12,
-    marginBottom: 14,
-  },
-
-  formulaTitle: {
-    margin: 0,
-    fontSize: 22,
-    fontWeight: 800,
-    color: "#111827",
-  },
-
-  formulaTag: {
-    fontSize: 12,
-    fontWeight: 700,
-    padding: "6px 10px",
-    borderRadius: 999,
-    background: "#EFF6FF",
-    color: "#2563EB",
-  },
-
-  formulaText: {
-    fontSize: 16,
-    color: "#4B5563",
-    lineHeight: 1.8,
-    marginBottom: 16,
-  },
-
-  formulaPrice: {
-    fontSize: 28,
-    fontWeight: 800,
-    color: "#111827",
-    marginBottom: 6,
-  },
-
-  formulaPriceSub: {
-    fontSize: 14,
-    color: "#6B7280",
-    marginBottom: 14,
-  },
-
-  list: {
-    margin: 0,
-    paddingLeft: 20,
-    color: "#374151",
-    fontSize: 15,
-    lineHeight: 1.9,
-  },
-
-  btnRow: {
-    display: "flex",
-    gap: 10,
-    flexWrap: "wrap",
-    marginTop: 18,
-  },
-
-  btn: {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontFamily: "inherit",
-    fontSize: 15,
-    fontWeight: 700,
-    padding: "11px 16px",
-    borderRadius: 10,
-    border: "none",
-    cursor: "pointer",
-    textDecoration: "none",
-  },
-
-  btnPrimary: { background: "#2563EB", color: "#fff" },
-  btnGhost:   { background: "#F3F4F6", color: "#4B5563" },
-  btnSuccess: { background: "#ECFDF5", color: "#059669" },
-  btnDanger:  { background: "#FEF2F2", color: "#DC2626" },
-
-  summaryCard: {
-    background: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: 16,
-    padding: "22px 24px",
-    marginBottom: 20,
-  },
-
-  summaryTitle: {
-    fontSize: 18,
-    fontWeight: 800,
-    color: "#111827",
-    marginBottom: 14,
-  },
-
-  summaryGrid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 12,
-    marginBottom: 16,
-  },
-
-  summaryBox: {
-    background: "#F9FAFB",
-    border: "1px solid #E5E7EB",
-    borderRadius: 12,
-    padding: 14,
-  },
-
-  summaryLabel: {
-    fontSize: 12,
-    color: "#9CA3AF",
-    marginBottom: 6,
-  },
-
-  summaryValue: {
-    fontSize: 16,
-    fontWeight: 700,
-    color: "#111827",
-    lineHeight: 1.6,
-  },
-
-  helperText: {
-    fontSize: 15,
-    color: "#6B7280",
-    lineHeight: 1.7,
-  },
-
-  progressBar: {
-    height: 8,
-    borderRadius: 4,
-    background: "#E5E7EB",
-    margin: "10px 0",
-    overflow: "hidden",
-  },
-
-  progressFill: {
-    height: "100%",
-    borderRadius: 4,
-    background: "#2563EB",
-    transition: "width .3s",
-  },
-
-  pill: {
-    fontSize: 12,
-    fontWeight: 700,
-    padding: "5px 11px",
-    borderRadius: 999,
-    display: "inline-block",
-  },
-
-  empty: {
-    textAlign: "center",
-    padding: "40px 20px",
-    color: "#9CA3AF",
-  },
-
-  emptyIcon: { fontSize: 36, marginBottom: 12 },
-  emptyText:  { fontSize: 17, lineHeight: 1.7 },
-};
-
-const LEVEL_LABELS = {
-  college:   "Collège",
-  lycee:     "Lycée",
-  superieur: "Supérieur",
-  prepa:     "Prépa",
-};
-
-const ENROLLMENT_STATUS = {
-  inscrit:  { bg: "#EFF6FF", col: "#2563EB", label: "Inscrit" },
-  confirme: { bg: "#ECFDF5", col: "#059669", label: "Confirmé" },
-  refuse:   { bg: "#FEF2F2", col: "#DC2626", label: "Refusé" },
-  annule:   { bg: "#F3F4F6", col: "#6B7280", label: "Annulé" },
+  sbLabel: { fontSize: 11, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#9CA3AF", padding: "0 10px", margin: "18px 0 6px", display: "block" },
+  sbLink: { display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 9, fontSize: 15, fontWeight: 500, color: "#4B5563", textDecoration: "none", marginBottom: 2 },
+  sbLinkActive: { display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 9, fontSize: 15, fontWeight: 600, color: "#2563EB", background: "#EFF6FF", textDecoration: "none", marginBottom: 2 },
+  sbUser: { padding: "18px 22px", borderTop: "1px solid #E5E7EB", display: "flex", alignItems: "center", gap: 12 },
+  av: { width: 38, height: 38, borderRadius: "50%", background: "linear-gradient(135deg,#059669,#0891B2)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 15, flexShrink: 0 },
+  main: { padding: "30px" },
+  pageTitle: { fontSize: 28, fontWeight: 800, color: "#111827", marginBottom: 6 },
+  pageSub: { fontSize: 15, color: "#6B7280", marginBottom: 24, lineHeight: 1.6 },
+  grid2: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 18 },
+  card: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 18 },
+  cardTitle: { fontSize: 17, fontWeight: 800, marginBottom: 16, color: "#111827" },
+  label: { fontSize: 13, fontWeight: 700, color: "#374151", display: "block", marginBottom: 6 },
+  input: { width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #D1D5DB", fontSize: 14, fontFamily: "inherit", boxSizing: "border-box", marginBottom: 14 },
+  select: { width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #D1D5DB", fontSize: 14, fontFamily: "inherit", boxSizing: "border-box", marginBottom: 14, background: "#fff" },
+  btnPrimary: { background: "#059669", color: "#fff", border: "none", borderRadius: 10, padding: "11px 22px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" },
+  btnBlue: { background: "#2563EB", color: "#fff", border: "none", borderRadius: 10, padding: "11px 22px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" },
+  successMsg: { background: "#ECFDF5", border: "1px solid #A7F3D0", color: "#059669", borderRadius: 10, padding: "12px 16px", fontSize: 14, marginBottom: 16 },
+  errorMsg: { background: "#FEF2F2", border: "1px solid #FCA5A5", color: "#DC2626", borderRadius: 10, padding: "12px 16px", fontSize: 14, marginBottom: 16 },
+  sessionCard: { background: "#F9FAFB", border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, marginBottom: 12 },
+  sessionTop: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 },
+  sessionTitle: { fontSize: 15, fontWeight: 700, color: "#111827" },
+  codeBadge: { background: "#EFF6FF", color: "#2563EB", fontWeight: 800, fontSize: 13, padding: "4px 10px", borderRadius: 8, letterSpacing: ".05em" },
+  sessionMeta: { fontSize: 13, color: "#6B7280", lineHeight: 1.7 },
+  progressBar: { height: 6, background: "#E5E7EB", borderRadius: 4, marginTop: 8 },
+  progressFill: (pct) => ({ height: 6, borderRadius: 4, background: pct >= 100 ? "#059669" : "#2563EB", width: `${Math.min(pct, 100)}%` }),
+  pill: { fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 12, display: "inline-block" },
+  empty: { textAlign: "center", padding: "24px", color: "#9CA3AF", fontSize: 14 },
+  // compteur élèves
+  countRow: { display: "flex", alignItems: "center", gap: 10, marginBottom: 14 },
+  countBtn: { width: 34, height: 34, borderRadius: 8, border: "1px solid #D1D5DB", background: "#F3F4F6", fontSize: 18, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit" },
+  countVal: { minWidth: 50, textAlign: "center", fontSize: 15, fontWeight: 800, color: "#111827" },
 };
 
 function StudentCollectiveClasses() {
   const savedUser = localStorage.getItem("user");
-  const user  = savedUser ? JSON.parse(savedUser) : null;
+  const user = savedUser ? JSON.parse(savedUser) : null;
   const token = localStorage.getItem("token");
 
-  const [sessions,     setSessions]     = useState([]);  // sessions ouvertes
-  const [enrollments,  setEnrollments]  = useState([]);  // mes inscriptions
-  const [loading,      setLoading]      = useState(true);
-  const [enrollingId,  setEnrollingId]  = useState(null);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const headers = { Authorization: `Bearer ${token}` };
+  // -- Créer une session --
+  const [formSubject, setFormSubject] = useState("");
+  const [formLevel, setFormLevel] = useState("lycee");
+  const [formTeacherId, setFormTeacherId] = useState("");
+  const [formMin, setFormMin] = useState(2);
+  const [formMax, setFormMax] = useState(4);
+  const [formDate, setFormDate] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [sessionCreee, setSessionCreee] = useState(null);
 
-  useEffect(() => {
-    if (!user?.id) { setLoading(false); return; }
+  // -- Rejoindre par code --
+  const [codeJoin, setCodeJoin] = useState("");
+  const [joining, setJoining] = useState(false);
 
-    const fetchAll = async () => {
-      try {
-        const [sessionsRes, enrollmentsRes] = await Promise.all([
-          fetch("http://localhost:5000/api/group-classes/open", { headers }),
-          fetch(`http://localhost:5000/api/group-classes/student/${user.id}`, { headers }),
-        ]);
+  // -- Mes sessions --
+  const [mesSessions, setMesSessions] = useState([]);
+  const [loadingMes, setLoadingMes] = useState(true);
 
-        if (sessionsRes.ok) {
-          const data = await sessionsRes.json();
-          setSessions(Array.isArray(data) ? data : []);
-        }
+  // -- Sessions ouvertes --
+  const [sessionsOuvertes, setSessionsOuvertes] = useState([]);
+  const [loadingOpen, setLoadingOpen] = useState(true);
 
-        if (enrollmentsRes.ok) {
-          const data = await enrollmentsRes.json();
-          setEnrollments(Array.isArray(data) ? data : []);
-        }
-      } catch {
-        // silencieux
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAll();
-  }, []);
-
-  // Vérifier si l'élève est déjà inscrit à une session
-  const getEnrollment = (sessionId) =>
-    enrollments.find((e) => Number(e.id) === Number(sessionId)) || null;
-
-  // S'inscrire à une session
-  const handleEnroll = async (sessionId) => {
-    setEnrollingId(sessionId);
+  const chargerMesSessions = async () => {
+    if (!user?.id) return;
+    setLoadingMes(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/group-classes/${sessionId}/enroll`,
-        {
-          method:  "POST",
-          headers: { "Content-Type": "application/json", ...headers },
-          body:    JSON.stringify({ student_id: user.id }),
-        }
+        `http://localhost:5001/api/group-classes/student/${user.id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
       const data = await res.json();
+      setMesSessions(Array.isArray(data) ? data : []);
+    } catch { /* silencieux */ }
+    finally { setLoadingMes(false); }
+  };
 
-      if (!res.ok) {
-        alert(data.message || "Erreur lors de l'inscription");
-        return;
-      }
-
-      alert("Inscription confirmée !");
-
-      // Recharger les inscriptions
-      const enrollmentsRes = await fetch(
-        `http://localhost:5000/api/group-classes/student/${user.id}`,
-        { headers }
+  const chargerSessionsOuvertes = async () => {
+    setLoadingOpen(true);
+    try {
+      const res = await fetch(
+        "http://localhost:5001/api/group-classes/open",
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-      if (enrollmentsRes.ok) {
-        const updated = await enrollmentsRes.json();
-        setEnrollments(Array.isArray(updated) ? updated : []);
-      }
+      const data = await res.json();
+      setSessionsOuvertes(Array.isArray(data) ? data : []);
+    } catch { /* silencieux */ }
+    finally { setLoadingOpen(false); }
+  };
 
-      // Recharger les sessions (pour mettre à jour le compteur)
-      const sessionsRes = await fetch(
-        "http://localhost:5000/api/group-classes/open",
-        { headers }
-      );
-      if (sessionsRes.ok) {
-        const updated = await sessionsRes.json();
-        setSessions(Array.isArray(updated) ? updated : []);
-      }
-    } catch {
-      alert("Erreur de connexion au serveur");
+  useEffect(() => {
+    chargerMesSessions();
+    chargerSessionsOuvertes();
+  }, []);
+
+  // crée une nouvelle session collective
+  const handleCreer = async () => {
+    if (!formSubject || !formTeacherId || !formDate) {
+      setErrorMsg("Matière, professeur et date sont obligatoires.");
+      return;
+    }
+    setCreating(true);
+    try {
+      const res = await fetch("http://localhost:5001/api/group-classes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          student_id: user.id,
+          teacher_id: Number(formTeacherId),
+          subject: formSubject,
+          level: formLevel,
+          min_students: formMin,
+          max_students: formMax,
+          opening_date: formDate,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erreur");
+
+      setSessionCreee(data.session_code);
+      setSuccessMsg(`✓ Session créée ! Votre code : ${data.session_code}`);
+      setTimeout(() => setSuccessMsg(""), 8000);
+      setFormSubject(""); setFormTeacherId(""); setFormDate("");
+      chargerMesSessions();
+    } catch (err) {
+      setErrorMsg(err.message || "Erreur lors de la création.");
     } finally {
-      setEnrollingId(null);
+      setCreating(false);
     }
   };
 
-  const initiale = user?.prenom?.[0]?.toUpperCase() || "É";
+  // rejoint une session par son code
+  const handleJoindre = async () => {
+    if (!codeJoin.trim()) { setErrorMsg("Saisissez un code."); return; }
+    setJoining(true);
+    try {
+      const res = await fetch(
+        `http://localhost:5001/api/group-classes/code/${codeJoin.trim().toUpperCase()}/join`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ student_id: user.id }),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erreur");
+
+      setSuccessMsg(`✓ Vous avez rejoint la session ${data.session_code} !`);
+      setTimeout(() => setSuccessMsg(""), 5001);
+      setCodeJoin("");
+      chargerMesSessions();
+    } catch (err) {
+      setErrorMsg(err.message || "Code invalide ou session indisponible.");
+    } finally {
+      setJoining(false);
+    }
+  };
+
+  // rejoint une session depuis la liste des sessions ouvertes
+  const handleJoindreSession = async (sessionId) => {
+    try {
+      const res = await fetch(
+        `http://localhost:5001/api/group-classes/${sessionId}/enroll`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ student_id: user.id }),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erreur");
+      setSuccessMsg("✓ Inscription confirmée !");
+      setTimeout(() => setSuccessMsg(""), 4000);
+      chargerMesSessions();
+      chargerSessionsOuvertes();
+    } catch (err) {
+      setErrorMsg(err.message || "Impossible de rejoindre cette session.");
+    }
+  };
+
+  const pillStatutSession = (s) => {
+    const styles = {
+      ouverte:  { background: "#ECFDF5", color: "#059669" },
+      pending:  { background: "#FEF9C3", color: "#92400E" },
+      accepted: { background: "#EFF6FF", color: "#1D4ED8" },
+      refused:  { background: "#FEF2F2", color: "#991B1B" },
+      annulee:  { background: "#FEF2F2", color: "#991B1B" },
+      validee:  { background: "#ECFDF5", color: "#065F46" },
+      complete: { background: "#F3E8FF", color: "#6B21A8" },
+    };
+    const st = styles[s] || { background: "#F3F4F6", color: "#6B7280" };
+    return <span style={{ ...S.pill, ...st }}>{s}</span>;
+  };
 
   return (
     <div style={S.wrap}>
       <div style={S.dash}>
-        {/* ── SIDEBAR ── */}
         <aside style={S.sidebar}>
           <div style={S.sbBrand}>
-            <div style={{ ...S.logo, fontSize: 20 }}>
-              NOVA<span style={S.logoEm}>DEMY</span>
-            </div>
+            <div style={S.logo}>NOVA<span style={S.logoEm}>DEMY</span></div>
             <span style={S.sbRole}>Élève</span>
           </div>
-
           <nav style={S.sbNav}>
             <span style={S.sbLabel}>Principal</span>
             <a style={S.sbLink} href="/student/dashboard">🏠 Tableau de bord</a>
             <a style={S.sbLink} href="/student/profile">👤 Mon profil</a>
             <a style={S.sbLink} href="/search">🔍 Trouver un prof</a>
-
             <span style={S.sbLabel}>Mes cours</span>
-            <a style={S.sbLink} href="/trial-request">📬 Demande d'essai</a>
-            <a style={S.sbLink} href="/student/packs">📦 Formules</a>
+            <a style={S.sbLink} href="/student/requests">📬 Mes demandes</a>
             <a style={S.sbLink} href="/student/courses">📚 Mes cours</a>
-            <a style={S.sbLinkActive} href="/student/collective-classes">👥 Classes collectives</a>
             <a style={S.sbLink} href="/student/planning">📅 Mon calendrier</a>
+            <a style={S.sbLinkActive} href="/student/collective">👥 Classes collectives</a>
             <a style={S.sbLink} href="/student/chat">💬 Messages</a>
-
             <span style={S.sbLabel}>Compte</span>
-            <a style={S.sbLink} href="/payment">💳 Paiement</a>
+            <a style={S.sbLink} href="/student/payments">💳 Paiements</a>
           </nav>
-
           <div style={S.sbUser}>
-            <div style={S.av}>{initiale}</div>
+            <div style={S.av}>{user?.prenom?.[0]?.toUpperCase() || "É"}</div>
             <div>
-              <div style={{ fontSize: 16, fontWeight: 700 }}>
-                {user ? `${user.prenom} ${user.nom}` : "Prénom Nom"}
-              </div>
-              <div style={{ fontSize: 14, color: "#9CA3AF", marginTop: 2 }}>Élève</div>
+              <div style={{ fontSize: 15, fontWeight: 600 }}>{user ? `${user.prenom} ${user.nom}` : "Élève"}</div>
+              <div style={{ fontSize: 13, color: "#9CA3AF" }}>Élève</div>
             </div>
           </div>
         </aside>
 
-        {/* ── MAIN ── */}
         <main style={S.main}>
-          <div style={S.topBar}>
-            <div>
-              <p style={S.smallTitle}>Classes collectives</p>
-              <p style={S.smallSub}>
-                Inscrivez-vous à une session collective ouverte par un professeur.
-                La session est confirmée uniquement si le nombre minimum d'élèves est atteint.
-              </p>
-            </div>
+          <div style={S.pageTitle}>👥 Classes collectives</div>
+          <div style={S.pageSub}>
+            Organisez des cours en groupe pour réduire le coût et apprendre ensemble. Créez une session, partagez le code à vos amis, et le professeur confirme.
           </div>
 
-          <div style={S.infoBanner}>
-            Une session collective est maintenue uniquement si le nombre minimum
-            d'élèves requis est atteint à la date de clôture. Si ce n'est pas le cas,
-            votre inscription sera annulée et vous en serez informé.
-          </div>
+          {successMsg && <div style={S.successMsg}>{successMsg}</div>}
+          {errorMsg && <div style={S.errorMsg} onClick={() => setErrorMsg("")}>{errorMsg}</div>}
 
-          {/* ── MES INSCRIPTIONS ── */}
-          {enrollments.length > 0 && (
-            <div style={{ ...S.summaryCard, marginBottom: 24 }}>
-              <div style={S.summaryTitle}>Mes inscriptions</div>
-              {enrollments.map((e) => {
-                const st = ENROLLMENT_STATUS[e.enrollment_status] || ENROLLMENT_STATUS.inscrit;
-                const enrolled = Number(e.enrolled_count || 0);
-                const max      = Number(e.max_students);
-                const min      = Number(e.min_students);
-                const pct      = max > 0 ? Math.min((enrolled / max) * 100, 100) : 0;
-
-                return (
-                  <div
-                    key={e.id}
-                    style={{
-                      background: "#F9FAFB",
-                      border: "1px solid #E5E7EB",
-                      borderRadius: 12,
-                      padding: 16,
-                      marginBottom: 12,
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                      <div style={{ fontWeight: 700, fontSize: 16 }}>{e.subject}</div>
-                      <span style={{ ...S.pill, background: st.bg, color: st.col }}>
-                        {st.label}
-                      </span>
-                    </div>
-                    <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 8 }}>
-                      {LEVEL_LABELS[e.level] || e.level} •{" "}
-                      Clôture : {new Date(e.closing_date).toLocaleDateString("fr-FR")}
-                    </div>
-                    <div style={{ fontSize: 14, color: "#4B5563" }}>
-                      Inscrits : <strong>{enrolled}</strong> / {max}
-                      {enrolled < min && (
-                        <span style={{ color: "#EA580C", marginLeft: 8 }}>
-                          (min {min} requis)
-                        </span>
-                      )}
-                    </div>
-                    <div style={S.progressBar}>
-                      <div
-                        style={{
-                          ...S.progressFill,
-                          width: `${pct}%`,
-                          background: enrolled >= min ? "#059669" : "#2563EB",
-                        }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
+          {/* code généré affiché en gros */}
+          {sessionCreee && (
+            <div style={{ background: "#EFF6FF", border: "2px solid #BFDBFE", borderRadius: 14, padding: "18px 24px", marginBottom: 20, textAlign: "center" }}>
+              <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 8 }}>Partagez ce code à vos amis pour qu'ils rejoignent la session :</div>
+              <div style={{ fontSize: 32, fontWeight: 900, color: "#1D4ED8", letterSpacing: ".1em" }}>{sessionCreee}</div>
+              <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 6 }}>Le professeur doit accepter avant que la session soit active.</div>
             </div>
           )}
 
-          {/* ── SESSIONS OUVERTES ── */}
-          <div style={S.summaryTitle}>Sessions disponibles</div>
+          <div style={S.grid2}>
+            {/* créer une session */}
+            <div style={S.card}>
+              <div style={S.cardTitle}>➕ Créer une session collective</div>
 
-          {loading ? (
-            <div style={S.empty}>
-              <p style={S.emptyText}>Chargement des sessions…</p>
+              <label style={S.label}>Matière</label>
+              <input type="text" value={formSubject} onChange={e => setFormSubject(e.target.value)}
+                placeholder="Ex : Mathématiques, React, Python…" style={S.input} />
+
+              <label style={S.label}>Niveau</label>
+              <select value={formLevel} onChange={e => setFormLevel(e.target.value)} style={S.select}>
+                <option value="college">Collège</option>
+                <option value="lycee">Lycée</option>
+                <option value="superieur">Supérieur</option>
+                <option value="prepa">Prépa</option>
+              </select>
+
+              <label style={S.label}>ID du professeur</label>
+              <input type="number" value={formTeacherId} onChange={e => setFormTeacherId(e.target.value)}
+                placeholder="Ex : 3" style={S.input} />
+
+              <label style={S.label}>Date souhaitée</label>
+              <input type="date" value={formDate} onChange={e => setFormDate(e.target.value)} style={S.input} />
+
+              <label style={S.label}>Nombre d'élèves</label>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
+                <div>
+                  <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 4 }}>Minimum (≥ 2)</div>
+                  <div style={S.countRow}>
+                    <button style={S.countBtn} type="button" onClick={() => setFormMin(v => Math.max(v - 1, 2))}>−</button>
+                    <span style={S.countVal}>{formMin}</span>
+                    <button style={S.countBtn} type="button" onClick={() => setFormMin(v => Math.min(v + 1, formMax))}>+</button>
+                  </div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 4 }}>Maximum</div>
+                  <div style={S.countRow}>
+                    <button style={S.countBtn} type="button" onClick={() => setFormMax(v => Math.max(v - 1, formMin))}>−</button>
+                    <span style={S.countVal}>{formMax}</span>
+                    <button style={S.countBtn} type="button" onClick={() => setFormMax(v => Math.min(v + 1, 10))}>+</button>
+                  </div>
+                </div>
+              </div>
+
+              <button style={S.btnPrimary} onClick={handleCreer} disabled={creating}>
+                {creating ? "Création…" : "Créer la session"}
+              </button>
             </div>
-          ) : sessions.length === 0 ? (
-            <div style={S.empty}>
-              <div style={S.emptyIcon}>👥</div>
-              <p style={S.emptyText}>
-                Aucune session collective ouverte pour le moment.
-                <br />
-                Revenez plus tard ou consultez les annonces des professeurs.
-              </p>
+
+            {/* rejoindre par code */}
+            <div>
+              <div style={S.card}>
+                <div style={S.cardTitle}>🔑 Rejoindre une classe virtuelle</div>
+                <p style={{ fontSize: 14, color: "#6B7280", marginBottom: 16, lineHeight: 1.6 }}>
+                  Un ami vous a partagé un code ? Saisissez-le ici pour rejoindre sa session directement.
+                </p>
+                <label style={S.label}>Code de la session</label>
+                <input
+                  type="text"
+                  value={codeJoin}
+                  onChange={e => setCodeJoin(e.target.value.toUpperCase())}
+                  placeholder="Ex : MATH-4521"
+                  style={{ ...S.input, textTransform: "uppercase", letterSpacing: ".08em", fontWeight: 700, fontSize: 15 }}
+                  maxLength={12}
+                />
+                <button style={S.btnBlue} onClick={handleJoindre} disabled={joining}>
+                  {joining ? "Recherche…" : "Rejoindre"}
+                </button>
+              </div>
+
+              {/* Mes sessions */}
+              <div style={S.card}>
+                <div style={S.cardTitle}>📋 Mes sessions</div>
+                {loadingMes ? (
+                  <div style={S.empty}>Chargement…</div>
+                ) : mesSessions.length === 0 ? (
+                  <div style={S.empty}>Vous n'avez pas encore de session.</div>
+                ) : (
+                  mesSessions.map(s => {
+                    const pct = Math.round((Number(s.enrolled_count) / Number(s.max_students)) * 100);
+                    return (
+                      <div key={s.id} style={S.sessionCard}>
+                        <div style={S.sessionTop}>
+                          <div style={S.sessionTitle}>{s.subject} — {s.level}</div>
+                          <div style={S.codeBadge}>{s.session_code || "—"}</div>
+                        </div>
+                        <div style={S.sessionMeta}>
+                          {s.enrolled_count}/{s.max_students} élèves ·{" "}
+                          {s.opening_date ? new Date(s.opening_date).toLocaleDateString("fr-FR") : "—"}<br />
+                          Prof : {pillStatutSession(s.teacher_status || "pending")} · Session : {pillStatutSession(s.session_status || s.status)}
+                        </div>
+                        <div style={S.progressBar}>
+                          <div style={S.progressFill(pct)} />
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
             </div>
-          ) : (
-            <div style={S.formulaGrid}>
-              {sessions.map((s) => {
-                const enrollment = getEnrollment(s.id);
-                const enrolled   = Number(s.enrolled_count || 0);
-                const max        = Number(s.max_students);
-                const min        = Number(s.min_students);
-                const pct        = max > 0 ? Math.min((enrolled / max) * 100, 100) : 0;
-                const isFull     = enrolled >= max;
-                const isEnrolled = !!enrollment;
+          </div>
 
-                return (
-                  <div
-                    key={s.id}
-                    style={isEnrolled ? S.formulaCardActive : S.formulaCard}
-                  >
-                    <div style={S.formulaTop}>
-                      <h3 style={S.formulaTitle}>{s.subject}</h3>
-                      <span style={S.formulaTag}>
-                        {LEVEL_LABELS[s.level] || s.level}
-                      </span>
-                    </div>
-
-                    <div style={S.formulaText}>
-                      Professeur #{s.teacher_id}
-                    </div>
-
-                    <ul style={S.list}>
-                      <li>
-                        Ouverture : {new Date(s.opening_date).toLocaleDateString("fr-FR")}
-                      </li>
-                      <li>
-                        Clôture : {new Date(s.closing_date).toLocaleDateString("fr-FR")}
-                      </li>
-                      <li>
-                        Min {s.min_students} · Max {s.max_students} élèves
-                      </li>
-                    </ul>
-
-                    {/* Barre de progression */}
-                    <div style={{ marginTop: 14 }}>
-                      <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 4 }}>
-                        Inscrits : <strong>{enrolled}</strong> / {max}
-                        {enrolled < min && (
-                          <span style={{ color: "#EA580C", marginLeft: 6 }}>
-                            (min {min} requis)
-                          </span>
-                        )}
+          {/* Sessions ouvertes */}
+          <div style={S.card}>
+            <div style={S.cardTitle}>🌐 Sessions ouvertes</div>
+            <p style={{ fontSize: 14, color: "#6B7280", marginBottom: 16 }}>
+              Rejoignez une session déjà existante créée par d'autres élèves.
+            </p>
+            {loadingOpen ? (
+              <div style={S.empty}>Chargement…</div>
+            ) : sessionsOuvertes.length === 0 ? (
+              <div style={S.empty}>Aucune session ouverte pour le moment.</div>
+            ) : (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+                {sessionsOuvertes.map(s => {
+                  const pct = Math.round((Number(s.enrolled_count) / Number(s.max_students)) * 100);
+                  const dejaInscrit = mesSessions.some(m => m.group_class_id === s.id || m.id === s.id);
+                  return (
+                    <div key={s.id} style={{ ...S.sessionCard, marginBottom: 0 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                        <span style={{ fontSize: 15, fontWeight: 700 }}>{s.subject}</span>
+                        <span style={S.codeBadge}>{s.session_code || "—"}</span>
+                      </div>
+                      <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 8 }}>
+                        {s.enrolled_count} / {s.max_students} élèves · {s.level}
                       </div>
                       <div style={S.progressBar}>
-                        <div
-                          style={{
-                            ...S.progressFill,
-                            width: `${pct}%`,
-                            background: enrolled >= min ? "#059669" : "#2563EB",
-                          }}
-                        />
+                        <div style={S.progressFill(pct)} />
                       </div>
+                      <button
+                        style={{ ...S.btnPrimary, marginTop: 10, padding: "8px 14px", fontSize: 13, width: "100%", opacity: dejaInscrit ? 0.5 : 1 }}
+                        onClick={() => !dejaInscrit && handleJoindreSession(s.id)}
+                        disabled={dejaInscrit}
+                      >
+                        {dejaInscrit ? "✓ Déjà inscrit" : "Rejoindre"}
+                      </button>
                     </div>
-
-                    <div style={S.btnRow}>
-                      {isEnrolled ? (
-                        <span style={{ ...S.btn, ...S.btnSuccess, cursor: "default" }}>
-                          ✓ Inscrit
-                        </span>
-                      ) : isFull ? (
-                        <span style={{ ...S.btn, ...S.btnGhost, cursor: "not-allowed", opacity: 0.6 }}>
-                          Session complète
-                        </span>
-                      ) : (
-                        <button
-                          type="button"
-                          disabled={enrollingId === s.id}
-                          onClick={() => handleEnroll(s.id)}
-                          style={{
-                            ...S.btn,
-                            ...S.btnPrimary,
-                            opacity: enrollingId === s.id ? 0.5 : 1,
-                            cursor:  enrollingId === s.id ? "not-allowed" : "pointer",
-                          }}
-                        >
-                          {enrollingId === s.id ? "Inscription…" : "S'inscrire"}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </main>
       </div>
     </div>

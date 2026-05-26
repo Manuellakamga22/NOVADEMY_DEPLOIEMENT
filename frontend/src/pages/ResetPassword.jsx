@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 function ResetPassword() {
+  const { token } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    token: "",
     newPassword: "",
+    confirmPassword: "",
   });
 
   const isStrongPassword = (password) => {
@@ -17,81 +20,90 @@ function ResetPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!token) {
+      alert("Token manquant ou invalide.");
+      return;
+    }
+
     if (!isStrongPassword(formData.newPassword)) {
       alert("Le mot de passe doit contenir au moins 8 caractères, 1 majuscule et 1 chiffre.");
       return;
     }
 
+    if (formData.newPassword !== formData.confirmPassword) {
+      alert("Les deux mots de passe ne correspondent pas.");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:5000/api/auth/reset-password", {
+      const response = await fetch("http://localhost:5001/api/auth/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          token: token,
+          newPassword: formData.newPassword,
+        }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Erreur");
+        alert(data.message || "Erreur lors de la réinitialisation.");
         return;
       }
 
-      alert(data.message);
-      window.location.href = "/login";
+      alert("Mot de passe réinitialisé avec succès.");
+      navigate("/login");
     } catch (error) {
-      alert("Erreur de connexion au serveur");
+      alert("Erreur de connexion au serveur.");
     }
   };
 
   return (
     <div style={pageStyle}>
       <div style={cardStyle}>
-        <div style={topBarStyle}>
-          <a href="/login" style={homeLinkStyle}>
-            ← Retour à la connexion
-          </a>
-        </div>
+        <a href="/login" style={homeLinkStyle}>
+          ← Retour à la connexion
+        </a>
 
         <div style={headerStyle}>
-          <h2 style={logoStyle}>NOVADEMY</h2>
-          <h1 style={titleStyle}>Réinitialiser le mot de passe</h1>
+          <h2 style={logoStyle}>NOVA<span style={{ color: "#111827" }}>DEMY</span></h2>
+          <h1 style={titleStyle}>Nouveau mot de passe</h1>
           <p style={subtitleStyle}>
-            Entrez le token reçu et choisissez un nouveau mot de passe
+            Choisissez un nouveau mot de passe pour récupérer votre compte.
           </p>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div style={fieldStyle}>
-            <label style={labelStyle}>Token</label>
-            <input
-              name="token"
-              type="text"
-              placeholder="Collez le token ici"
-              value={formData.token}
-              onChange={handleChange}
-              style={inputStyle}
-            />
-          </div>
-
-          <div style={fieldStyle}>
             <label style={labelStyle}>Nouveau mot de passe</label>
             <input
               name="newPassword"
               type="password"
-              placeholder="Nouveau mot de passe"
+              placeholder="Ex : Novademy2026"
               value={formData.newPassword}
               onChange={handleChange}
               style={inputStyle}
             />
-            <p style={hintStyle}>
-              8 caractères minimum, avec 1 majuscule et 1 chiffre.
-            </p>
+            <p style={hintStyle}>8 caractères minimum, 1 majuscule et 1 chiffre.</p>
+          </div>
+
+          <div style={fieldStyle}>
+            <label style={labelStyle}>Confirmer le mot de passe</label>
+            <input
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirmez le mot de passe"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              style={inputStyle}
+            />
           </div>
 
           <button type="submit" style={buttonStyle}>
-            Réinitialiser
+            Réinitialiser mon mot de passe
           </button>
         </form>
       </div>
@@ -101,99 +113,92 @@ function ResetPassword() {
 
 const pageStyle = {
   minHeight: "100vh",
-  background: "linear-gradient(180deg, #f5f3ff 0%, #f8fafc 40%, #f7f7f7 100%)",
+  background: "#F5F7FF",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  padding: "24px",
-  fontFamily: "Arial, sans-serif",
+  padding: 24,
+  fontFamily: "'Segoe UI', sans-serif",
 };
 
 const cardStyle = {
   width: "100%",
-  maxWidth: "520px",
-  backgroundColor: "white",
-  borderRadius: "20px",
-  padding: "42px",
-  boxShadow: "0 20px 45px rgba(0,0,0,0.08)",
-  border: "1px solid #e5e7eb",
-};
-
-const topBarStyle = {
-  marginBottom: "12px",
+  maxWidth: 500,
+  backgroundColor: "#fff",
+  borderRadius: 18,
+  padding: 38,
+  boxShadow: "0 12px 30px rgba(0,0,0,0.08)",
+  border: "1px solid #E5E7EB",
 };
 
 const homeLinkStyle = {
   textDecoration: "none",
-  fontWeight: "bold",
-  color: "#4f46e5",
-  fontSize: "18px",
+  fontWeight: 600,
+  color: "#2563EB",
+  fontSize: 16,
 };
 
 const headerStyle = {
   textAlign: "center",
-  marginBottom: "28px",
+  margin: "25px 0",
 };
 
 const logoStyle = {
-  fontSize: "38px",
-  color: "#4f46e5",
-  marginBottom: "12px",
+  fontSize: 34,
+  color: "#2563EB",
+  marginBottom: 10,
 };
 
 const titleStyle = {
-  fontSize: "36px",
-  marginBottom: "10px",
+  fontSize: 30,
+  marginBottom: 8,
   color: "#111827",
 };
 
 const subtitleStyle = {
-  fontSize: "20px",
-  color: "#666",
-  lineHeight: "1.6",
-  margin: 0,
+  fontSize: 17,
+  color: "#6B7280",
+  lineHeight: 1.5,
 };
 
 const fieldStyle = {
-  marginBottom: "18px",
+  marginBottom: 18,
 };
 
 const labelStyle = {
   display: "block",
-  marginBottom: "8px",
+  marginBottom: 7,
   color: "#374151",
-  fontWeight: "bold",
-  fontSize: "18px",
+  fontWeight: 700,
+  fontSize: 16,
 };
 
 const inputStyle = {
   width: "100%",
-  padding: "18px",
-  borderRadius: "12px",
-  border: "1px solid #d1d5db",
-  backgroundColor: "#f9fafb",
-  fontSize: "19px",
+  padding: 15,
+  borderRadius: 10,
+  border: "1px solid #D1D5DB",
+  backgroundColor: "#F9FAFB",
+  fontSize: 16,
   boxSizing: "border-box",
-  outline: "none",
 };
 
 const hintStyle = {
-  fontSize: "15px",
-  color: "#666",
-  marginTop: "8px",
+  fontSize: 14,
+  color: "#6B7280",
+  marginTop: 7,
 };
 
 const buttonStyle = {
   width: "100%",
-  padding: "18px",
+  padding: 16,
   border: "none",
-  borderRadius: "12px",
-  background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)",
-  color: "white",
-  fontSize: "21px",
-  fontWeight: "bold",
+  borderRadius: 10,
+  background: "#2563EB",
+  color: "#fff",
+  fontSize: 18,
+  fontWeight: 700,
   cursor: "pointer",
-  boxShadow: "0 12px 24px rgba(79, 70, 229, 0.25)",
 };
 
 export default ResetPassword;

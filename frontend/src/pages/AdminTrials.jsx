@@ -295,7 +295,7 @@ function AdminTrials() {
   useEffect(() => {
     const fetchTrials = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/trials", { headers });
+        const res = await fetch("http://localhost:5001/api/trials", { headers });
         if (res.ok) {
           const data = await res.json();
           setTrials(Array.isArray(data) ? data : []);

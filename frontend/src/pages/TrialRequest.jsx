@@ -465,8 +465,10 @@ function TrialRequest() {
 
     const fetchSlots = async () => {
       try {
+        const token = localStorage.getItem("token");
         const res = await fetch(
-          `http://localhost:5000/api/teacher-planning/teacher/${teacherId}`
+          `http://localhost:5001/api/teacher-planning/teacher/${teacherId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         const data = await res.json();
 
@@ -504,7 +506,7 @@ function TrialRequest() {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `http://localhost:5000/api/trials/student/${user.id}`,
+          `http://localhost:5001/api/trials/student/${user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const data = await res.json();
@@ -568,7 +570,7 @@ function TrialRequest() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/api/trials", {
+      const res = await fetch("http://localhost:5001/api/trials", {
         method: "POST",
         headers: {
           "Content-Type":  "application/json",

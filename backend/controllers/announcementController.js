@@ -1,8 +1,6 @@
 const announcementService = require("../services/announcementService");
 
 exports.createAnnouncement = async (req, res) => {
-  console.log("ANNOUNCEMENT BACKEND RECU :", req.body);
-
   try {
     const result = await announcementService.createAnnouncement(req.body);
     return res.status(201).json(result);

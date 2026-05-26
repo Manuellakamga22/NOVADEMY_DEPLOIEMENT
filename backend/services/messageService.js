@@ -1,7 +1,9 @@
 const messageRepository = require("../repositories/messageRepository");
 const trialRepository = require("../repositories/trialRequestRepository");
+const notifService = require("./notificationService");
+const db = require("../db");
 
-// je récupère les messages entre deux users
+// récupère les messages entre deux utilisateurs
 exports.getMessagesBetweenUsers = async (senderId, receiverId) => {
   if (!senderId || !receiverId) {
     throw { status: 400, message: "senderId et receiverId obligatoires" };
@@ -9,56 +11,70 @@ exports.getMessagesBetweenUsers = async (senderId, receiverId) => {
   return await messageRepository.getMessagesBetweenUsers(senderId, receiverId);
 };
 
-const containsForbiddenContact = (text) => {
+// vérifie si le message contient un email ou un numéro de téléphone
+function contientCoordonnees(text) {
   if (!text) return false;
-  const emailRegex = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
-  const phoneRegex = /(\+?\d[\d\s.-]{7,}\d)/;
-  return emailRegex.test(text) || phoneRegex.test(text);
-};
+  const email = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
+  const telephone = /(\+?\d[\d\s.-]{7,}\d)/;
+  return email.test(text) || telephone.test(text);
+}
 
-// j'envoie un message
-exports.sendMessage = async ({
-  sender_id,
-  receiver_id,
-  content
-}) => {
+// envoie un message
+exports.sendMessage = async ({ sender_id, receiver_id, content }) => {
   if (!sender_id || !receiver_id || !content?.trim()) {
     throw { status: 400, message: "Champs obligatoires manquants" };
   }
 
-  const sender  = Number(sender_id);
+  const sender = Number(sender_id);
   const receiver = Number(receiver_id);
 
-  // règle métier : chat autorisé seulement si essai accepté
-  const acceptedRelation =
+  // on vérifie qu'un cours d'essai a bien été accepté entre les deux
+  const relationOk =
     await trialRepository.hasAcceptedTrialBetweenUsers(sender, receiver) ||
     await trialRepository.hasAcceptedTrialBetweenUsers(receiver, sender);
 
-  if (!acceptedRelation) {
+  if (!relationOk) {
     throw {
       status: 403,
       message: "Le chat est disponible uniquement après acceptation du cours d'essai.",
     };
   }
 
-  // je bloque les coordonnées personnelles
-  const blocked = containsForbiddenContact(content);
-  const finalContent = blocked
-    ? "[Message bloqué : coordonnées interdites]"
-    : content;
+  // on bloque si le message contient des coordonnées personnelles
+  const bloque = contientCoordonnees(content);
+  const contenuFinal = bloque ? "[Message bloqué : coordonnées interdites]" : content;
 
   const result = await messageRepository.createMessage({
     sender_id,
     receiver_id,
-    content: finalContent,
-    blocked_content_detected: blocked ? 1 : 0
+    content: contenuFinal,
+    blocked_content_detected: bloque ? 1 : 0,
   });
 
+  // on envoie une notification au destinataire (seulement si le message n'est pas bloqué)
+  if (!bloque) {
+    try {
+      const [rows] = await db.query(
+        `SELECT prenom, nom FROM users WHERE id = ? LIMIT 1`,
+        [sender]
+      );
+
+      if (rows.length > 0) {
+        const nom = `${rows[0].prenom || ""} ${rows[0].nom || ""}`.trim();
+        await notifService.nouveauMessage({
+          user_id: receiver,
+          expediteur_nom: nom,
+          conversation_id: result.insertId,
+        });
+      }
+    } catch {
+      // si la notif ne part pas, le message est quand même envoyé
+    }
+  }
+
   return {
-    message: blocked
-      ? "Message bloqué car il contient des coordonnées."
-      : "Message envoyé",
+    message: bloque ? "Message bloqué car il contient des coordonnées." : "Message envoyé",
     id: result.insertId,
-    blocked_content_detected: blocked
+    blocked_content_detected: bloque,
   };
 };

@@ -28,7 +28,7 @@ function HomeTemp() {
               Un accompagnement sur mesure pour progresser efficacement avec des professeurs qualifiés.
             </p>
             <div style={{ display: "flex", gap: 12 }}>
-              <a href="/search" style={{ fontSize: 17, fontWeight: 600, background: "#2563EB", color: "#fff", padding: "15px 30px", borderRadius: 8, textDecoration: "none" }}>Trouver un professeur</a>
+              <a href="/register" style={{ fontSize: 17, fontWeight: 600, background: "#2563EB", color: "#fff", padding: "15px 30px", borderRadius: 8, textDecoration: "none" }}>Trouver un professeur</a>
               <a href="/register/teacher" style={{ fontSize: 17, fontWeight: 600, background: "#F3F4F6", color: "#374151", padding: "15px 30px", borderRadius: 8, textDecoration: "none" }}>Donner des cours →</a>
             </div>
           </div>
@@ -48,7 +48,7 @@ function HomeTemp() {
                 <option>Choisir un format</option><option>Présentiel</option><option>Visio</option>
               </select>
             </div>
-            <a href="/search" style={{ display: "block", textAlign: "center", background: "#2563EB", color: "#fff", padding: 15, borderRadius: 8, fontWeight: 600, fontSize: 17, textDecoration: "none" }}>Rechercher</a>
+            <a href="/login" style={{ display: "block", textAlign: "center", background: "#2563EB", color: "#fff", padding: 15, borderRadius: 8, fontWeight: 600, fontSize: 17, textDecoration: "none" }}>Rechercher</a>
           </div>
         </div>
       </div>

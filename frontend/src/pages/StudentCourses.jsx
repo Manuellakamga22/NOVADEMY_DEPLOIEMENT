@@ -404,7 +404,7 @@ function StudentCourses() {
     const fetchCourses = async () => {
       try {
         const res  = await fetch(
-          `http://localhost:5000/api/packs/student/${user.id}/all`,
+          `http://localhost:5001/api/packs/student/${user.id}/all`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) return;

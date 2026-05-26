@@ -319,7 +319,7 @@ function StudentRequests() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/trials/student/${user.id}`,
+        `http://localhost:5001/api/trials/student/${user.id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -414,6 +414,9 @@ function StudentRequests() {
             </a>
             <a style={S.sbLink} href="/chat">
               💬 Messages <span style={S.sbBadge}>0</span>
+            </a>
+            <a style={S.sbLink} href="/notifications">
+              🔔 Notifications
             </a>
 
             <span style={S.sbLabel}>Compte</span>

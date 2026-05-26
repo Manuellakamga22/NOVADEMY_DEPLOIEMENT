@@ -117,11 +117,12 @@ const FAQS = [
 ];
 
 // Redirige vers login si pas connecté, sinon vers la page cible
+// redirige vers login si pas connecté, sinon vers la page cible
 function handleAction(e, target) {
   e.preventDefault();
   const token = localStorage.getItem("token");
   if (!token) {
-    window.location.href = `/register?redirect=${encodeURIComponent(target)}`;
+    window.location.href = `/login?redirect=${encodeURIComponent(target)}`;
   } else {
     window.location.href = target;
   }
@@ -152,7 +153,7 @@ function NosFormules() {
         </div>
         <div style={S.heroBtns}>
           <a style={{ ...S.heroBtn, ...S.heroBtnPrimary }}
-            href="/search" onClick={e => handleAction(e, "/search")}>
+            href="/register/student" onClick={e => handleAction(e, "/register/student")}>
             Trouver un professeur
           </a>
           <a style={{ ...S.heroBtn, ...S.heroBtnGhost }} href="/aide">
@@ -184,8 +185,8 @@ function NosFormules() {
                   </li>
                 ))}
               </ul>
-              <a href="/search" style={{ ...S.btn, ...f.btnStyle }}
-                onClick={e => handleAction(e, "/search")}>
+              <a href="/login" style={{ ...S.btn, ...f.btnStyle }}
+                onClick={e => handleAction(e, "/login")}>
                 Commencer
               </a>
             </div>
@@ -208,7 +209,7 @@ function NosFormules() {
             </thead>
             <tbody>
               {[
-                ["Prix indicatif", "Dès 15 €/h", "Dès 18 €/h", "Dès 8 €/h"],
+                ["Prix indicatif", "Dès 15 €/h", "Dès 18 €/h", "Dès 10 €/h"],
                 ["Engagement", "Mensuel", "Aucun", "Par session"],
                 ["Format", "Individuel", "Individuel", "Groupe 3-8"],
                 ["Flexibilité", "Fixe", "Très flexible", "Hebdomadaire"],
@@ -246,8 +247,8 @@ function NosFormules() {
           <div style={S.ctaSub}>Votre premier cours d'essai vous attend. Inscription gratuite, sans engagement.</div>
           <div style={S.ctaBtns}>
             <a href="/register" style={S.ctaBtn}>Créer un compte</a>
-            <a href="/search" style={S.ctaBtnGhost}
-              onClick={e => handleAction(e, "/search")}>
+            <a href="/login" style={S.ctaBtnGhost}
+              onClick={e => handleAction(e, "/login")}>
               Voir les professeurs
             </a>
           </div>

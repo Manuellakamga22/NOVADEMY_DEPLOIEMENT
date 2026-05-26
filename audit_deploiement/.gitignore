@@ -1,0 +1,88 @@
+# ============================================================
+#  NOVADEMY_DEPLOIEMENT — .gitignore racine
+#  Auteur  : KAMGA MAFFO Rosalie Manuella
+#  Module  : Déploiement de projet informatique (Diginova)
+#  Mis à jour : Séance 2 — Bloc 3
+# ============================================================
+
+# --- DEPENDANCES NODE ---
+node_modules/
+**/node_modules/
+
+# --- VARIABLES D'ENVIRONNEMENT (jamais commiter de secrets) ---
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# --- BUILDS / ARTEFACTS ---
+dist/
+build/
+frontend/dist/
+backend/dist/
+
+# --- TESTS / COUVERTURE ---
+coverage/
+backend/coverage/
+*.lcov
+.nyc_output/
+
+# --- LOGS ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+backend/logs/
+frontend/logs/
+# --- BASES DE DONNEES / DUMPS ---
+*.sql
+
+# schéma vide autorisé
+!novademy_db.schema.sql
+
+*.sqlite
+*.sqlite3
+*.db
+
+# --- UPLOADS UTILISATEURS (Multer) ---
+backend/uploads/
+!backend/uploads/.gitkeep
+
+# --- IDE / EDITEURS ---
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*.suo
+*.code-workspace
+
+# --- FICHIERS SYSTEME ---
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# --- TEMPORAIRES ---
+*.tmp
+*.bak
+*.cache
+*~
+
+# --- DOCKER ---
+.docker-volumes/
+
+# --- DOCUMENTS LOURDS GENERES LOCALEMENT (mémoire, DP, exports PDF) ---
+*.docx.~lock
+*.pdf.~lock
+
+# --- CI / OUTILS ---
+.npm/
+.eslintcache
+.stylelintcache

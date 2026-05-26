@@ -58,7 +58,7 @@ function StudentPayments() {
     const fetchPayments = async () => {
       try {
         const res  = await fetch(
-          `http://localhost:5000/api/payments/student/${user.id}`,
+          `http://localhost:5001/api/payments/student/${user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) return;

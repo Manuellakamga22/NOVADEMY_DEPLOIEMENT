@@ -1,3 +1,6 @@
+const mongoose = require("mongoose");
+const connectMongo = require("./mongodb");
+const notificationRoutes = require("./routes/notificationRoutes");
 const announcementRoutes = require("./routes/announcementRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const packRoutes = require("./routes/packRoutes");
@@ -14,6 +17,7 @@ const studentPlanningRoutes = require("./routes/studentPlanningRoutes");
 const groupClassRoutes = require("./routes/groupClassRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
 
+
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -22,7 +26,7 @@ const path = require("path");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +62,8 @@ const allowedOrigins = [
   "http://localhost",
   "http://localhost:80",
   "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175",
   "http://localhost:3000",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
@@ -117,6 +123,7 @@ app.use("/api/teacher-profile", teacherProfileRoutes);
 app.use("/api/student-planning", studentPlanningRoutes);
 app.use("/api/group-classes", groupClassRoutes);
 app.use("/api/settings", settingsRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 /*
 |--------------------------------------------------------------------------
@@ -155,3 +162,6 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Serveur backend démarré sur http://localhost:${PORT}`);
 });
+
+// connexion MongoDB pour les notifications
+connectMongo();

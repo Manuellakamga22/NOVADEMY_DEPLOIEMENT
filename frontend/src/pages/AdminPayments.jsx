@@ -203,7 +203,7 @@ function AdminPayments() {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/payments", { headers });
+        const res = await fetch("http://localhost:5001/api/payments", { headers });
         if (res.ok) {
           const data = await res.json();
           setPayments(Array.isArray(data) ? data : []);

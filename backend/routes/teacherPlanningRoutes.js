@@ -1,9 +1,45 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/teacherPlanningController");
+const { verifyToken, requireRole } = require("../middleware/authMiddleware");
 
-router.post("/", controller.createPlanning);
-router.get("/teacher/:teacherId", controller.getPlanningByTeacherId);
-router.put("/:id/deactivate", controller.deactivatePlanning);
+// créer un créneau
+router.post(
+  "/",
+  verifyToken,
+  requireRole("teacher"),
+  controller.createPlanning
+);
+
+// récupérer tous les créneaux d'un prof
+router.get(
+  "/teacher/:teacherId",
+  verifyToken,
+  controller.getPlanningByTeacherId
+);
+
+// récupérer les créneaux d'un prof pour une semaine précise
+// ?debut=2026-05-12&fin=2026-05-18
+router.get(
+  "/teacher/:teacherId/semaine",
+  verifyToken,
+  controller.getPlanningParSemaine
+);
+
+// modifier ou reporter un créneau
+router.put(
+  "/:id",
+  verifyToken,
+  requireRole("teacher"),
+  controller.updatePlanning
+);
+
+// désactiver (supprimer) un créneau
+router.put(
+  "/:id/deactivate",
+  verifyToken,
+  requireRole("teacher"),
+  controller.deactivatePlanning
+);
 
 module.exports = router;

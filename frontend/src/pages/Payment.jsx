@@ -308,7 +308,7 @@ function Payment() {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `http://localhost:5000/api/packs/student/${user.id}/accepted`,
+          `http://localhost:5001/api/packs/student/${user.id}/accepted`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const data = await res.json();
@@ -371,7 +371,7 @@ function Payment() {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/payments", {
+      const response = await fetch("http://localhost:5001/api/payments", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -62,7 +62,7 @@ function StudentReview() {
     const fetchTeachers = async () => {
       try {
         const res  = await fetch(
-          `http://localhost:5000/api/trials/student/${user.id}`,
+          `http://localhost:5001/api/trials/student/${user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) return;
@@ -102,7 +102,7 @@ function StudentReview() {
 
     setSubmitting(true);
     try {
-      const res  = await fetch("http://localhost:5000/api/reviews", {
+      const res  = await fetch("http://localhost:5001/api/reviews", {
         method:  "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({

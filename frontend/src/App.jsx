@@ -43,6 +43,8 @@ import StudentTeachers from "./pages/StudentTeachers";
 import StudentPayments from "./pages/StudentPayments";
 
 import AnnouncementDetails from "./pages/AnnouncementDetails";
+import AdminAlertIA from "./pages/AdminAlertIA";
+import Notifications from "./pages/Notifications";
 
 function App() {
   return (
@@ -92,6 +94,8 @@ function App() {
         <Route path="/student/teachers" element={<StudentTeachers />} />
         <Route path="/student/payments" element={<StudentPayments />} />
         <Route path="/announcement/:id" element={<AnnouncementDetails />} />
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/admin/alerts" element={<AdminAlertIA />} />
       </Routes>
     </BrowserRouter>
   );

@@ -3,18 +3,30 @@ const db = require("../db");
 exports.findExistingTrialRequest = async (
   announcement_id,
   student_id,
-  teacher_id
+  teacher_id,
+  course_type = "cours_essai"
 ) => {
+  const params = [student_id, teacher_id, course_type];
+  let announcementFilter = "";
+
+  // si j'ai une annonce, je vérifie aussi dessus, sinon je vérifie seulement prof + élève + type
+  if (announcement_id) {
+    announcementFilter = "AND announcement_id = ?";
+    params.push(announcement_id);
+  }
+
   const [rows] = await db.query(
     `
     SELECT *
     FROM trial_requests
-    WHERE announcement_id = ? 
-      AND student_id = ? 
+    WHERE student_id = ?
       AND teacher_id = ?
+      AND course_type = ?
+      ${announcementFilter}
       AND status IN ('pending', 'accepted', 'reported')
+    LIMIT 1
     `,
-    [announcement_id, student_id, teacher_id]
+    params
   );
 
   return rows[0] || null;
@@ -26,6 +38,7 @@ exports.countActiveTrialsByStudent = async (studentId) => {
     SELECT COUNT(*) AS total
     FROM trial_requests
     WHERE student_id = ?
+      AND course_type = 'cours_essai'
       AND status IN ('pending', 'accepted', 'reported')
     `,
     [studentId]
@@ -39,9 +52,13 @@ exports.createTrialRequest = async ({
   student_id,
   teacher_id,
   planning_id,
+  requested_date,
   requested_day,
   requested_start_time,
   requested_end_time,
+  duration_minutes,
+  course_type,
+  period_end,
 }) => {
   const [result] = await db.query(
     `
@@ -51,21 +68,29 @@ exports.createTrialRequest = async ({
       student_id,
       teacher_id,
       planning_id,
+      requested_date,
       requested_day,
       requested_start_time,
       requested_end_time,
+      duration_minutes,
+      course_type,
+      period_end,
       status
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
     `,
     [
       announcement_id,
       student_id,
       teacher_id,
       planning_id,
+      requested_date,
       requested_day,
       requested_start_time,
       requested_end_time,
+      duration_minutes,
+      course_type,
+      period_end,
     ]
   );
 
@@ -73,28 +98,46 @@ exports.createTrialRequest = async ({
 };
 
 exports.getTeacherTrials = async (teacherId) => {
-  // je joins sur users pour récupérer les infos de l'élève
   const [rows] = await db.query(
-    `SELECT tr.*, u.prenom AS student_prenom, u.nom AS student_nom, u.email AS student_email
-     FROM trial_requests tr
-     LEFT JOIN users u ON u.id = tr.student_id
-     WHERE tr.teacher_id = ?
-     ORDER BY tr.created_at DESC`,
+    `
+    SELECT
+      tr.*,
+      u.prenom AS student_prenom,
+      u.nom AS student_nom,
+      u.email AS student_email,
+      a.subject,
+      a.title AS announcement_title
+    FROM trial_requests tr
+    LEFT JOIN users u ON u.id = tr.student_id
+    LEFT JOIN announcements a ON a.id = tr.announcement_id
+    WHERE tr.teacher_id = ?
+    ORDER BY tr.created_at DESC
+    `,
     [teacherId]
   );
+
   return rows;
 };
 
 exports.getStudentTrials = async (studentId) => {
-  // je joins sur users pour récupérer les infos du prof
   const [rows] = await db.query(
-    `SELECT tr.*, u.prenom AS teacher_prenom, u.nom AS teacher_nom, u.email AS teacher_email
-     FROM trial_requests tr
-     LEFT JOIN users u ON u.id = tr.teacher_id
-     WHERE tr.student_id = ?
-     ORDER BY tr.created_at DESC`,
+    `
+    SELECT
+      tr.*,
+      u.prenom AS teacher_prenom,
+      u.nom AS teacher_nom,
+      u.email AS teacher_email,
+      a.subject,
+      a.title AS announcement_title
+    FROM trial_requests tr
+    LEFT JOIN users u ON u.id = tr.teacher_id
+    LEFT JOIN announcements a ON a.id = tr.announcement_id
+    WHERE tr.student_id = ?
+    ORDER BY tr.created_at DESC
+    `,
     [studentId]
   );
+
   return rows;
 };
 
@@ -141,19 +184,24 @@ exports.updateTrialStatus = async (id, status) => {
   return result;
 };
 
-// Route admin : tous les trials avec noms élève/prof et matière
 exports.getAllTrials = async () => {
   const [rows] = await db.query(
-    `SELECT tr.*,
-       u_student.prenom AS student_prenom, u_student.nom AS student_nom,
-       u_teacher.prenom AS teacher_prenom, u_teacher.nom AS teacher_nom,
-       a.subject
-     FROM trial_requests tr
-     LEFT JOIN users u_student ON u_student.id = tr.student_id
-     LEFT JOIN users u_teacher ON u_teacher.id = tr.teacher_id
-     LEFT JOIN announcements a ON a.id = tr.announcement_id
-     ORDER BY tr.created_at DESC`
+    `
+    SELECT
+      tr.*,
+      u_student.prenom AS student_prenom,
+      u_student.nom AS student_nom,
+      u_teacher.prenom AS teacher_prenom,
+      u_teacher.nom AS teacher_nom,
+      a.subject
+    FROM trial_requests tr
+    LEFT JOIN users u_student ON u_student.id = tr.student_id
+    LEFT JOIN users u_teacher ON u_teacher.id = tr.teacher_id
+    LEFT JOIN announcements a ON a.id = tr.announcement_id
+    ORDER BY tr.created_at DESC
+    `
   );
+
   return rows;
 };
 

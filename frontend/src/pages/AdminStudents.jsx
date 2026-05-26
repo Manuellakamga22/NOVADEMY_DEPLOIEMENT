@@ -290,8 +290,8 @@ function AdminStudents() {
     const fetchAll = async () => {
       try {
         const [studentsRes, trialsRes] = await Promise.all([
-          fetch("http://localhost:5000/api/students", { headers }),
-          fetch("http://localhost:5000/api/trials",   { headers }),
+          fetch("http://localhost:5001/api/students", { headers }),
+          fetch("http://localhost:5001/api/trials",   { headers }),
         ]);
 
         if (studentsRes.ok) {

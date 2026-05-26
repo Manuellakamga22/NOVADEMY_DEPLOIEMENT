@@ -1,4 +1,9 @@
 import { useState } from "react";
+export function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  window.location.href = "/login";
+}
 
 function LoginTemp() {
   const [formData, setFormData] = useState({
@@ -14,7 +19,7 @@ function LoginTemp() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("http://localhost:5001/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

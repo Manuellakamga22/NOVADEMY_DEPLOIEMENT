@@ -303,8 +303,8 @@ function AdminAnnouncements() {
     const fetchAll = async () => {
       try {
         const [annRes, teachersRes] = await Promise.all([
-          fetch("http://localhost:5000/api/announcements", { headers }),
-          fetch("http://localhost:5000/api/teachers",      { headers }),
+          fetch("http://localhost:5001/api/announcements", { headers }),
+          fetch("http://localhost:5001/api/teachers",      { headers }),
         ]);
 
         if (annRes.ok) {

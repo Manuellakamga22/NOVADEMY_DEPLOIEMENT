@@ -1,4 +1,5 @@
 const paymentRepository = require("../repositories/paymentRepository");
+const notifService = require("./notificationService");
 const db = require("../db");
 
 // je crée le paiement et je mets à jour la formule en "payee"
@@ -13,7 +14,6 @@ exports.createPayment = async ({
     throw { status: 400, message: "Champs paiement obligatoires manquants" };
   }
 
-  // j'insère le paiement
   const result = await paymentRepository.createPayment({
     student_id,
     pack_id,
@@ -22,11 +22,36 @@ exports.createPayment = async ({
     payment_date:   payment_date   || null
   });
 
-  // je mets à jour la formule en "payee" pour que le prof soit notifié
+  // je mets à jour la formule en "payee"
   await db.query(
     `UPDATE formula_proposals SET status = 'payee' WHERE id = ?`,
     [pack_id]
   );
+
+  // je notifie le prof qu'un paiement vient d'être reçu
+  try {
+    const [rows] = await db.query(
+      `SELECT fp.teacher_id, u.prenom AS student_prenom, u.nom AS student_nom
+       FROM formula_proposals fp
+       JOIN users u ON u.id = ?
+       WHERE fp.id = ?
+       LIMIT 1`,
+      [student_id, pack_id]
+    );
+
+    if (rows.length > 0) {
+      const { teacher_id, student_prenom, student_nom } = rows[0];
+      const studentNom = `${student_prenom || ""} ${student_nom || ""}`.trim() || "Un élève";
+
+      await notifService.paiementRecu({
+        teacher_id: Number(teacher_id),
+        student_nom: studentNom,
+        montant: amount,
+      });
+    }
+  } catch {
+    // non bloquant
+  }
 
   return {
     message:   "Paiement enregistré avec succès",
@@ -39,13 +64,11 @@ exports.getPaymentsByStudent = async (studentId) => {
   return await paymentRepository.getPaymentsByStudent(studentId);
 };
 
-// je récupère les revenus d'un prof depuis ses formules payées
 exports.getPaymentsByTeacher = async (teacherId) => {
   if (!teacherId) throw { status: 400, message: "ID professeur manquant" };
   return await paymentRepository.getPaymentsByTeacher(teacherId);
 };
 
-// Admin : tous les paiements
 exports.getAllPayments = async () => {
   return await paymentRepository.getAllPayments();
 };

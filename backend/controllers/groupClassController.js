@@ -1,78 +1,97 @@
-const groupClassService = require("../services/groupClassService");
+const service = require("../services/groupClassService");
 
-// Créer une session collective
+// l'élève crée une session collective
 exports.createGroupClass = async (req, res) => {
   try {
-    const result = await groupClassService.createGroupClass(req.body);
+    const result = await service.createGroupClass(req.body);
     return res.status(201).json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
   }
 };
 
-// Sessions d'un prof
+// le prof répond à une demande de session (accepte ou refuse)
+exports.repondreSession = async (req, res) => {
+  try {
+    const { groupClassId } = req.params;
+    const { decision } = req.body; // "accepted" ou "refused"
+    const teacherId = req.user?.id || req.body.teacher_id;
+    const result = await service.repondreSession(groupClassId, teacherId, decision);
+    return res.json(result);
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
+  }
+};
+
+// sessions d'un prof
 exports.getByTeacher = async (req, res) => {
   try {
-    const result = await groupClassService.getByTeacher(req.params.teacherId);
+    const result = await service.getByTeacher(req.params.teacherId);
     return res.json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
   }
 };
 
-// Sessions ouvertes (élèves)
+// sessions ouvertes (élèves)
 exports.getOpen = async (req, res) => {
   try {
-    const result = await groupClassService.getOpen();
+    const result = await service.getOpen();
     return res.json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
   }
 };
 
-// Inscrire un élève
-exports.enroll = async (req, res) => {
+// rejoindre une session par son code
+exports.joinByCode = async (req, res) => {
   try {
-    const { groupClassId } = req.params;
-    const { student_id } = req.body;
-    const result = await groupClassService.enroll(groupClassId, student_id);
+    const { code } = req.params;
+    const studentId = req.body.student_id || req.user?.id;
+    const result = await service.joinByCode(code, studentId);
     return res.status(201).json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
   }
 };
 
-// Clore une session
+// chercher une session par code (pour afficher les infos avant de rejoindre)
+exports.getByCode = async (req, res) => {
+  try {
+    const result = await service.getByCode(req.params.code);
+    if (!result) return res.status(404).json({ message: "Session introuvable" });
+    return res.json(result);
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
+  }
+};
+
+// clore une session (prof)
 exports.closeSession = async (req, res) => {
   try {
-    const { groupClassId } = req.params;
-    const teacherId = req.user.id;
-    const result = await groupClassService.closeSession(groupClassId, teacherId);
+    const result = await service.closeSession(req.params.groupClassId, req.user.id);
     return res.json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
   }
 };
 
-// Inscriptions d'un élève
+// inscriptions d'un élève
 exports.getEnrollmentsByStudent = async (req, res) => {
   try {
-    const result = await groupClassService.getEnrollmentsByStudent(req.params.studentId);
+    const result = await service.getEnrollmentsByStudent(req.params.studentId);
     return res.json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
   }
 };
 
-// Inscrits d'une session (prof)
+// inscrits d'une session (prof)
 exports.getEnrollmentsByClass = async (req, res) => {
   try {
-    const result = await groupClassService.getEnrollmentsByClass(
-      req.params.groupClassId,
-      req.user.id
-    );
+    const result = await service.getEnrollmentsByClass(req.params.groupClassId, req.user.id);
     return res.json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
   }
 };

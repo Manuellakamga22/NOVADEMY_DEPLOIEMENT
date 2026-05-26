@@ -8,7 +8,7 @@ const S = {
   },
 
   logo: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 800,
   },
 
@@ -41,7 +41,7 @@ const S = {
   sbRole: {
     display: "inline-block",
     marginTop: 6,
-    fontSize: 10,
+    fontSize: 14,
     fontWeight: 700,
     letterSpacing: ".08em",
     textTransform: "uppercase",
@@ -57,7 +57,7 @@ const S = {
   },
 
   sbLabel: {
-    fontSize: 10,
+    fontSize: 14,
     fontWeight: 700,
     letterSpacing: ".1em",
     textTransform: "uppercase",
@@ -73,7 +73,7 @@ const S = {
     gap: 10,
     padding: "10px 12px",
     borderRadius: 8,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: 500,
     color: "#4B5563",
     textDecoration: "none",
@@ -86,7 +86,7 @@ const S = {
     gap: 10,
     padding: "10px 12px",
     borderRadius: 8,
-    fontSize: 13,
+    fontSize: 17,
     fontWeight: 600,
     color: "#2563EB",
     background: "#EFF6FF",
@@ -98,7 +98,7 @@ const S = {
     marginLeft: "auto",
     background: "#EA580C",
     color: "#fff",
-    fontSize: 10,
+    fontSize: 14,
     fontWeight: 700,
     padding: "1px 6px",
     borderRadius: 10,
@@ -122,7 +122,7 @@ const S = {
     justifyContent: "center",
     color: "#fff",
     fontWeight: 700,
-    fontSize: 12,
+    fontSize: 16,
     flexShrink: 0,
   },
 
@@ -131,13 +131,13 @@ const S = {
   },
 
   pageTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 800,
     marginBottom: 6,
   },
 
   pageSub: {
-    fontSize: 14,
+    fontSize: 17,
     color: "#9CA3AF",
     marginBottom: 20,
   },
@@ -164,7 +164,7 @@ const S = {
   },
 
   statLabelW: {
-    fontSize: 11,
+    fontSize: 15,
     fontWeight: 600,
     color: "rgba(255,255,255,.7)",
     textTransform: "uppercase",
@@ -173,7 +173,7 @@ const S = {
   },
 
   statLabel: {
-    fontSize: 11,
+    fontSize: 15,
     fontWeight: 600,
     color: "#9CA3AF",
     textTransform: "uppercase",
@@ -182,13 +182,13 @@ const S = {
   },
 
   statValW: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 800,
     color: "#fff",
   },
 
   statVal: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 800,
     color: "#111827",
   },
@@ -208,7 +208,7 @@ const S = {
   },
 
   cardTitle: {
-    fontSize: 15,
+    fontSize: 19,
     fontWeight: 700,
     marginBottom: 14,
     display: "flex",
@@ -221,7 +221,7 @@ const S = {
     alignItems: "center",
     justifyContent: "center",
     fontFamily: "inherit",
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: 600,
     padding: "8px 14px",
     borderRadius: 8,
@@ -239,7 +239,7 @@ const S = {
     justifyContent: "center",
     padding: 12,
     marginTop: 10,
-    fontSize: 13,
+    fontSize: 17,
   },
 
   empty: {
@@ -249,7 +249,7 @@ const S = {
   },
 
   emptyIcon: {
-    fontSize: 24,
+    fontSize: 28,
     marginBottom: 8,
   },
 
@@ -267,7 +267,7 @@ const S = {
   },
 
   pill: {
-    fontSize: 11,
+    fontSize: 15,
     fontWeight: 600,
     padding: "3px 10px",
     borderRadius: 20,
@@ -281,7 +281,7 @@ const S = {
   tblTh: {
     textAlign: "left",
     padding: "9px 12px",
-    fontSize: 11,
+    fontSize: 15,
     fontWeight: 700,
     letterSpacing: ".06em",
     textTransform: "uppercase",
@@ -292,7 +292,7 @@ const S = {
   tblTd: {
     padding: "12px",
     borderBottom: "1px solid #F3F4F6",
-    fontSize: 13,
+    fontSize: 17,
   },
 };
 
@@ -316,9 +316,9 @@ const Alert = ({ type, icon, title, children }) => {
         marginBottom: 10,
       }}
     >
-      <span style={{ fontSize: 16 }}>{icon}</span>
+      <span style={{ fontSize: 19 }}>{icon}</span>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, fontWeight: 600 }}>{title}</div>
+        <div style={{ fontSize: 19, fontWeight: 600 }}>{title}</div>
       </div>
       {children}
     </div>
@@ -341,9 +341,9 @@ function AdminDashboard() {
     const fetchAll = async () => {
       try {
         const [teachersRes, studentsRes, annRes] = await Promise.all([
-          fetch("http://localhost:5000/api/teachers",      { headers }),
-          fetch("http://localhost:5000/api/students",      { headers }),
-          fetch("http://localhost:5000/api/announcements", { headers }),
+          fetch("http://localhost:5001/api/teachers",      { headers }),
+          fetch("http://localhost:5001/api/students",      { headers }),
+          fetch("http://localhost:5001/api/announcements", { headers }),
         ]);
 
         if (teachersRes.ok) {
@@ -408,10 +408,10 @@ function AdminDashboard() {
               {user?.prenom?.[0]?.toUpperCase() || "A"}
             </div>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 600 }}>
+              <div style={{ fontSize: 17, fontWeight: 600 }}>
                 {user ? `${user.prenom} ${user.nom}` : "Administrateur"}
               </div>
-              <div style={{ fontSize: 11, color: "#9CA3AF" }}>Super Admin</div>
+              <div style={{ fontSize: 15, color: "#9CA3AF" }}>Super Admin</div>
             </div>
           </div>
         </aside>
@@ -446,11 +446,11 @@ function AdminDashboard() {
             <div style={S.card}>
               <div style={S.cardTitle}>👥 Gestion des utilisateurs</div>
               {loading ? (
-                <div style={S.empty}><p style={{ fontSize: 13 }}>Chargement…</p></div>
+                <div style={S.empty}><p style={{ fontSize: 17 }}>Chargement…</p></div>
               ) : students.length === 0 ? (
                 <div style={S.empty}>
                   <div style={S.emptyIcon}>👤</div>
-                  <p style={{ fontSize: 13 }}>Aucun élève pour le moment.</p>
+                  <p style={{ fontSize: 17 }}>Aucun élève pour le moment.</p>
                 </div>
               ) : (
                 <table style={S.tbl}>
@@ -489,11 +489,11 @@ function AdminDashboard() {
             <div style={S.card}>
               <div style={S.cardTitle}>👩‍🏫 Gestion des professeurs</div>
               {loading ? (
-                <div style={S.empty}><p style={{ fontSize: 13 }}>Chargement…</p></div>
+                <div style={S.empty}><p style={{ fontSize: 17 }}>Chargement…</p></div>
               ) : teachers.length === 0 ? (
                 <div style={S.empty}>
                   <div style={S.emptyIcon}>👩‍🏫</div>
-                  <p style={{ fontSize: 13 }}>Aucun professeur pour le moment.</p>
+                  <p style={{ fontSize: 17 }}>Aucun professeur pour le moment.</p>
                 </div>
               ) : (
                 <div style={{ overflowX: "auto" }}>
@@ -516,7 +516,7 @@ function AdminDashboard() {
                                 display: "inline-flex",
                                 alignItems: "center",
                                 gap: 5,
-                                fontSize: 11,
+                                fontSize: 15,
                                 fontWeight: 600,
                               }}
                             >
@@ -552,7 +552,7 @@ function AdminDashboard() {
               <div style={S.cardTitle}>🧪 Suivi des cours d'essai</div>
               <div style={S.empty}>
                 <div style={S.emptyIcon}>🧪</div>
-                <p style={{ fontSize: 13 }}>Consultez les demandes d'essai.</p>
+                <p style={{ fontSize: 17 }}>Consultez les demandes d'essai.</p>
               </div>
               <a href="/admin/trials" style={{ ...S.btn, ...S.btnGhost, ...S.btnFull }}>
                 Voir les demandes
@@ -576,11 +576,11 @@ function AdminDashboard() {
             <div style={S.card}>
               <div style={S.cardTitle}>📢 Gestion des annonces</div>
               {loading ? (
-                <div style={S.empty}><p style={{ fontSize: 13 }}>Chargement…</p></div>
+                <div style={S.empty}><p style={{ fontSize: 17 }}>Chargement…</p></div>
               ) : announcements.length === 0 ? (
                 <div style={S.empty}>
                   <div style={S.emptyIcon}>📋</div>
-                  <p style={{ fontSize: 13 }}>Aucune annonce pour le moment.</p>
+                  <p style={{ fontSize: 17 }}>Aucune annonce pour le moment.</p>
                 </div>
               ) : (
                 <table style={S.tbl}>
@@ -632,7 +632,7 @@ function AdminDashboard() {
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
-                      fontSize: 12,
+                      fontSize: 16,
                       fontWeight: 600,
                       marginBottom: 4,
                     }}
@@ -666,8 +666,8 @@ function AdminDashboard() {
                       textAlign: "center",
                     }}
                   >
-                    <div style={{ fontSize: 11, color: "#9CA3AF" }}>{label}</div>
-                    <div style={{ fontSize: 22, fontWeight: 800 }}>{val}</div>
+                    <div style={{ fontSize: 15, color: "#9CA3AF" }}>{label}</div>
+                    <div style={{ fontSize: 26, fontWeight: 800 }}>{val}</div>
                   </div>
                 ))}
               </div>
@@ -695,11 +695,11 @@ function AdminDashboard() {
                       textAlign: "center",
                     }}
                   >
-                    <div style={{ fontSize: 20, marginBottom: 6 }}>{t.icon}</div>
-                    <div style={{ fontSize: 11, fontWeight: 700 }}>{t.level}</div>
-                    <div style={{ fontSize: 10, color: "#9CA3AF", marginBottom: 8 }}>{t.hours}</div>
-                    <div style={{ fontSize: 28, fontWeight: 800, color: t.col, lineHeight: 1 }}>
-                      {t.rate}<span style={{ fontSize: 14 }}>%</span>
+                    <div style={{ fontSize: 24, marginBottom: 6 }}>{t.icon}</div>
+                    <div style={{ fontSize: 15, fontWeight: 700 }}>{t.level}</div>
+                    <div style={{ fontSize: 14, color: "#9CA3AF", marginBottom: 8 }}>{t.hours}</div>
+                    <div style={{ fontSize: 30, fontWeight: 800, color: t.col, lineHeight: 1 }}>
+                      {t.rate}<span style={{ fontSize: 18 }}>%</span>
                     </div>
                   </div>
                 ))}
@@ -710,7 +710,7 @@ function AdminDashboard() {
               <div style={S.cardTitle}>💳 Paiements</div>
               <div style={S.empty}>
                 <div style={S.emptyIcon}>💳</div>
-                <p style={{ fontSize: 13 }}>Consultez tous les paiements enregistrés.</p>
+                <p style={{ fontSize: 17 }}>Consultez tous les paiements enregistrés.</p>
               </div>
               <a href="/admin/payments" style={{ ...S.btn, ...S.btnGhost, ...S.btnFull }}>
                 Voir les paiements

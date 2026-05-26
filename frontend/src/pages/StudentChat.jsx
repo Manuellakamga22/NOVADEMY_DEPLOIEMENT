@@ -267,24 +267,31 @@ const S = {
   bubbleMe: {
     alignSelf: "flex-end",
     maxWidth: "72%",
-    background: "#DBEAFE",
-    color: "#1E3A8A",
-    borderRadius: 14,
-    padding: "12px 14px",
+    background: "#2563EB",
+    color: "#fff",
+    borderRadius: "18px 18px 4px 18px",
+    padding: "12px 16px",
     fontSize: 15,
     lineHeight: 1.6,
+    boxShadow: "0 2px 8px rgba(37,99,235,0.15)",
   },
 
   bubbleOther: {
     alignSelf: "flex-start",
     maxWidth: "72%",
-    background: "#fff",
-    border: "1px solid #E5E7EB",
-    color: "#374151",
-    borderRadius: 14,
-    padding: "12px 14px",
+    background: "#F3F4F6",
+    color: "#111827",
+    borderRadius: "18px 18px 18px 4px",
+    padding: "12px 16px",
     fontSize: 15,
     lineHeight: 1.6,
+  },
+  
+  senderName: {
+    fontSize: 12,
+    fontWeight: 700,
+    color: "#6B7280",
+    marginBottom: 3,
   },
 
   bubbleTime: {
@@ -449,8 +456,8 @@ function StudentChat() {
     const fetchContacts = async () => {
       try {
         const endpoint = isTeacher
-          ? `http://localhost:5000/api/trials/teacher/${user.id}`
-          : `http://localhost:5000/api/trials/student/${user.id}`;
+          ? `http://localhost:5001/api/trials/teacher/${user.id}`
+          : `http://localhost:5001/api/trials/student/${user.id}`;
 
         const res  = await fetch(endpoint, {
           headers: { Authorization: `Bearer ${token}` },
@@ -512,7 +519,7 @@ function StudentChat() {
     setLoadingMsg(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/messages/${user.id}/${selectedReceiverId}`,
+        `http://localhost:5001/api/messages/${user.id}/${selectedReceiverId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (!res.ok) return;
@@ -528,7 +535,7 @@ function StudentChat() {
   const fetchFormula = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/packs/student/${user.id}`,
+        `http://localhost:5001/api/packs/student/${user.id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (!res.ok) return;
@@ -554,7 +561,7 @@ function StudentChat() {
 
     setSending(true);
     try {
-      const res = await fetch("http://localhost:5000/api/messages", {
+      const res = await fetch("http://localhost:5001/api/messages", {
         method:  "POST",
         headers: {
           "Content-Type": "application/json",
@@ -589,7 +596,7 @@ function StudentChat() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/packs/accept/${formula.id}`,
+        `http://localhost:5001/api/packs/accept/${formula.id}`,
         {
           method:  "PUT",
           headers: {
@@ -761,7 +768,10 @@ function StudentChat() {
                   messages.map((m) => {
                     const isMe = Number(m.sender_id) === Number(user.id);
                     return (
-                      <div key={m.id}>
+                      <div key={m.id} style={{ display: "flex", flexDirection: "column", alignItems: isMe ? "flex-end" : "flex-start" }}>
+                        {!isMe && m.sender_name && (
+                          <div style={S.senderName}>{m.sender_name}</div>
+                        )}
                         <div style={isMe ? S.bubbleMe : S.bubbleOther}>
                           {m.content}
                         </div>

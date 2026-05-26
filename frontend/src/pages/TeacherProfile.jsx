@@ -466,7 +466,7 @@ function TeacherProfile() {
       formData.append("photo", file);
 
       const response = await fetch(
-        `http://localhost:5000/api/teacher-profile/photo/${user.id}`,
+        `http://localhost:5001/api/teacher-profile/photo/${user.id}`,
         {
           method: "POST",
           headers: {
@@ -484,7 +484,7 @@ function TeacherProfile() {
       }
 
       if (data.photo_url) {
-        setPreview(`http://localhost:5000${data.photo_url}`);
+        setPreview(`http://localhost:5001${data.photo_url}`);
       }
 
       alert("Photo enregistrée avec succès");
@@ -503,7 +503,7 @@ function TeacherProfile() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/teacher-profile/${user.id}`,
+        `http://localhost:5001/api/teacher-profile/${user.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -532,7 +532,7 @@ function TeacherProfile() {
       });
 
       if (data.photo_url) {
-        setPreview(`http://localhost:5000${data.photo_url}`);
+        setPreview(`http://localhost:5001${data.photo_url}`);
       }
     } catch (error) {
       alert("Erreur de connexion au serveur");
@@ -619,7 +619,7 @@ function TeacherProfile() {
 
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/api/teacher-profile", {
+      const response = await fetch("http://localhost:5001/api/teacher-profile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

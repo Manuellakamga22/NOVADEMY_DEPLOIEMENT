@@ -65,7 +65,7 @@ function AdminReviews() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/reviews", { headers });
+        const res = await fetch("http://localhost:5001/api/reviews", { headers });
         if (res.ok) {
           const data = await res.json();
           setReviews(Array.isArray(data) ? data : []);
@@ -80,7 +80,7 @@ function AdminReviews() {
     if (!window.confirm("Supprimer cet avis définitivement ?")) return;
     setDeletingId(id);
     try {
-      const res = await fetch(`http://localhost:5000/api/reviews/${id}`, {
+      const res = await fetch(`http://localhost:5001/api/reviews/${id}`, {
         method: "DELETE",
         headers,
       });

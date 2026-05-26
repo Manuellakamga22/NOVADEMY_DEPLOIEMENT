@@ -28,7 +28,7 @@ function PackProposal() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/packs", {
+      const response = await fetch("http://localhost:5001/api/packs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

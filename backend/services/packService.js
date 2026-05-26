@@ -1,5 +1,6 @@
 const packRepository  = require("../repositories/packRepository");
 const trialRepository = require("../repositories/trialRequestRepository");
+const notifService    = require("./notificationService");
 const db = require("../db");
 
 exports.getCatalog = async () => {
@@ -37,16 +38,42 @@ exports.proposeFormula = async ({
     trial_request_id, teacher_id, student_id, announcement_id, teacher_rate, formula_id
   });
 
+  // je notifie l'élève que le prof lui a proposé une formule
+  try {
+    const [teacherRows] = await db.query(
+      `SELECT prenom, nom FROM users WHERE id = ? LIMIT 1`,
+      [teacher_id]
+    );
+
+    const [catalogRows] = await db.query(
+      `SELECT label, type FROM formulas_catalog WHERE id = ? LIMIT 1`,
+      [formula_id]
+    );
+
+    if (teacherRows.length > 0) {
+      const teacherNom = `${teacherRows[0].prenom || ""} ${teacherRows[0].nom || ""}`.trim();
+      const formulaLabel = catalogRows.length > 0
+        ? (catalogRows[0].label || catalogRows[0].type)
+        : "une formule";
+
+      await notifService.formuleProposee({
+        student_id: Number(student_id),
+        teacher_nom: teacherNom,
+        formula_label: formulaLabel,
+      });
+    }
+  } catch {
+    // non bloquant
+  }
+
   return { message: "Formule proposée avec succès", id: result.insertId };
 };
 
-// propositions en attente pour un élève
 exports.getStudentProposals = async (studentId) => {
   if (!studentId) throw { status: 400, message: "studentId manquant" };
   return await packRepository.getStudentProposals(studentId);
 };
 
-// toutes les formules d'un élève (pour StudentCourses)
 exports.getAllStudentFormulas = async (studentId) => {
   if (!studentId) throw { status: 400, message: "studentId manquant" };
   return await packRepository.getAllStudentFormulas(studentId);

@@ -372,7 +372,7 @@ function TeacherRequests() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/trials/teacher/${user.id}`,
+        `http://localhost:5001/api/trials/teacher/${user.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -403,7 +403,7 @@ function TeacherRequests() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/trials/status/${id}`,
+        `http://localhost:5001/api/trials/status/${id}`,
         {
           method: "PUT",
           headers: {
@@ -502,6 +502,9 @@ function TeacherRequests() {
             </a>
             <a style={S.sbLink} href="/chat">
               💬 Messages <span style={S.sbBadge}>0</span>
+            </a>
+            <a style={S.sbLink} href="/notifications">
+              🔔 Notifications
             </a>
 
             <span style={S.sbLabel}>Compte</span>

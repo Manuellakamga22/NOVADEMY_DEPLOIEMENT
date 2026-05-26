@@ -1,61 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const groupClassController = require("../controllers/groupClassController");
+const controller = require("../controllers/groupClassController");
 const { verifyToken, requireRole } = require("../middleware/authMiddleware");
 
-// Créer une session collective (prof)
-router.post(
-  "/",
-  verifyToken,
-  requireRole("teacher"),
-  groupClassController.createGroupClass
-);
+// l'élève crée une session collective
+router.post("/", verifyToken, requireRole("student"), controller.createGroupClass);
 
-// Sessions d'un prof
-router.get(
-  "/teacher/:teacherId",
-  verifyToken,
-  requireRole("teacher"),
-  groupClassController.getByTeacher
-);
+// le prof répond à une session (accepte / refuse)
+router.put("/:groupClassId/repondre", verifyToken, requireRole("teacher"), controller.repondreSession);
 
-// Sessions ouvertes (élèves)
-router.get(
-  "/open",
-  verifyToken,
-  groupClassController.getOpen
-);
+// rejoindre une session par son code (élève)
+router.post("/code/:code/join", verifyToken, requireRole("student"), controller.joinByCode);
 
-// Inscrire un élève à une session
-router.post(
-  "/:groupClassId/enroll",
-  verifyToken,
-  requireRole("student"),
-  groupClassController.enroll
-);
+// chercher une session par son code (aperçu avant de rejoindre)
+router.get("/code/:code", verifyToken, controller.getByCode);
 
-// Clore une session (prof)
-router.put(
-  "/:groupClassId/close",
-  verifyToken,
-  requireRole("teacher"),
-  groupClassController.closeSession
-);
+// sessions d'un prof
+router.get("/teacher/:teacherId", verifyToken, requireRole("teacher"), controller.getByTeacher);
 
-// Inscriptions d'un élève
-router.get(
-  "/student/:studentId",
-  verifyToken,
-  requireRole("student"),
-  groupClassController.getEnrollmentsByStudent
-);
+// sessions ouvertes (élèves)
+router.get("/open", verifyToken, controller.getOpen);
 
-// Inscrits d'une session (prof)
-router.get(
-  "/:groupClassId/enrollments",
-  verifyToken,
-  requireRole("teacher"),
-  groupClassController.getEnrollmentsByClass
-);
+// inscriptions d'un élève
+router.get("/student/:studentId", verifyToken, requireRole("student"), controller.getEnrollmentsByStudent);
+
+// clore une session (prof)
+router.put("/:groupClassId/close", verifyToken, requireRole("teacher"), controller.closeSession);
+
+// inscrits d'une session (prof)
+router.get("/:groupClassId/enrollments", verifyToken, requireRole("teacher"), controller.getEnrollmentsByClass);
 
 module.exports = router;

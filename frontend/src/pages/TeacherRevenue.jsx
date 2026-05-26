@@ -387,7 +387,7 @@ function TeacherRevenue() {
     const fetchRevenues = async () => {
       try {
         const res  = await fetch(
-          `http://localhost:5000/api/payments/teacher/${user.id}`,
+          `http://localhost:5001/api/payments/teacher/${user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) return;

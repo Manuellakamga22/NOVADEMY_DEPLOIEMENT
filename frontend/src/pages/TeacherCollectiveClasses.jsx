@@ -1,835 +1,289 @@
 import React, { useEffect, useState } from "react";
 
 const S = {
-  wrap: {
-    fontFamily: "'Segoe UI', sans-serif",
-    minHeight: "100vh",
-    background: "#F9FAFB",
-  },
-
-  logo: { fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em" },
+  wrap: { fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#F9FAFB" },
+  dash: { display: "grid", gridTemplateColumns: "280px 1fr", minHeight: "100vh" },
+  sidebar: { background: "#fff", borderRight: "1px solid #E5E7EB", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", overflowY: "auto" },
+  sbBrand: { padding: "26px 22px", borderBottom: "1px solid #E5E7EB" },
+  logo: { fontSize: 21, fontWeight: 800, letterSpacing: "-0.02em" },
   logoEm: { color: "#2563EB" },
-
-  dash: {
-    display: "grid",
-    gridTemplateColumns: "280px 1fr",
-    minHeight: "100vh",
-  },
-
-  sidebar: {
-    background: "#fff",
-    borderRight: "1px solid #E5E7EB",
-    display: "flex",
-    flexDirection: "column",
-    position: "sticky",
-    top: 0,
-    height: "100vh",
-    overflowY: "auto",
-  },
-
-  sbBrand: {
-    padding: "26px 22px",
-    borderBottom: "1px solid #E5E7EB",
-  },
-
-  sbRole: {
-    display: "inline-block",
-    marginTop: 10,
-    fontSize: 13,
-    fontWeight: 700,
-    letterSpacing: ".08em",
-    textTransform: "uppercase",
-    padding: "5px 12px",
-    borderRadius: 20,
-    background: "#EFF6FF",
-    color: "#2563EB",
-  },
-
+  sbRole: { display: "inline-block", marginTop: 10, fontSize: 13, fontWeight: 700, textTransform: "uppercase", padding: "5px 12px", borderRadius: 20, background: "#EFF6FF", color: "#2563EB" },
   sbNav: { padding: 14, flex: 1 },
-
-  sbLabel: {
-    fontSize: 12,
-    fontWeight: 700,
-    letterSpacing: ".12em",
-    textTransform: "uppercase",
-    color: "#9CA3AF",
-    padding: "0 10px",
-    margin: "18px 0 8px",
-    display: "block",
-  },
-
-  sbLink: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    padding: "14px 15px",
-    borderRadius: 10,
-    fontSize: 17,
-    fontWeight: 500,
-    color: "#4B5563",
-    textDecoration: "none",
-    marginBottom: 4,
-  },
-
-  sbLinkActive: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    padding: "14px 15px",
-    borderRadius: 10,
-    fontSize: 17,
-    fontWeight: 700,
-    color: "#2563EB",
-    background: "#EFF6FF",
-    textDecoration: "none",
-    marginBottom: 4,
-  },
-
-  sbBadge: {
-    marginLeft: "auto",
-    background: "#2563EB",
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: 700,
-    padding: "3px 9px",
-    borderRadius: 10,
-  },
-
-  sbUser: {
-    padding: "18px 22px",
-    borderTop: "1px solid #E5E7EB",
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-  },
-
-  av: {
-    width: 42,
-    height: 42,
-    borderRadius: "50%",
-    background: "linear-gradient(135deg,#2563EB,#1D4ED8)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#fff",
-    fontWeight: 700,
-    fontSize: 16,
-    flexShrink: 0,
-  },
-
-  main: { padding: "30px 30px" },
-
-  topBar: { marginBottom: 22 },
-
-  smallTitle: {
-    fontSize: 28,
-    fontWeight: 800,
-    color: "#111827",
-    margin: 0,
-  },
-
-  smallSub: {
-    fontSize: 17,
-    color: "#6B7280",
-    marginTop: 8,
-    lineHeight: 1.7,
-    maxWidth: "940px",
-  },
-
-  stats: {
-    display: "grid",
-    gridTemplateColumns: "repeat(4,1fr)",
-    gap: 16,
-    marginBottom: 22,
-  },
-
-  statAccent: {
-    background: "#2563EB",
-    border: "1px solid #2563EB",
-    borderRadius: 16,
-    padding: "22px 24px",
-  },
-
-  stat: {
-    background: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: 16,
-    padding: "22px 24px",
-  },
-
-  statLabelW: {
-    fontSize: 13,
-    fontWeight: 700,
-    color: "rgba(255,255,255,.78)",
-    textTransform: "uppercase",
-    letterSpacing: ".06em",
-    marginBottom: 10,
-  },
-
-  statLabel: {
-    fontSize: 13,
-    fontWeight: 700,
-    color: "#9CA3AF",
-    textTransform: "uppercase",
-    letterSpacing: ".06em",
-    marginBottom: 10,
-  },
-
-  statValW: {
-    fontSize: 32,
-    fontWeight: 800,
-    color: "#fff",
-  },
-
-  statVal: {
-    fontSize: 32,
-    fontWeight: 800,
-    color: "#111827",
-  },
-
-  card: {
-    background: "#fff",
-    border: "1px solid #E5E7EB",
-    borderRadius: 16,
-    padding: "22px 24px",
-    marginBottom: 18,
-  },
-
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: 800,
-    marginBottom: 14,
-    color: "#111827",
-  },
-
-  cardDesc: {
-    fontSize: 16,
-    color: "#6B7280",
-    lineHeight: 1.7,
-    marginBottom: 16,
-  },
-
-  noteBox: {
-    background: "#EFF6FF",
-    border: "1px solid #BFDBFE",
-    color: "#1D4ED8",
-    borderRadius: 12,
-    padding: "15px 16px",
-    fontSize: 16,
-    lineHeight: 1.7,
-    marginBottom: 16,
-  },
-
-  warningBox: {
-    background: "#FFF7ED",
-    border: "1px solid #FED7AA",
-    color: "#C2410C",
-    borderRadius: 12,
-    padding: "15px 16px",
-    fontSize: 15,
-    lineHeight: 1.7,
-    marginBottom: 16,
-  },
-
-  fieldGrid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 12,
-    marginBottom: 16,
-  },
-
-  field: {
-    marginBottom: 14,
-  },
-
-  label: {
-    display: "block",
-    fontSize: 16,
-    fontWeight: 700,
-    color: "#374151",
-    marginBottom: 8,
-  },
-
-  input: {
-    width: "100%",
-    padding: "13px 14px",
-    borderRadius: 10,
-    border: "1.5px solid #E5E7EB",
-    fontFamily: "inherit",
-    fontSize: 16,
-    outline: "none",
-    background: "#fff",
-    boxSizing: "border-box",
-  },
-
-  btnRow: {
-    display: "flex",
-    gap: 10,
-    flexWrap: "wrap",
-    marginTop: 8,
-  },
-
-  btn: {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontFamily: "inherit",
-    fontSize: 15,
-    fontWeight: 700,
-    padding: "10px 16px",
-    borderRadius: 10,
-    border: "none",
-    cursor: "pointer",
-    textDecoration: "none",
-  },
-
-  btnPrimary: { background: "#2563EB", color: "#fff" },
-  btnGhost:   { background: "#F3F4F6", color: "#4B5563" },
-  btnDanger:  { background: "#FEF2F2", color: "#DC2626" },
-  btnSuccess: { background: "#ECFDF5", color: "#059669" },
-
-  list: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 14,
-  },
-
-  classCard: {
-    background: "#F9FAFB",
-    border: "1px solid #E5E7EB",
-    borderRadius: 14,
-    padding: 18,
-  },
-
-  itemTop: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    gap: 14,
-    flexWrap: "wrap",
-    marginBottom: 10,
-  },
-
-  itemTitle: {
-    margin: 0,
-    fontSize: 20,
-    fontWeight: 800,
-    color: "#111827",
-  },
-
-  itemSub: {
-    margin: "8px 0 0 0",
-    fontSize: 15,
-    color: "#6B7280",
-    lineHeight: 1.6,
-  },
-
-  pillRow: {
-    display: "flex",
-    gap: 6,
-    flexWrap: "wrap",
-    marginBottom: 10,
-  },
-
-  pill: {
-    fontSize: 12,
-    fontWeight: 700,
-    padding: "5px 11px",
-    borderRadius: 999,
-    display: "inline-block",
-  },
-
-  itemInfo: {
-    fontSize: 15,
-    color: "#4B5563",
-    lineHeight: 1.7,
-  },
-
-  progressBar: {
-    height: 8,
-    borderRadius: 4,
-    background: "#E5E7EB",
-    margin: "10px 0",
-    overflow: "hidden",
-  },
-
-  progressFill: {
-    height: "100%",
-    borderRadius: 4,
-    background: "#2563EB",
-    transition: "width .3s",
-  },
-
-  empty: {
-    textAlign: "center",
-    padding: "34px 20px",
-    color: "#9CA3AF",
-  },
-
-  emptyIcon: { fontSize: 34, marginBottom: 12 },
-  emptyText:  { fontSize: 16, lineHeight: 1.7 },
-};
-
-const STATUS_COLORS = {
-  ouverte:  { bg: "#ECFDF5", col: "#059669" },
-  complete: { bg: "#EFF6FF", col: "#2563EB" },
-  validee:  { bg: "#ECFDF5", col: "#059669" },
-  annulee:  { bg: "#FEF2F2", col: "#DC2626" },
-  fermee:   { bg: "#F3F4F6", col: "#6B7280" },
-};
-
-const LEVEL_LABELS = {
-  college:   "Collège",
-  lycee:     "Lycée",
-  superieur: "Supérieur",
-  prepa:     "Prépa",
+  sbLabel: { fontSize: 12, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#9CA3AF", padding: "0 10px", margin: "18px 0 8px", display: "block" },
+  sbLink: { display: "flex", alignItems: "center", gap: 12, padding: "14px 15px", borderRadius: 10, fontSize: 17, fontWeight: 500, color: "#4B5563", textDecoration: "none", marginBottom: 4 },
+  sbLinkActive: { display: "flex", alignItems: "center", gap: 12, padding: "14px 15px", borderRadius: 10, fontSize: 17, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", textDecoration: "none", marginBottom: 4 },
+  sbUser: { padding: "18px 22px", borderTop: "1px solid #E5E7EB", display: "flex", alignItems: "center", gap: 12 },
+  av: { width: 42, height: 42, borderRadius: "50%", background: "linear-gradient(135deg,#2563EB,#1D4ED8)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 17, flexShrink: 0 },
+  main: { padding: "30px" },
+  pageTitle: { fontSize: 28, fontWeight: 800, color: "#111827", marginBottom: 6 },
+  pageSub: { fontSize: 15, color: "#6B7280", marginBottom: 24, lineHeight: 1.6 },
+  stats: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, marginBottom: 22 },
+  statAccent: { background: "#2563EB", borderRadius: 14, padding: "20px 22px" },
+  stat: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "20px 22px" },
+  statLabelW: { fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,.78)", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 8 },
+  statLabel: { fontSize: 12, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 8 },
+  statValW: { fontSize: 30, fontWeight: 800, color: "#fff" },
+  statVal: { fontSize: 30, fontWeight: 800, color: "#111827" },
+  card: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 18 },
+  cardTitle: { fontSize: 17, fontWeight: 800, marginBottom: 16, color: "#111827" },
+  sessionCard: { background: "#F9FAFB", border: "1px solid #E5E7EB", borderRadius: 12, padding: 18, marginBottom: 14 },
+  sessionTop: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 },
+  sessionTitle: { fontSize: 16, fontWeight: 700, color: "#111827" },
+  codeBadge: { background: "#EFF6FF", color: "#2563EB", fontWeight: 800, fontSize: 13, padding: "4px 10px", borderRadius: 8, letterSpacing: ".05em" },
+  sessionMeta: { fontSize: 13, color: "#6B7280", lineHeight: 1.8, marginBottom: 12 },
+  btnRow: { display: "flex", gap: 10, flexWrap: "wrap" },
+  btnAccept: { background: "#059669", color: "#fff", border: "none", borderRadius: 8, padding: "9px 18px", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" },
+  btnRefuse: { background: "#FEF2F2", color: "#DC2626", border: "1px solid #FCA5A5", borderRadius: 8, padding: "9px 18px", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" },
+  btnClose: { background: "#F3F4F6", color: "#4B5563", border: "none", borderRadius: 8, padding: "9px 18px", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" },
+  pill: { fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 12, display: "inline-block" },
+  progressBar: { height: 6, background: "#E5E7EB", borderRadius: 4, margin: "8px 0" },
+  progressFill: (pct) => ({ height: 6, borderRadius: 4, background: pct >= 100 ? "#059669" : "#2563EB", width: `${Math.min(pct, 100)}%` }),
+  successMsg: { background: "#ECFDF5", border: "1px solid #A7F3D0", color: "#059669", borderRadius: 10, padding: "12px 16px", fontSize: 14, marginBottom: 16 },
+  errorMsg: { background: "#FEF2F2", border: "1px solid #FCA5A5", color: "#DC2626", borderRadius: 10, padding: "12px 16px", fontSize: 14, marginBottom: 16 },
+  empty: { textAlign: "center", padding: "24px", color: "#9CA3AF", fontSize: 14 },
 };
 
 function TeacherCollectiveClasses() {
   const savedUser = localStorage.getItem("user");
-  const user  = savedUser ? JSON.parse(savedUser) : null;
+  const user = savedUser ? JSON.parse(savedUser) : null;
   const token = localStorage.getItem("token");
 
-  const [classes,     setClasses]     = useState([]);
-  const [announcements, setAnnouncements] = useState([]);
-  const [loading,     setLoading]     = useState(true);
-  const [submitting,  setSubmitting]  = useState(false);
+  const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  // Formulaire
-  const [announcementId, setAnnouncementId] = useState("");
-  const [level,          setLevel]          = useState("");
-  const [minStudents,    setMinStudents]     = useState("2");
-  const [maxStudents,    setMaxStudents]     = useState("6");
-  const [openingDate,    setOpeningDate]     = useState("");
-  const [closingDate,    setClosingDate]     = useState("");
-
-  const headers = { Authorization: `Bearer ${token}` };
-
-  // ── Chargement initial ──────────────────────────────────────────────────────
-  useEffect(() => {
+  const charger = async () => {
     if (!user?.id) { setLoading(false); return; }
-
-    const fetchAll = async () => {
-      try {
-        const [classesRes, annRes] = await Promise.all([
-          fetch(`http://localhost:5000/api/group-classes/teacher/${user.id}`, { headers }),
-          fetch(`http://localhost:5000/api/announcements`, { headers }),
-        ]);
-
-        if (classesRes.ok) {
-          const data = await classesRes.json();
-          setClasses(Array.isArray(data) ? data : []);
-        }
-
-        if (annRes.ok) {
-          const data = await annRes.json();
-          // Filtrer uniquement les annonces du prof connecté
-          const mine = Array.isArray(data)
-            ? data.filter((a) => Number(a.teacher_id) === Number(user.id))
-            : [];
-          setAnnouncements(mine);
-        }
-      } catch {
-        // silencieux
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAll();
-  }, []);
-
-  // ── Créer une session ───────────────────────────────────────────────────────
-  const handleCreate = async (e) => {
-    e.preventDefault();
-
-    if (!announcementId || !level || !minStudents || !maxStudents || !openingDate || !closingDate) {
-      alert("Veuillez remplir tous les champs.");
-      return;
-    }
-
-    if (Number(minStudents) < 2) {
-      alert("Le minimum doit être d'au moins 2 élèves.");
-      return;
-    }
-
-    if (Number(maxStudents) < Number(minStudents)) {
-      alert("Le maximum doit être supérieur ou égal au minimum.");
-      return;
-    }
-
-    // Récupérer la matière depuis l'annonce sélectionnée
-    const ann = announcements.find((a) => String(a.id) === String(announcementId));
-
-    setSubmitting(true);
-    try {
-      const res = await fetch("http://localhost:5000/api/group-classes", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json", ...headers },
-        body: JSON.stringify({
-          teacher_id:      user.id,
-          announcement_id: announcementId,
-          subject:         ann?.subject || "—",
-          level,
-          min_students:    minStudents,
-          max_students:    maxStudents,
-          opening_date:    openingDate,
-          closing_date:    closingDate,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || "Erreur création session");
-        return;
-      }
-
-      alert("Session collective créée !");
-      // Recharger la liste
-      const refreshRes = await fetch(
-        `http://localhost:5000/api/group-classes/teacher/${user.id}`,
-        { headers }
-      );
-      if (refreshRes.ok) {
-        const refreshed = await refreshRes.json();
-        setClasses(Array.isArray(refreshed) ? refreshed : []);
-      }
-
-      // Reset form
-      setAnnouncementId("");
-      setLevel("");
-      setMinStudents("2");
-      setMaxStudents("6");
-      setOpeningDate("");
-      setClosingDate("");
-    } catch {
-      alert("Erreur de connexion au serveur");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  // ── Clore une session ───────────────────────────────────────────────────────
-  const handleClose = async (classId) => {
-    if (!window.confirm("Clore cette session ? Le résultat sera définitif.")) return;
-
+    setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/group-classes/${classId}/close`,
-        { method: "PUT", headers }
+        `http://localhost:5001/api/group-classes/teacher/${user.id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
-      alert(data.message || "Session close");
-
-      // Recharger
-      const refreshRes = await fetch(
-        `http://localhost:5000/api/group-classes/teacher/${user.id}`,
-        { headers }
-      );
-      if (refreshRes.ok) {
-        const refreshed = await refreshRes.json();
-        setClasses(Array.isArray(refreshed) ? refreshed : []);
-      }
+      setSessions(Array.isArray(data) ? data : []);
     } catch {
-      alert("Erreur de connexion au serveur");
+      setErrorMsg("Impossible de charger les sessions.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // ── Stats ───────────────────────────────────────────────────────────────────
-  const countOuverte  = classes.filter((c) => c.status === "ouverte").length;
-  const countValidee  = classes.filter((c) => c.status === "validee").length;
-  const countAnnulee  = classes.filter((c) => c.status === "annulee").length;
-  const totalInscrits = classes.reduce((acc, c) => acc + Number(c.enrolled_count || 0), 0);
+  useEffect(() => { charger(); }, []);
 
-  const initiale = user?.prenom?.[0]?.toUpperCase() || "P";
+  // le prof accepte ou refuse une session
+  const repondre = async (sessionId, decision) => {
+    const label = decision === "accepted" ? "accepter" : "refuser";
+    if (!window.confirm(`Voulez-vous vraiment ${label} cette session ?`)) return;
+    try {
+      const res = await fetch(
+        `http://localhost:5001/api/group-classes/${sessionId}/repondre`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ decision, teacher_id: user.id }),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erreur");
+      setSuccessMsg(data.message);
+      setTimeout(() => setSuccessMsg(""), 4000);
+      charger();
+    } catch (err) {
+      setErrorMsg(err.message || "Erreur.");
+    }
+  };
+
+  // le prof clôt une session
+  const clore = async (sessionId) => {
+    if (!window.confirm("Clore cette session ? Si le minimum d'élèves est atteint, elle sera validée.")) return;
+    try {
+      const res = await fetch(
+        `http://localhost:5001/api/group-classes/${sessionId}/close`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ teacher_id: user.id }),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erreur");
+      setSuccessMsg(data.message);
+      setTimeout(() => setSuccessMsg(""), 5001);
+      charger();
+    } catch (err) {
+      setErrorMsg(err.message || "Erreur lors de la clôture.");
+    }
+  };
+
+  const pillStatut = (s) => {
+    const map = {
+      pending:  { bg: "#FEF9C3", txt: "#92400E", label: "En attente" },
+      accepted: { bg: "#ECFDF5", txt: "#065F46", label: "Acceptée" },
+      refused:  { bg: "#FEF2F2", txt: "#991B1B", label: "Refusée" },
+      ouverte:  { bg: "#EFF6FF", txt: "#1D4ED8", label: "Ouverte" },
+      complete: { bg: "#F3E8FF", txt: "#6B21A8", label: "Complète" },
+      validee:  { bg: "#ECFDF5", txt: "#065F46", label: "Validée" },
+      annulee:  { bg: "#FEF2F2", txt: "#991B1B", label: "Annulée" },
+    };
+    const st = map[s] || { bg: "#F3F4F6", txt: "#6B7280", label: s };
+    return <span style={{ ...S.pill, background: st.bg, color: st.txt }}>{st.label}</span>;
+  };
+
+  const enAttente = sessions.filter(s => s.teacher_status === "pending");
+  const actives   = sessions.filter(s => s.teacher_status === "accepted" && s.status === "ouverte");
+  const autres    = sessions.filter(s => s.teacher_status !== "pending" && (s.status !== "ouverte" || s.teacher_status === "refused"));
 
   return (
     <div style={S.wrap}>
       <div style={S.dash}>
-        {/* ── SIDEBAR ── */}
         <aside style={S.sidebar}>
           <div style={S.sbBrand}>
-            <div style={{ ...S.logo, fontSize: 20 }}>
-              NOVA<span style={S.logoEm}>DEMY</span>
-            </div>
+            <div style={S.logo}>NOVA<span style={S.logoEm}>DEMY</span></div>
             <span style={S.sbRole}>Professeur</span>
           </div>
-
           <nav style={S.sbNav}>
             <span style={S.sbLabel}>Principal</span>
             <a style={S.sbLink} href="/teacher/dashboard">🏠 Tableau de bord</a>
             <a style={S.sbLink} href="/teacher/profile">👤 Mon profil</a>
-            <a style={S.sbLink} href="/teacher/announcements">📢 Annonces</a>
-
+            <a style={S.sbLink} href="/teacher/announcements">📢 Mes annonces</a>
             <span style={S.sbLabel}>Organisation</span>
             <a style={S.sbLink} href="/teacher/planning">📅 Planning</a>
-            <a style={S.sbLinkActive} href="/teacher/collective/classes">👥 Classes collectives</a>
-            <a style={S.sbLink} href="/teacher/requests">📬 Demandes d'essai</a>
-            <a style={S.sbLink} href="/student/chat">💬 Messages</a>
-
+            <a style={S.sbLink} href="/teacher/requests">📬 Demandes</a>
+            <a style={S.sbLink} href="/teacher/students">🎓 Mes élèves</a>
+            <a style={S.sbLink} href="/chat">💬 Messages</a>
             <span style={S.sbLabel}>Compte</span>
             <a style={S.sbLink} href="/teacher/revenue">💳 Revenus</a>
-            <a style={S.sbLink} href="/teacher/propose/formula">📦 Nos formules</a>
+            <a style={S.sbLinkActive} href="/teacher/collective/classes">👥 Classes collectives</a>
           </nav>
-
           <div style={S.sbUser}>
-            <div style={S.av}>{initiale}</div>
+            <div style={S.av}>{user?.prenom?.[0]?.toUpperCase() || "P"}</div>
             <div>
-              <div style={{ fontSize: 16, fontWeight: 700 }}>
-                {user ? `${user.prenom} ${user.nom}` : "Prénom Nom"}
-              </div>
-              <div style={{ fontSize: 14, color: "#9CA3AF", marginTop: 2 }}>
-                Professeur
-              </div>
+              <div style={{ fontSize: 15, fontWeight: 700 }}>{user ? `${user.prenom} ${user.nom}` : "Prof"}</div>
+              <div style={{ fontSize: 13, color: "#9CA3AF" }}>Professeur</div>
             </div>
           </div>
         </aside>
 
-        {/* ── MAIN ── */}
         <main style={S.main}>
-          <div style={S.topBar}>
-            <p style={S.smallTitle}>Classes collectives</p>
-            <div style={S.smallSub}>
-              Ouvrez une session collective sur une période définie. Si le nombre
-              minimum d'élèves n'est pas atteint à la clôture, la session sera
-              annulée et les élèves inscrits seront notifiés.
-            </div>
+          <div style={S.pageTitle}>👥 Classes collectives</div>
+          <div style={S.pageSub}>
+            Les élèves créent des sessions de groupe et vous les soumettent. Acceptez ou refusez les demandes, puis clôturez quand la session est terminée.
           </div>
 
-          {/* ── STATS ── */}
+          {successMsg && <div style={S.successMsg}>{successMsg}</div>}
+          {errorMsg && <div style={S.errorMsg} onClick={() => setErrorMsg("")}>{errorMsg}</div>}
+
           <div style={S.stats}>
             <div style={S.statAccent}>
-              <div style={S.statLabelW}>Sessions ouvertes</div>
-              <div style={S.statValW}>{loading ? "…" : countOuverte}</div>
+              <div style={S.statLabelW}>En attente</div>
+              <div style={S.statValW}>{enAttente.length}</div>
             </div>
             <div style={S.stat}>
-              <div style={S.statLabel}>Élèves inscrits</div>
-              <div style={S.statVal}>{loading ? "…" : totalInscrits}</div>
+              <div style={S.statLabel}>Sessions actives</div>
+              <div style={S.statVal}>{actives.length}</div>
             </div>
             <div style={S.stat}>
-              <div style={S.statLabel}>Validées</div>
-              <div style={S.statVal}>{loading ? "…" : countValidee}</div>
-            </div>
-            <div style={S.stat}>
-              <div style={S.statLabel}>Annulées</div>
-              <div style={S.statVal}>{loading ? "…" : countAnnulee}</div>
+              <div style={S.statLabel}>Total sessions</div>
+              <div style={S.statVal}>{sessions.length}</div>
             </div>
           </div>
 
-          {/* ── FORMULAIRE ── */}
+          {/* Demandes en attente */}
           <div style={S.card}>
-            <div style={S.cardTitle}>Créer une session collective</div>
-            <div style={S.cardDesc}>
-              Associez la session à l'une de vos annonces. Les élèves pourront s'inscrire
-              jusqu'à la date de clôture.
+            <div style={S.cardTitle}>
+              🕐 Demandes en attente
+              {enAttente.length > 0 && (
+                <span style={{ ...S.pill, background: "#FEF9C3", color: "#92400E", marginLeft: 10, fontSize: 12 }}>
+                  {enAttente.length} nouvelle{enAttente.length > 1 ? "s" : ""}
+                </span>
+              )}
             </div>
-
-            <div style={S.noteBox}>
-              Une session est maintenue uniquement si le nombre minimum d'élèves est
-              atteint à la date de clôture. Dans le cas contraire, elle est annulée
-              automatiquement lors de la clôture.
-            </div>
-
-            <form onSubmit={handleCreate}>
-              <div style={S.field}>
-                <label style={S.label}>Annonce associée</label>
-                <select
-                  value={announcementId}
-                  onChange={(e) => setAnnouncementId(e.target.value)}
-                  style={S.input}
-                >
-                  <option value="">Sélectionner une annonce</option>
-                  {announcements.map((a) => (
-                    <option key={a.id} value={a.id}>
-                      {a.title} — {a.subject}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div style={S.fieldGrid}>
-                <div style={S.field}>
-                  <label style={S.label}>Niveau</label>
-                  <select
-                    value={level}
-                    onChange={(e) => setLevel(e.target.value)}
-                    style={S.input}
-                  >
-                    <option value="">Choisir un niveau</option>
-                    <option value="college">Collège</option>
-                    <option value="lycee">Lycée</option>
-                    <option value="superieur">Supérieur</option>
-                    <option value="prepa">Prépa</option>
-                  </select>
-                </div>
-
-                <div style={S.field}>
-                  <label style={S.label}>Nombre minimum d'élèves</label>
-                  <input
-                    type="number"
-                    min="2"
-                    value={minStudents}
-                    onChange={(e) => setMinStudents(e.target.value)}
-                    style={S.input}
-                  />
-                </div>
-              </div>
-
-              <div style={S.fieldGrid}>
-                <div style={S.field}>
-                  <label style={S.label}>Nombre maximum d'élèves</label>
-                  <input
-                    type="number"
-                    min={minStudents}
-                    value={maxStudents}
-                    onChange={(e) => setMaxStudents(e.target.value)}
-                    style={S.input}
-                  />
-                </div>
-
-                <div style={S.field}>
-                  <label style={S.label}>Date d'ouverture</label>
-                  <input
-                    type="datetime-local"
-                    value={openingDate}
-                    onChange={(e) => setOpeningDate(e.target.value)}
-                    style={S.input}
-                  />
-                </div>
-              </div>
-
-              <div style={S.field}>
-                <label style={S.label}>Date de clôture des inscriptions</label>
-                <input
-                  type="datetime-local"
-                  value={closingDate}
-                  onChange={(e) => setClosingDate(e.target.value)}
-                  style={S.input}
-                />
-              </div>
-
-              <div style={S.btnRow}>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  style={{
-                    ...S.btn,
-                    ...S.btnPrimary,
-                    opacity: submitting ? 0.5 : 1,
-                    cursor:  submitting ? "not-allowed" : "pointer",
-                  }}
-                >
-                  {submitting ? "Création…" : "Créer la session"}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAnnouncementId("");
-                    setLevel("");
-                    setMinStudents("2");
-                    setMaxStudents("6");
-                    setOpeningDate("");
-                    setClosingDate("");
-                  }}
-                  style={{ ...S.btn, ...S.btnGhost }}
-                >
-                  Réinitialiser
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* ── LISTE DES SESSIONS ── */}
-          <div style={S.card}>
-            <div style={S.cardTitle}>Mes sessions collectives</div>
-
             {loading ? (
-              <div style={S.empty}><p style={S.emptyText}>Chargement…</p></div>
-            ) : classes.length === 0 ? (
-              <div style={S.empty}>
-                <div style={S.emptyIcon}>👥</div>
-                <div style={S.emptyText}>Aucune session collective créée pour le moment.</div>
-              </div>
+              <div style={S.empty}>Chargement…</div>
+            ) : enAttente.length === 0 ? (
+              <div style={S.empty}>Aucune demande en attente.</div>
             ) : (
-              <div style={S.list}>
-                {classes.map((c) => {
-                  const statusColor = STATUS_COLORS[c.status] || STATUS_COLORS.fermee;
-                  const enrolled    = Number(c.enrolled_count || 0);
-                  const max         = Number(c.max_students);
-                  const min         = Number(c.min_students);
-                  const pct         = max > 0 ? Math.min((enrolled / max) * 100, 100) : 0;
-                  const progressColor = enrolled >= min ? "#059669" : "#2563EB";
-
-                  return (
-                    <div key={c.id} style={S.classCard}>
-                      <div style={S.itemTop}>
-                        <div>
-                          <h4 style={S.itemTitle}>{c.subject}</h4>
-                          <p style={S.itemSub}>
-                            Ouverture : {new Date(c.opening_date).toLocaleDateString("fr-FR")}
-                            {" → "}
-                            Clôture : {new Date(c.closing_date).toLocaleDateString("fr-FR")}
-                          </p>
-                        </div>
-                        <span style={{ ...S.pill, background: statusColor.bg, color: statusColor.col }}>
-                          {c.status}
-                        </span>
-                      </div>
-
-                      <div style={S.pillRow}>
-                        <span style={{ ...S.pill, background: "#EFF6FF", color: "#2563EB" }}>
-                          {LEVEL_LABELS[c.level] || c.level}
-                        </span>
-                        <span style={{ ...S.pill, background: "#F3F4F6", color: "#4B5563" }}>
-                          Min {c.min_students} · Max {c.max_students} élèves
-                        </span>
-                      </div>
-
-                      {/* Barre de progression */}
-                      <div style={S.itemInfo}>
-                        Inscrits : <strong>{enrolled}</strong> / {max}
-                        {enrolled < min && (
-                          <span style={{ color: "#EA580C", marginLeft: 8 }}>
-                            (min {min} requis)
-                          </span>
-                        )}
-                      </div>
-                      <div style={S.progressBar}>
-                        <div style={{ ...S.progressFill, width: `${pct}%`, background: progressColor }} />
-                      </div>
-
-                      {/* Bouton clore (uniquement si ouverte ou complete) */}
-                      {(c.status === "ouverte" || c.status === "complete") && (
-                        <div style={{ ...S.btnRow, marginTop: 12 }}>
-                          <button
-                            type="button"
-                            onClick={() => handleClose(c.id)}
-                            style={{ ...S.btn, ...S.btnDanger }}
-                          >
-                            Clore la session
-                          </button>
-                        </div>
-                      )}
-
-                      {c.status === "annulee" && (
-                        <div style={{ ...S.warningBox, marginTop: 12, marginBottom: 0 }}>
-                          Session annulée — minimum non atteint. Les élèves inscrits ont été notifiés.
-                        </div>
-                      )}
-
-                      {c.status === "validee" && (
-                        <div style={{ ...S.noteBox, marginTop: 12, marginBottom: 0 }}>
-                          Session validée — {enrolled} élève(s) confirmé(s).
-                        </div>
-                      )}
+              enAttente.map(s => {
+                const pct = Math.round((Number(s.enrolled_count) / Number(s.max_students)) * 100);
+                return (
+                  <div key={s.id} style={S.sessionCard}>
+                    <div style={S.sessionTop}>
+                      <div style={S.sessionTitle}>{s.subject} — {s.level}</div>
+                      <div style={S.codeBadge}>{s.session_code || "—"}</div>
                     </div>
-                  );
-                })}
-              </div>
+                    <div style={S.sessionMeta}>
+                      {s.enrolled_count} / {s.max_students} élèves (min. {s.min_students})<br />
+                      Date souhaitée : {s.opening_date ? new Date(s.opening_date).toLocaleDateString("fr-FR") : "—"}
+                    </div>
+                    <div style={S.progressBar}>
+                      <div style={S.progressFill(pct)} />
+                    </div>
+                    <div style={{ ...S.btnRow, marginTop: 12 }}>
+                      <button style={S.btnAccept} onClick={() => repondre(s.id, "accepted")}>
+                        ✓ Accepter
+                      </button>
+                      <button style={S.btnRefuse} onClick={() => repondre(s.id, "refused")}>
+                        ✗ Refuser
+                      </button>
+                    </div>
+                  </div>
+                );
+              })
             )}
           </div>
+
+          {/* Sessions actives */}
+          <div style={S.card}>
+            <div style={S.cardTitle}>✅ Sessions actives</div>
+            {actives.length === 0 ? (
+              <div style={S.empty}>Aucune session active.</div>
+            ) : (
+              actives.map(s => {
+                const pct = Math.round((Number(s.enrolled_count) / Number(s.max_students)) * 100);
+                return (
+                  <div key={s.id} style={S.sessionCard}>
+                    <div style={S.sessionTop}>
+                      <div style={S.sessionTitle}>{s.subject} — {s.level}</div>
+                      <div style={S.codeBadge}>{s.session_code}</div>
+                    </div>
+                    <div style={S.sessionMeta}>
+                      {s.enrolled_count} / {s.max_students} élèves · min. {s.min_students} requis<br />
+                      {pillStatut(s.status)} · {pillStatut(s.teacher_status)}
+                    </div>
+                    <div style={S.progressBar}>
+                      <div style={S.progressFill(pct)} />
+                    </div>
+                    <div style={{ ...S.btnRow, marginTop: 12 }}>
+                      <button style={S.btnClose} onClick={() => clore(s.id)}>
+                        Clôturer la session
+                      </button>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+
+          {/* Historique */}
+          {autres.length > 0 && (
+            <div style={S.card}>
+              <div style={S.cardTitle}>📁 Historique</div>
+              {autres.map(s => (
+                <div key={s.id} style={S.sessionCard}>
+                  <div style={S.sessionTop}>
+                    <div style={S.sessionTitle}>{s.subject} — {s.level}</div>
+                    <div>{pillStatut(s.status)}</div>
+                  </div>
+                  <div style={S.sessionMeta}>
+                    {s.enrolled_count} / {s.max_students} élèves ·{" "}
+                    {s.opening_date ? new Date(s.opening_date).toLocaleDateString("fr-FR") : "—"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </main>
       </div>
     </div>

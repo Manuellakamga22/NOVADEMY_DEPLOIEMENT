@@ -41,11 +41,11 @@ function AdminStats() {
       try {
         const [teachersRes, studentsRes, trialsRes, paymentsRes, groupRes] =
           await Promise.all([
-            fetch("http://localhost:5000/api/teachers",                   { headers }),
-            fetch("http://localhost:5000/api/students",                   { headers }),
-            fetch("http://localhost:5000/api/trials",                     { headers }),
-            fetch("http://localhost:5000/api/payments",                   { headers }),
-            fetch("http://localhost:5000/api/group-classes/open",         { headers }),
+            fetch("http://localhost:5001/api/teachers",                   { headers }),
+            fetch("http://localhost:5001/api/students",                   { headers }),
+            fetch("http://localhost:5001/api/trials",                     { headers }),
+            fetch("http://localhost:5001/api/payments",                   { headers }),
+            fetch("http://localhost:5001/api/group-classes/open",         { headers }),
           ]);
 
         if (teachersRes.ok)     setTeachers(await teachersRes.json());

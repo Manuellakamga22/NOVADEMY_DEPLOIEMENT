@@ -1,6 +1,6 @@
 # 14_variables_production.md
 
-> Séance 3 — Bloc 2 : Variables d'environnement de production
+>  — Bloc 2 : Variables d'environnement de production
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 

@@ -303,7 +303,7 @@ function StudentProfile() {
 
     try {
       const response = await fetch(
-        `http://localhost:5001/api/student-profile/${user.id}`
+        `${import.meta.env.VITE_API_URL}/api/student-profile/${user.id}`
       );
 
       const data = await response.json();
@@ -346,7 +346,7 @@ function StudentProfile() {
     try {
       setSaving(true);
 
-      const response = await fetch("http://localhost:5001/api/student-profile", {
+      const response = await fetch("${import.meta.env.VITE_API_URL}/api/student-profile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

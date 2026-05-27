@@ -41,11 +41,11 @@ function AdminStats() {
       try {
         const [teachersRes, studentsRes, trialsRes, paymentsRes, groupRes] =
           await Promise.all([
-            fetch("http://localhost:5001/api/teachers",                   { headers }),
-            fetch("http://localhost:5001/api/students",                   { headers }),
-            fetch("http://localhost:5001/api/trials",                     { headers }),
-            fetch("http://localhost:5001/api/payments",                   { headers }),
-            fetch("http://localhost:5001/api/group-classes/open",         { headers }),
+            fetch("${import.meta.env.VITE_API_URL}/api/teachers",                   { headers }),
+            fetch("${import.meta.env.VITE_API_URL}/api/students",                   { headers }),
+            fetch("${import.meta.env.VITE_API_URL}/api/trials",                     { headers }),
+            fetch("${import.meta.env.VITE_API_URL}/api/payments",                   { headers }),
+            fetch("${import.meta.env.VITE_API_URL}/api/group-classes/open",         { headers }),
           ]);
 
         if (teachersRes.ok)     setTeachers(await teachersRes.json());

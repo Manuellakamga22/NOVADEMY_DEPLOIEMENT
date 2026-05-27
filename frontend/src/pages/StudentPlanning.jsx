@@ -140,7 +140,7 @@ function StudentPlanning() {
     }
 
     try {
-      const res = await fetch(`http://localhost:5001/api/student-planning/${user.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/student-planning/${user.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -169,7 +169,7 @@ function StudentPlanning() {
       const fin = toISO(joursAffich[6]);
 
       const res = await fetch(
-        `http://localhost:5001/api/teacher-planning/teacher/${teacherId}/semaine?debut=${debut}&fin=${fin}`,
+        `${import.meta.env.VITE_API_URL}/api/teacher-planning/teacher/${teacherId}/semaine?debut=${debut}&fin=${fin}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -179,7 +179,7 @@ function StudentPlanning() {
       setCreneauxProf(Array.isArray(data) ? data : []);
     } catch {
       try {
-        const res2 = await fetch(`http://localhost:5001/api/teacher-planning/teacher/${teacherId}`, {
+        const res2 = await fetch(`${import.meta.env.VITE_API_URL}/api/teacher-planning/teacher/${teacherId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data2 = await res2.json();
@@ -282,7 +282,7 @@ function StudentPlanning() {
     }
 
     try {
-      const res = await fetch("http://localhost:5001/api/trial-requests", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/trial-requests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,6 @@
 # 05_points_bloquants.md
 
-> Séance 1 — Bloc 5 : Points bloquants identifiés
+>  — Bloc 5 : Points bloquants identifiés
 > Projet : NOVADEMY — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
@@ -38,8 +38,8 @@ Ces deux valeurs sont des **secrets de développement faciles à deviner**. Le `
 
 **Action prévue.**
 
-- **Séance 2 — Bloc 10 `10_variables_environnement.md`** : générer un `JWT_SECRET` aléatoire de 64+ caractères (par exemple via `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`), créer un `.env.example` listant toutes les variables avec des valeurs placeholders (jamais de vraie valeur), documenter dans le `README` les commandes de génération.
-- **Séance 3** : injecter le vrai `JWT_SECRET` côté serveur de production via les variables d'environnement du conteneur (jamais commité), et utiliser un mot de passe MySQL fort distinct de celui de développement.
+- ** — Bloc 10 `10_variables_environnement.md`** : générer un `JWT_SECRET` aléatoire de 64+ caractères (par exemple via `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`), créer un `.env.example` listant toutes les variables avec des valeurs placeholders (jamais de vraie valeur), documenter dans le `README` les commandes de génération.
+- **** : injecter le vrai `JWT_SECRET` côté serveur de production via les variables d'environnement du conteneur (jamais commité), et utiliser un mot de passe MySQL fort distinct de celui de développement.
 
 **Gravité : BLOQUANT pour la mise en ligne.**
 
@@ -61,9 +61,9 @@ Ces deux valeurs sont des **secrets de développement faciles à deviner**. Le `
 
 **Action prévue.**
 
-- **Séance 2 — Bloc 10 `10_variables_environnement.md`** : créer `backend/.env.example` avec la liste complète des variables, leur description et un exemple non sensible.
-- **Séance 2 — Bloc 11 `11_scripts_et_commandes.md`** : créer un `README.md` racine couvrant : présentation du projet, stack, prérequis, démarrage local, démarrage Docker, variables d'environnement, scripts disponibles, FAQ.
-- **Séance 2 — Bloc 11** : créer un `backend/README.md` détaillant les endpoints API et un `frontend/README.md` enrichi (ne pas laisser le template Vite).
+- ** — Bloc 10 `10_variables_environnement.md`** : créer `backend/.env.example` avec la liste complète des variables, leur description et un exemple non sensible.
+- ** — Bloc 11 `11_scripts_et_commandes.md`** : créer un `README.md` racine couvrant : présentation du projet, stack, prérequis, démarrage local, démarrage Docker, variables d'environnement, scripts disponibles, FAQ.
+- ** — Bloc 11** : créer un `backend/README.md` détaillant les endpoints API et un `frontend/README.md` enrichi (ne pas laisser le template Vite).
 
 **Gravité : ÉLEVÉE.**
 
@@ -90,11 +90,11 @@ Or :
 
 **Action prévue.**
 
-- **Séance 2 — Bloc 11 `11_scripts_et_commandes.md`** :
+- ** — Bloc 11 `11_scripts_et_commandes.md`** :
   - changer le fallback de `server.js` à `5001` ;
   - ajouter `server: { port: 5174, host: true }` dans `vite.config.js` ;
   - documenter ces ports dans le `README` racine.
-- **Séance 3 — Bloc 13 `13_architecture_deploiement.md` + Bloc 14 `14_variables_production.md`** : mettre à jour le `docker-compose.yml` (mapping `"5001:5001"` côté back, `"5174:80"` ou `"80:80"` côté front selon le reverse proxy choisi) et fournir un `.env` de production cohérent.
+- ** — Bloc 13 `13_architecture_deploiement.md` + Bloc 14 `14_variables_production.md`** : mettre à jour le `docker-compose.yml` (mapping `"5001:5001"` côté back, `"5174:80"` ou `"80:80"` côté front selon le reverse proxy choisi) et fournir un `.env` de production cohérent.
 
 **Gravité : ÉLEVÉE** (pas bloquante pour le local mais elle l'est pour le déploiement reproductible).
 
@@ -123,7 +123,7 @@ Or `cors` et `multer` sont **déjà** déclarés et utilisés dans `backend/pack
 
 **Action prévue.**
 
-- **Séance 2 — Bloc 7 `07_nettoyage_effectue.md`** : soit supprimer purement le `package.json` racine, soit le transformer en un vrai manifest de workspace si on souhaite à terme un monorepo (`workspaces: ["backend", "frontend"]`). Décision la plus simple pour le module : **suppression** et documentation de la décision dans le bilan de nettoyage.
+- ** — Bloc 7 `07_nettoyage_effectue.md`** : soit supprimer purement le `package.json` racine, soit le transformer en un vrai manifest de workspace si on souhaite à terme un monorepo (`workspaces: ["backend", "frontend"]`). Décision la plus simple pour le module : **suppression** et documentation de la décision dans le bilan de nettoyage.
 
 **Gravité : MOYENNE.**
 
@@ -142,9 +142,9 @@ Or `cors` et `multer` sont **déjà** déclarés et utilisés dans `backend/pack
 
 **Action prévue.**
 
-- **Séance 3 — Bloc 13 `13_architecture_deploiement.md`** : décrire l'architecture cible (registre Docker, serveur de prod, Nginx + Let's Encrypt, sauvegardes MySQL).
-- **Séance 3 — Bloc 16 `16_build_et_publication.md`** : ajouter un workflow GitHub Actions minimum couvrant `lint → test → build images Docker → publication` et documenter le déclencheur (push sur `main`, ou release tag).
-- **Séance 3 — Bloc 17 `17_plan_mise_en_ligne.md`** : formaliser la procédure pas-à-pas de mise en ligne.
+- ** — Bloc 13 `13_architecture_deploiement.md`** : décrire l'architecture cible (registre Docker, serveur de prod, Nginx + Let's Encrypt, sauvegardes MySQL).
+- ** — Bloc 16 `16_build_et_publication.md`** : ajouter un workflow GitHub Actions minimum couvrant `lint → test → build images Docker → publication` et documenter le déclencheur (push sur `main`, ou release tag).
+- ** — Bloc 17 `17_plan_mise_en_ligne.md`** : formaliser la procédure pas-à-pas de mise en ligne.
 
 **Gravité : MOYENNE → ÉLEVÉE pour un projet « professionnel ».**
 
@@ -154,17 +154,17 @@ Or `cors` et `multer` sont **déjà** déclarés et utilisés dans `backend/pack
 
 | # | Problème | Gravité | Séance de traitement | Livrable principal |
 |:-:|---|:-:|:-:|---|
-| 1 | `JWT_SECRET` trivial + secrets de dev en clair | **Bloquant** | Séance 2 + Séance 3 | `10_variables_environnement.md`, `14_variables_production.md` |
-| 2 | Absence de `README.md` racine et de `.env.example` | Élevée | Séance 2 | `10_variables_environnement.md`, `11_scripts_et_commandes.md` |
-| 3 | Ports d'écoute incohérents (5001 / 5174) | Élevée | Séance 2 + Séance 3 | `11_scripts_et_commandes.md`, `13_architecture_deploiement.md` |
-| 4 | Doublon de dépendances dans `package.json` racine | Moyenne | Séance 2 | `07_nettoyage_effectue.md` |
-| 5 | Pas de pipeline CI/CD ni de procédure formelle | Moyenne / Élevée | Séance 3 | `13_architecture_deploiement.md`, `16_build_et_publication.md`, `17_plan_mise_en_ligne.md` |
+| 1 | `JWT_SECRET` trivial + secrets de dev en clair | **Bloquant** |  +  | `10_variables_environnement.md`, `14_variables_production.md` |
+| 2 | Absence de `README.md` racine et de `.env.example` | Élevée |  | `10_variables_environnement.md`, `11_scripts_et_commandes.md` |
+| 3 | Ports d'écoute incohérents (5001 / 5174) | Élevée |  +  | `11_scripts_et_commandes.md`, `13_architecture_deploiement.md` |
+| 4 | Doublon de dépendances dans `package.json` racine | Moyenne |  | `07_nettoyage_effectue.md` |
+| 5 | Pas de pipeline CI/CD ni de procédure formelle | Moyenne / Élevée |  | `13_architecture_deploiement.md`, `16_build_et_publication.md`, `17_plan_mise_en_ligne.md` |
 
 ---
 
 ## En résumé
 
-Aucun de ces 5 points n'empêche aujourd'hui le projet de **tourner en local** (le smoke test de la Séance 1 a réussi). En revanche, **tous les 5 doivent être levés avant de mettre NOVADEMY en ligne**, et 3 d'entre eux (problèmes 1, 2, 3) seront traités dès la Séance 2 — Préparation.
+Aucun de ces 5 points n'empêche aujourd'hui le projet de **tourner en local** (le smoke test de la  a réussi). En revanche, **tous les 5 doivent être levés avant de mettre NOVADEMY en ligne**, et 3 d'entre eux (problèmes 1, 2, 3) seront traités dès la  — Préparation.
 
 ---
 

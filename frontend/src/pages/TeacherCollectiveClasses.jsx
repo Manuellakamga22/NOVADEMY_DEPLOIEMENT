@@ -58,7 +58,7 @@ function TeacherCollectiveClasses() {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5001/api/group-classes/teacher/${user.id}`,
+        `${import.meta.env.VITE_API_URL}/api/group-classes/teacher/${user.id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
@@ -78,7 +78,7 @@ function TeacherCollectiveClasses() {
     if (!window.confirm(`Voulez-vous vraiment ${label} cette session ?`)) return;
     try {
       const res = await fetch(
-        `http://localhost:5001/api/group-classes/${sessionId}/repondre`,
+        `${import.meta.env.VITE_API_URL}/api/group-classes/${sessionId}/repondre`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -100,7 +100,7 @@ function TeacherCollectiveClasses() {
     if (!window.confirm("Clore cette session ? Si le minimum d'élèves est atteint, elle sera validée.")) return;
     try {
       const res = await fetch(
-        `http://localhost:5001/api/group-classes/${sessionId}/close`,
+        `${import.meta.env.VITE_API_URL}/api/group-classes/${sessionId}/close`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },

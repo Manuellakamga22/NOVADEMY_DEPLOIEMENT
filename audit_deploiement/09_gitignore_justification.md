@@ -1,6 +1,6 @@
 # 09_gitignore_justification.md
 
-> Séance 2 — Bloc 3 : Créer ou corriger le `.gitignore`
+>  — Bloc 3 : Créer ou corriger le `.gitignore`
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
@@ -124,7 +124,7 @@ frontend/logs/
 | Non versionnable comme texte | Conflits Git impossibles à résoudre proprement. |
 | Exception `novademy_db.schema.sql` | Si on souhaite versionner **uniquement la structure** (sans données), on peut autoriser un fichier précis. Pour ce projet, le fichier `novademy_db.sql` actuel est laissé exclu. |
 
-> **Note importante.** Ce projet possède aujourd'hui `novademy_db.sql` à la racine — ce fichier est exclu par cette règle. À terme, il vaudrait mieux le **déplacer dans un dossier `db/`** et le décomposer en deux : `db/schema.sql` (structure, à versionner) et `db/seed.sql` (jeu de test minimal, à versionner). Les vrais dumps de production ne sont **jamais** versionnés. — *À faire en Séance 3.*
+> **Note importante.** Ce projet possède aujourd'hui `novademy_db.sql` à la racine — ce fichier est exclu par cette règle. À terme, il vaudrait mieux le **déplacer dans un dossier `db/`** et le décomposer en deux : `db/schema.sql` (structure, à versionner) et `db/seed.sql` (jeu de test minimal, à versionner). Les vrais dumps de production ne sont **jamais** versionnés. — *À faire en .*
 
 ### 2.7. Uploads utilisateurs (Multer)
 

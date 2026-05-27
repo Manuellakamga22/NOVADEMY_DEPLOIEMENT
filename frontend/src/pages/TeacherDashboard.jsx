@@ -314,19 +314,19 @@ function TeacherDashboard() {
         const [planningRes, trialsRes, announcementsRes, profileRes] =
           await Promise.all([
             fetch(
-              `http://localhost:5001/api/teacher-planning/teacher/${user.id}`,
+              `${import.meta.env.VITE_API_URL}/api/teacher-planning/teacher/${user.id}`,
               { headers }
             ),
             fetch(
-              `http://localhost:5001/api/trials/teacher/${user.id}`,
+              `${import.meta.env.VITE_API_URL}/api/trials/teacher/${user.id}`,
               { headers }
             ),
             fetch(
-              `http://localhost:5001/api/announcements`,
+              `${import.meta.env.VITE_API_URL}/api/announcements`,
               { headers }
             ),
             fetch(
-              `http://localhost:5001/api/teacher-profile/${user.id}`,
+              `${import.meta.env.VITE_API_URL}/api/teacher-profile/${user.id}`,
               { headers }
             ),
           ]);

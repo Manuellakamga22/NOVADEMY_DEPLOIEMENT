@@ -292,8 +292,8 @@ function AdminTeachers() {
     const fetchAll = async () => {
       try {
         const [teachersRes, annRes] = await Promise.all([
-          fetch("http://localhost:5001/api/teachers",      { headers }),
-          fetch("http://localhost:5001/api/announcements", { headers }),
+          fetch("${import.meta.env.VITE_API_URL}/api/teachers",      { headers }),
+          fetch("${import.meta.env.VITE_API_URL}/api/announcements", { headers }),
         ]);
 
         if (teachersRes.ok) {

@@ -456,8 +456,8 @@ function StudentChat() {
     const fetchContacts = async () => {
       try {
         const endpoint = isTeacher
-          ? `http://localhost:5001/api/trials/teacher/${user.id}`
-          : `http://localhost:5001/api/trials/student/${user.id}`;
+          ? `${import.meta.env.VITE_API_URL}/api/trials/teacher/${user.id}`
+          : `${import.meta.env.VITE_API_URL}/api/trials/student/${user.id}`;
 
         const res  = await fetch(endpoint, {
           headers: { Authorization: `Bearer ${token}` },
@@ -519,7 +519,7 @@ function StudentChat() {
     setLoadingMsg(true);
     try {
       const res = await fetch(
-        `http://localhost:5001/api/messages/${user.id}/${selectedReceiverId}`,
+        `${import.meta.env.VITE_API_URL}/api/messages/${user.id}/${selectedReceiverId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (!res.ok) return;
@@ -535,7 +535,7 @@ function StudentChat() {
   const fetchFormula = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5001/api/packs/student/${user.id}`,
+        `${import.meta.env.VITE_API_URL}/api/packs/student/${user.id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (!res.ok) return;
@@ -561,7 +561,7 @@ function StudentChat() {
 
     setSending(true);
     try {
-      const res = await fetch("http://localhost:5001/api/messages", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/messages", {
         method:  "POST",
         headers: {
           "Content-Type": "application/json",
@@ -596,7 +596,7 @@ function StudentChat() {
 
     try {
       const res = await fetch(
-        `http://localhost:5001/api/packs/accept/${formula.id}`,
+        `${import.meta.env.VITE_API_URL}/api/packs/accept/${formula.id}`,
         {
           method:  "PUT",
           headers: {

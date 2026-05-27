@@ -321,7 +321,7 @@ function StudentDashboard() {
       try {
         // 1. Demandes d'essai de l'élève
         const trialsRes = await fetch(
-          `http://localhost:5001/api/trials/student/${user.id}`,
+          `${import.meta.env.VITE_API_URL}/api/trials/student/${user.id}`,
           { headers }
         );
         if (trialsRes.ok) {
@@ -331,7 +331,7 @@ function StudentDashboard() {
 
         // 2. Paiements de l'élève (= cours actifs)
         const paymentsRes = await fetch(
-          `http://localhost:5001/api/payments/student/${user.id}`,
+          `${import.meta.env.VITE_API_URL}/api/payments/student/${user.id}`,
           { headers }
         );
         if (paymentsRes.ok) {
@@ -341,7 +341,7 @@ function StudentDashboard() {
 
         // 3. Profil élève
         const profileRes = await fetch(
-          `http://localhost:5001/api/student-profile/${user.id}`,
+          `${import.meta.env.VITE_API_URL}/api/student-profile/${user.id}`,
           { headers }
         );
         if (profileRes.ok) {
@@ -351,7 +351,7 @@ function StudentDashboard() {
 
         // 4. Profs recommandés (3 premiers de l'annuaire)
         const teachersRes = await fetch(
-          `http://localhost:5001/api/announcements`,
+          `${import.meta.env.VITE_API_URL}/api/announcements`,
           { headers }
         );
         if (teachersRes.ok) {

@@ -48,7 +48,7 @@ function AdminSettings() {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/settings", { headers });
+        const res = await fetch("${import.meta.env.VITE_API_URL}/api/settings", { headers });
         if (res.ok) {
           const data = await res.json();
           setCommissions({
@@ -68,7 +68,7 @@ function AdminSettings() {
   const handleSaveCommissions = async () => {
     setSaving(true); setCommMsg(null);
     try {
-      const res = await fetch("http://localhost:5001/api/settings", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json", ...headers },
         body: JSON.stringify(commissions),
@@ -86,7 +86,7 @@ function AdminSettings() {
   const handleSaveSeuil = async () => {
     setSaving(true); setSeuilMsg(null);
     try {
-      const res = await fetch("http://localhost:5001/api/settings", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json", ...headers },
         body: JSON.stringify({ seuil_classe_collective: seuil }),

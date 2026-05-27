@@ -1,16 +1,16 @@
 # 19_bilan_mise_en_ligne.md
 
-> Séance 3 — Bloc 7 : Bilan de mise en ligne
+>  — Bloc 7 : Bilan de mise en ligne
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
 ---
 
-## 1. Mission de la Séance 3
+## 1. Mission de la 
 
 > *Préparer et documenter la mise en ligne de NOVADEMY avec Docker Compose.*
 
-La Séance 3 fait suite à la Séance 2 (projet propre, structuré, versionné) pour passer à l'étape concrète du déploiement. L'objectif était de définir et documenter comment les trois services (MySQL, Node.js, React/Nginx) peuvent tourner ensemble en production via Docker.
+La  fait suite à la  (projet propre, structuré, versionné) pour passer à l'étape concrète du déploiement. L'objectif était de définir et documenter comment les trois services (MySQL, Node.js, React/Nginx) peuvent tourner ensemble en production via Docker.
 
 ---
 
@@ -18,19 +18,19 @@ La Séance 3 fait suite à la Séance 2 (projet propre, structuré, versionné) 
 
 | # | Fichier | Contenu | Statut |
 |:-:|---|---|:-:|
-| 1 | `audit_deploiement/13_architecture_deploiement.md` | Architecture Docker, 3 services, réseau interne | ✅ |
-| 2 | `audit_deploiement/14_variables_production.md` | Variables à changer pour la prod, procédure de génération JWT | ✅ |
-| 3 | `audit_deploiement/15_urls_et_connexions.md` | URLs front + API, connexions MySQL/MongoDB, CORS | ✅ |
-| 4 | `audit_deploiement/16_build_et_publication.md` | Build Vite, Dockerfiles, Docker Compose | ✅ |
-| 5 | `audit_deploiement/17_plan_mise_en_ligne.md` | Checklist ordonnée de déploiement | ✅ |
-| 6 | `audit_deploiement/18_schema_deploiement_final.md` | Schéma ASCII, flux de données, réseau Docker | ✅ |
-| 7 | `audit_deploiement/19_bilan_mise_en_ligne.md` | Ce fichier — synthèse de la séance | ✅ |
+| 1 | `documentation technique/13_architecture_deploiement.md` | Architecture Docker, 3 services, réseau interne | ✅ |
+| 2 | `documentation technique/14_variables_production.md` | Variables à changer pour la prod, procédure de génération JWT | ✅ |
+| 3 | `documentation technique/15_urls_et_connexions.md` | URLs front + API, connexions MySQL/MongoDB, CORS | ✅ |
+| 4 | `documentation technique/16_build_et_publication.md` | Build Vite, Dockerfiles, Docker Compose | ✅ |
+| 5 | `documentation technique/17_plan_mise_en_ligne.md` | Checklist ordonnée de déploiement | ✅ |
+| 6 | `documentation technique/18_schema_deploiement_final.md` | Schéma ASCII, flux de données, réseau Docker | ✅ |
+| 7 | `documentation technique/19_bilan_mise_en_ligne.md` | Ce fichier — synthèse de la séance | ✅ |
 
 **7 livrables produits sur 7 attendus.**
 
 ---
 
-## 3. Actions techniques réalisées en Séance 3
+## 3. Actions techniques réalisées en 
 
 En plus de la documentation, plusieurs corrections techniques ont été apportées au projet :
 
@@ -65,9 +65,9 @@ Ajout de `strictPort: true`, `host: true` et configuration du port preview `4173
 
 ---
 
-## 4. Avant / après Séance 3
+## 4. Avant / après 
 
-| Élément | Avant Séance 3 | Après Séance 3 |
+| Élément | Avant  | Après  |
 |---|---|---|
 | Architecture de déploiement | Non documentée | ✅ Documentée (3 services Docker) |
 | Variables de production | Identiques au dev (non sécurisées) | ✅ Documentées et différenciées |
@@ -100,14 +100,14 @@ Ajout de `strictPort: true`, `host: true` et configuration du port preview `4173
 
 | Séance | Mission | Statut |
 |---|---|---|
-| **Séance 1** — Audit | Analyser l'état du projet, identifier les points bloquants | ✅ Terminé |
-| **Séance 2** — Préparation | Nettoyer, versionner, documenter, configurer | ✅ Terminé |
-| **Séance 3** — Mise en ligne | Architecture Docker, variables prod, build, plan de déploiement | ✅ Terminé |
+| **** — Audit | Analyser l'état du projet, identifier les points bloquants | ✅ Terminé |
+| **** — Préparation | Nettoyer, versionner, documenter, configurer | ✅ Terminé |
+| **** — Mise en ligne | Architecture Docker, variables prod, build, plan de déploiement | ✅ Terminé |
 | **Séance 4** — Validation | Tests post-déploiement, CI/CD, documentation API | À venir |
 
 ---
 
-## 7. Engagement de fin de Séance 3
+## 7. Engagement de fin de 
 
 J'ai bien :
 
@@ -120,10 +120,10 @@ J'ai bien :
 - ☒ corrigé les dernières imperfections techniques du code (logs, doublons, scripts) ;
 - ☒ produit ce bilan (livrable 19).
 
-**La Séance 3 — Mise en ligne est terminée.**
+**La  — Mise en ligne est terminée.**
 
 Le projet NOVADEMY est maintenant documenté de l'audit initial jusqu'à l'architecture de déploiement. Il reste la Séance 4 pour valider concrètement le tout avec des tests post-déploiement.
 
 ---
 
-*Fin du fichier 19_bilan_mise_en_ligne.md — Fin de la Séance 3.*
+*Fin du fichier 19_bilan_mise_en_ligne.md — Fin de la .*

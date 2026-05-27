@@ -1,18 +1,41 @@
 const db = require("../db");
 
-// j'insère un paiement
 exports.createPayment = async ({
-  student_id, pack_id, amount, payment_method, payment_date
+  student_id,
+  pack_id,
+  amount,
+  payment_method,
+  payment_date,
+  stripe_session_id,
+  status,
 }) => {
   const [result] = await db.query(
-    `INSERT INTO payments (student_id, pack_id, amount, payment_method, payment_date)
-     VALUES (?, ?, ?, ?, ?)`,
-    [student_id, pack_id, amount, payment_method, payment_date]
+    `INSERT INTO payments 
+     (student_id, pack_id, amount, payment_method, payment_date, stripe_session_id, status)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [
+      student_id,
+      pack_id,
+      amount,
+      payment_method || null,
+      payment_date || new Date(),
+      stripe_session_id || null,
+      status || "paid",
+    ]
   );
+
   return result;
 };
 
-// je récupère les paiements d'un élève
+exports.findByStripeSessionId = async (sessionId) => {
+  const [rows] = await db.query(
+    `SELECT * FROM payments WHERE stripe_session_id = ? LIMIT 1`,
+    [sessionId]
+  );
+
+  return rows[0];
+};
+
 exports.getPaymentsByStudent = async (studentId) => {
   const [rows] = await db.query(
     `SELECT p.*, fp.type AS formula_type, fp.teacher_id,
@@ -24,12 +47,11 @@ exports.getPaymentsByStudent = async (studentId) => {
      ORDER BY p.created_at DESC`,
     [studentId]
   );
+
   return rows;
 };
 
-// je récupère les revenus d'un prof depuis ses formules payées
 exports.getPaymentsByTeacher = async (teacherId) => {
-  // je récupère les paiements reçus par ce prof
   const [rows] = await db.query(
     `SELECT p.*, fp.type AS formula_type, fp.final_price, fp.teacher_rate,
             fp.total_hours,
@@ -41,10 +63,10 @@ exports.getPaymentsByTeacher = async (teacherId) => {
      ORDER BY p.created_at DESC`,
     [teacherId]
   );
+
   return rows;
 };
 
-// Admin : tous les paiements avec noms élève et pack
 exports.getAllPayments = async () => {
   const [rows] = await db.query(
     `SELECT p.*,
@@ -55,5 +77,6 @@ exports.getAllPayments = async () => {
      LEFT JOIN formula_proposals fp ON fp.id = p.pack_id
      ORDER BY p.payment_date DESC`
   );
+
   return rows;
 };

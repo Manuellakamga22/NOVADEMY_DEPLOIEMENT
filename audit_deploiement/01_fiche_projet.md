@@ -1,6 +1,6 @@
 # 01_fiche_projet.md
 
-> Séance 1 — Bloc 1 : Choix et ouverture du projet
+>  — Bloc 1 : Choix et ouverture du projet
 > Module : Déploiement de projet informatique — Formatrice Hanane SADEG (Diginova)
 > Étudiante : KAMGA MAFFO Rosalie Manuella — ENSITECH, Bachelor CDA, promotion 2026/2027
 > Date d'audit : 26/05/2026
@@ -82,7 +82,7 @@ NOVADEMY est un projet **full-stack abouti côté fonctionnel** mais qui nécess
 > - back-end : `5000 → 5001` (variable `PORT` du `.env` et mapping `docker-compose.yml`)
 > - front-end : `5173 → 5174` (option `--port` Vite ou propriété `server.port` dans `vite.config.js`)
 >
-> Ces changements seront formalisés dans le `.env.example` et le `README` en Séance 2.
+> Ces changements seront formalisés dans le `.env.example` et le `README` en .
 
 Type de projet : **full-stack (front-end React + back-end Express + base MySQL).**
 

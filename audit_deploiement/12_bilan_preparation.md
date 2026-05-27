@@ -1,16 +1,16 @@
 # 12_bilan_preparation.md
 
-> Séance 2 — Bloc 7 : Bilan de préparation
+>  — Bloc 7 : Bilan de préparation
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
 ---
 
-## 1. Mission de la Séance 2
+## 1. Mission de la 
 
 > *Transformer un projet de développement en projet propre et techniquement prêt pour le déploiement.*
 
-À l'issue de la Séance 1 (audit), NOVADEMY était fonctionnel mais souffrait de cinq points bloquants pour un déploiement professionnel. La Séance 2 visait à **lever quatre de ces cinq points** par des actions de nettoyage, de versionnage, de configuration et de documentation. Le cinquième (CI/CD) est repoussé en Séance 3.
+À l'issue de la  (audit), NOVADEMY était fonctionnel mais souffrait de cinq points bloquants pour un déploiement professionnel. La  visait à **lever quatre de ces cinq points** par des actions de nettoyage, de versionnage, de configuration et de documentation. Le cinquième (CI/CD) est repoussé en .
 
 ---
 
@@ -18,15 +18,15 @@
 
 | # | Fichier | Statut |
 |:-:|---|:-:|
-| 1 | `audit_deploiement/07_nettoyage_effectue.md` | ✅ |
-| 2 | `audit_deploiement/08_etat_git.md` | ✅ |
-| 3 | `audit_deploiement/09_gitignore_justification.md` | ✅ |
+| 1 | `documentation technique/07_nettoyage_effectue.md` | ✅ |
+| 2 | `documentation technique/08_etat_git.md` | ✅ |
+| 3 | `documentation technique/09_gitignore_justification.md` | ✅ |
 | 4 | `.gitignore` (racine) — réécrit | ✅ |
 | 5 | `.env.example` (racine) — créé | ✅ |
-| 6 | `audit_deploiement/10_variables_environnement.md` | ✅ |
+| 6 | `documentation technique/10_variables_environnement.md` | ✅ |
 | 7 | `README.md` (racine) — créé | ✅ |
-| 8 | `audit_deploiement/11_scripts_et_commandes.md` | ✅ |
-| 9 | `audit_deploiement/12_bilan_preparation.md` (ce fichier) | ✅ |
+| 8 | `documentation technique/11_scripts_et_commandes.md` | ✅ |
+| 9 | `documentation technique/12_bilan_preparation.md` (ce fichier) | ✅ |
 
 **9 livrables produits, conformes à la liste « Livrables obligatoires » du TP.**
 
@@ -34,7 +34,7 @@
 
 ## 3. Avant / après
 
-### 3.1. Avant la Séance 2
+### 3.1. Avant la 
 
 | Élément | État |
 |---|---|
@@ -52,7 +52,7 @@
 | Scripts npm | `dev`, `start`, `test`, `test:coverage` côté back ; `dev`, `build`, `lint`, `preview` côté front. |
 | Documentation des commandes | Absente. |
 
-### 3.2. Après la Séance 2
+### 3.2. Après la 
 
 | Élément | État |
 |---|---|
@@ -63,8 +63,8 @@
 | `.env.example` | **Créé** à la racine. 17 variables documentées. Procédure de génération du `JWT_SECRET` incluse. |
 | `backend/.env` | À régénérer par l'étudiante avec `JWT_SECRET` aléatoire fort. **Restera local, jamais committé.** |
 | `README.md` racine | **Créé.** Sections : Objectif, Technologies, Installation, Lancement (dev / Docker / prod), Variables, Scripts, Structure, Sécurité, Tests. |
-| `README.md` back-end | Sera enrichi en Séance 3 (doc API). |
-| `README.md` front-end | Sera enrichi en Séance 3. |
+| `README.md` back-end | Sera enrichi en  (doc API). |
+| `README.md` front-end | Sera enrichi en . |
 | Port back-end | **`5001` partout** : `.env`, `.env.example`, `server.js` (fallback), `README.md`, scripts. |
 | Port front-end | **`5174` figé** dans `vite.config.js` (`server.port: 5174, strictPort: true`). |
 | Scripts npm | Ajout de `start:prod` et `lint` côté back. Tous testés. |
@@ -72,15 +72,15 @@
 
 ---
 
-## 4. Suivi des points bloquants identifiés en Séance 1
+## 4. Suivi des points bloquants identifiés en 
 
-| # | Problème (Séance 1) | Gravité | Statut Séance 2 |
+| # | Problème () | Gravité | Statut  |
 |:-:|---|:-:|:-:|
 | 1 | `JWT_SECRET` trivial + secrets de dev en clair | Bloquant | ⚠️ **Procédure & gabarit fournis** (`.env.example`, méthode de génération documentée). Reste à l'étudiante de **régénérer effectivement** la valeur dans son `backend/.env` (action triviale : 1 commande). |
 | 2 | Absence de `README.md` racine et de `.env.example` | Élevée | ✅ **Résolu.** Les deux fichiers existent et couvrent tous les sujets. |
-| 3 | Ports d'écoute incohérents (5001 / 5174) | Élevée | ✅ **Résolu pour le local.** Reste à propager dans `docker-compose.yml` en Séance 3 (ports d'exposition). |
+| 3 | Ports d'écoute incohérents (5001 / 5174) | Élevée | ✅ **Résolu pour le local.** Reste à propager dans `docker-compose.yml` en  (ports d'exposition). |
 | 4 | Doublon de dépendances dans `package.json` racine | Moyenne | ✅ **Résolu.** Manifest racine supprimé. |
-| 5 | Pas de pipeline CI/CD ni de procédure formelle | Moyenne / Élevée | ⏳ **À traiter en Séance 3** (Bloc 16 `16_build_et_publication.md`, Bloc 17 `17_plan_mise_en_ligne.md`). |
+| 5 | Pas de pipeline CI/CD ni de procédure formelle | Moyenne / Élevée | ⏳ **À traiter en ** (Bloc 16 `16_build_et_publication.md`, Bloc 17 `17_plan_mise_en_ligne.md`). |
 
 **4 points sur 5 sont levés ou prêts à être levés.** Seul le point 5 (CI/CD) reste, comme prévu.
 
@@ -98,25 +98,25 @@ Au-delà des points bloquants, plusieurs améliorations « qualité » ont été
 
 ---
 
-## 6. Points restants après Séance 2
+## 6. Points restants après 
 
 | Niveau | Action | Séance prévue |
 |:-:|---|:-:|
-| Important | Régénérer effectivement `JWT_SECRET` et `DB_PASSWORD` dans `backend/.env` | À faire par l'étudiante avant Séance 3 |
-| Important | Mettre à jour `docker-compose.yml` (ports `5001:5001` et front-end via Nginx) | Séance 3 — Bloc 13 |
-| Important | Préparer un `.env` de production distinct du dev | Séance 3 — Bloc 14 |
-| Important | Mettre en place GitHub Actions (lint + test + build) | Séance 3 — Bloc 16 |
-| Important | Procédure de mise en ligne formalisée | Séance 3 — Bloc 17 |
-| Confort | Ajout d'une config ESLint côté back-end | Séance 3 ou 4 |
+| Important | Régénérer effectivement `JWT_SECRET` et `DB_PASSWORD` dans `backend/.env` | À faire par l'étudiante avant  |
+| Important | Mettre à jour `docker-compose.yml` (ports `5001:5001` et front-end via Nginx) |  — Bloc 13 |
+| Important | Préparer un `.env` de production distinct du dev |  — Bloc 14 |
+| Important | Mettre en place GitHub Actions (lint + test + build) |  — Bloc 16 |
+| Important | Procédure de mise en ligne formalisée |  — Bloc 17 |
+| Confort | Ajout d'une config ESLint côté back-end |  ou 4 |
 | Confort | Documentation API (Postman / Swagger) | Séance 4 |
 | Confort | Refactor `pages/` en `pages/` + `components/` côté front-end | Optionnel, hors module |
-| Confort | Migration `novademy_db.sql` → `db/schema.sql` + `db/seed.sql` | Séance 3 |
+| Confort | Migration `novademy_db.sql` → `db/schema.sql` + `db/seed.sql` |  |
 
 ---
 
 ## 7. Niveau de préparation atteint
 
-| Critère | Avant Séance 2 | Après Séance 2 |
+| Critère | Avant  | Après  |
 |---|:-:|:-:|
 | Le projet est plus propre qu'au début | — | ✅ |
 | `.gitignore` et `.env.example` existent | ❌ / ❌ | ✅ / ✅ |
@@ -131,7 +131,7 @@ Au-delà des points bloquants, plusieurs améliorations « qualité » ont été
 
 ---
 
-## 8. Engagement de fin de Séance 2
+## 8. Engagement de fin de 
 
 J'ai bien :
 
@@ -143,10 +143,10 @@ J'ai bien :
 - ☒ testé et complété tous les scripts npm (livrable 11) ;
 - ☒ produit ce bilan (livrable 12).
 
-**La Séance 2 — Préparation est terminée.**
+**La  — Préparation est terminée.**
 
-Le projet est désormais **propre, structuré, configurable et documenté**. Il est prêt pour la Séance 3 — Mise en ligne, qui s'attaquera à la conteneurisation finale, aux variables de production, à l'architecture de déploiement, au build/publication et au plan de mise en ligne.
+Le projet est désormais **propre, structuré, configurable et documenté**. Il est prêt pour la  — Mise en ligne, qui s'attaquera à la conteneurisation finale, aux variables de production, à l'architecture de déploiement, au build/publication et au plan de mise en ligne.
 
 ---
 
-*Fin du fichier 12_bilan_preparation.md — Fin de la Séance 2.*
+*Fin du fichier 12_bilan_preparation.md — Fin de la .*

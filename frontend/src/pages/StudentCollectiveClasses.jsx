@@ -77,7 +77,7 @@ function StudentCollectiveClasses() {
     setLoadingMes(true);
     try {
       const res = await fetch(
-        `http://localhost:5001/api/group-classes/student/${user.id}`,
+        `${import.meta.env.VITE_API_URL}/api/group-classes/student/${user.id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
@@ -90,7 +90,7 @@ function StudentCollectiveClasses() {
     setLoadingOpen(true);
     try {
       const res = await fetch(
-        "http://localhost:5001/api/group-classes/open",
+        "${import.meta.env.VITE_API_URL}/api/group-classes/open",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
@@ -112,7 +112,7 @@ function StudentCollectiveClasses() {
     }
     setCreating(true);
     try {
-      const res = await fetch("http://localhost:5001/api/group-classes", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/group-classes", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
@@ -146,7 +146,7 @@ function StudentCollectiveClasses() {
     setJoining(true);
     try {
       const res = await fetch(
-        `http://localhost:5001/api/group-classes/code/${codeJoin.trim().toUpperCase()}/join`,
+        `${import.meta.env.VITE_API_URL}/api/group-classes/code/${codeJoin.trim().toUpperCase()}/join`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -171,7 +171,7 @@ function StudentCollectiveClasses() {
   const handleJoindreSession = async (sessionId) => {
     try {
       const res = await fetch(
-        `http://localhost:5001/api/group-classes/${sessionId}/enroll`,
+        `${import.meta.env.VITE_API_URL}/api/group-classes/${sessionId}/enroll`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },

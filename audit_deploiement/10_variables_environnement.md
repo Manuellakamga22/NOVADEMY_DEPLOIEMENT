@@ -1,6 +1,6 @@
 # 10_variables_environnement.md
 
-> Séance 2 — Bloc 4 : Variables d'environnement
+>  — Bloc 4 : Variables d'environnement
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
@@ -95,7 +95,7 @@ Inventaire consolidé :
 | Génération recommandée | `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"` (96 caractères hex, 384 bits d'entropie). |
 | Rotation | À renouveler en cas de doute, sans hésiter. Les tokens existants seront invalidés (les utilisateurs devront se reconnecter — acceptable). |
 
-> **Action concrète Séance 2 :** générer un nouveau `JWT_SECRET` pour le `.env` local et **un autre, différent**, pour la production.
+> **Action concrète  :** générer un nouveau `JWT_SECRET` pour le `.env` local et **un autre, différent**, pour la production.
 
 ### 3.6. `JWT_EXPIRES_IN` — Durée de validité
 
@@ -221,7 +221,7 @@ Exemple `docker compose --env-file .env.production up -d`.
 | `.env.example` créé et versionné | ✅ |
 | `JWT_SECRET` documenté et procédure de génération fournie | ✅ |
 | `backend/.env` à régénérer localement avec valeurs fortes | À faire côté étudiante |
-| Variables prod (différentes du dev) | À préparer en Séance 3 |
+| Variables prod (différentes du dev) | À préparer en  |
 
 **Conclusion.** Le point bloquant n°1 et n°2 de l'audit (`JWT_SECRET` trivial, absence de `.env.example`) sont **levés**. La rotation effective du `JWT_SECRET` reste à faire (étudiante) avant tout déploiement.
 

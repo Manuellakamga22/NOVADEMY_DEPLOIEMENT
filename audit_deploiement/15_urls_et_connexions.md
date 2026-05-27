@@ -1,6 +1,6 @@
 # 15_urls_et_connexions.md
 
-> Séance 3 — Bloc 3 : URLs et connexions
+>  — Bloc 3 : URLs et connexions
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 

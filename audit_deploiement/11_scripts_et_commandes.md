@@ -1,6 +1,6 @@
 # 11_scripts_et_commandes.md
 
-> Séance 2 — Bloc 6 : Scripts et lancement
+>  — Bloc 6 : Scripts et lancement
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
@@ -12,7 +12,7 @@
 
 Ce bloc fait l'**inventaire des scripts npm** disponibles dans le projet, les **teste réellement** un par un, et fournit la **liste de commandes** à connaître pour développer, builder, tester et lancer NOVADEMY.
 
-Il consigne également les **petites corrections de scripts** appliquées en Séance 2 pour fiabiliser le tout.
+Il consigne également les **petites corrections de scripts** appliquées en  pour fiabiliser le tout.
 
 ---
 
@@ -40,7 +40,7 @@ Il consigne également les **petites corrections de scripts** appliquées en Sé
 | `test` | `npm test` | Lancement de la suite Jest complète, `--runInBand` (séquentiel). | OK — toutes les suites passent. |
 | `test:coverage` | `npm run test:coverage` | Tests + génération du rapport HTML dans `coverage/`. | OK — rapport généré, couverture mesurable. |
 
-### 2.3. Compléments ajoutés en Séance 2
+### 2.3. Compléments ajoutés en 
 
 Pour fiabiliser l'usage des scripts, deux entrées sont ajoutées :
 
@@ -60,7 +60,7 @@ Pour fiabiliser l'usage des scripts, deux entrées sont ajoutées :
 | Nouveau script | Pourquoi |
 |---|---|
 | `start:prod` | Force `NODE_ENV=production` pour activer toutes les optimisations Express (cache des templates, désactivation des stack traces verbeuses…). Utilisé dans le `Dockerfile` du back-end. |
-| `lint` | ESLint est absent côté back. Ajout pour préparer l'intégration continue (Séance 3). Une config ESLint minimale (`.eslintrc.cjs`) sera ajoutée si elle ne l'est pas déjà. |
+| `lint` | ESLint est absent côté back. Ajout pour préparer l'intégration continue (). Une config ESLint minimale (`.eslintrc.cjs`) sera ajoutée si elle ne l'est pas déjà. |
 
 ### 2.4. Correction du fallback de port
 
@@ -214,7 +214,7 @@ docker compose down
 docker compose down -v
 ```
 
-### 4.8. Git (Séance 2)
+### 4.8. Git ()
 
 ```bash
 git checkout deploiement
@@ -307,7 +307,7 @@ Pour valider que l'ensemble fonctionne après les modifications, un parcours com
    curl http://localhost:5001/api    # back-end accessible
    ```
 
-**Tout est vert.** Les scripts sont fonctionnels après les corrections de Séance 2.
+**Tout est vert.** Les scripts sont fonctionnels après les corrections de .
 
 ---
 

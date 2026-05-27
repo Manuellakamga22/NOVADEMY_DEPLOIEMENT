@@ -1,6 +1,6 @@
 # 06_conclusion_audit.md
 
-> Séance 1 — Bloc 6 : Conclusion de l'audit
+>  — Bloc 6 : Conclusion de l'audit
 > Projet : NOVADEMY — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
@@ -12,7 +12,7 @@
 
 L'audit a porté sur la copie de travail **`NOVADEMY_DEPLOIEMENT`**, dérivée du projet d'origine NOVADEMY, avec deux changements de ports pour ce module : back-end **5001** (au lieu de 5000) et front-end **5174** (au lieu de 5173).
 
-L'audit a été conduit selon les 6 blocs de la Séance 1, dont chacun a produit un livrable `.md` :
+L'audit a été conduit selon les 6 blocs de la , dont chacun a produit un livrable `.md` :
 
 | # | Bloc | Livrable |
 |:-:|---|---|
@@ -49,11 +49,11 @@ Les **cinq points bloquants** identifiés dans `05_points_bloquants.md` sont, pa
 
 | # | Problème | Gravité | À traiter en |
 |:-:|---|:-:|:-:|
-| 1 | `JWT_SECRET` trivial + secrets de dev en clair | **Bloquant** | Séance 2 + Séance 3 |
-| 2 | Absence de `README.md` racine et de `.env.example` | Élevée | Séance 2 |
-| 3 | Ports `5001` / `5174` non harmonisés (`server.js`, `vite.config.js`, `docker-compose.yml`) | Élevée | Séance 2 + Séance 3 |
-| 4 | Doublon de dépendances dans `package.json` racine | Moyenne | Séance 2 |
-| 5 | Aucune CI/CD ni procédure de mise en ligne formalisée | Moyenne → Élevée | Séance 3 |
+| 1 | `JWT_SECRET` trivial + secrets de dev en clair | **Bloquant** |  +  |
+| 2 | Absence de `README.md` racine et de `.env.example` | Élevée |  |
+| 3 | Ports `5001` / `5174` non harmonisés (`server.js`, `vite.config.js`, `docker-compose.yml`) | Élevée |  +  |
+| 4 | Doublon de dépendances dans `package.json` racine | Moyenne |  |
+| 5 | Aucune CI/CD ni procédure de mise en ligne formalisée | Moyenne → Élevée |  |
 
 À ces cinq points s'ajoutent des améliorations qualité non bloquantes mais importantes : convention de nommage homogène des fichiers de routes, ajout d'ESLint côté back, introduction d'un dossier `components/` partagé côté front, validation systématique des entrées, audit `npm audit`.
 
@@ -70,9 +70,9 @@ Le projet est donc **dans un état typique de fin de développement** : le code 
 
 ---
 
-## 5. Priorités pour la Séance 2 — Préparation
+## 5. Priorités pour la  — Préparation
 
-La Séance 2 produira 6 livrables (`07` à `12`). En cohérence avec les points bloquants, voici les priorités :
+La  produira 6 livrables (`07` à `12`). En cohérence avec les points bloquants, voici les priorités :
 
 | Priorité | Action | Livrable concerné |
 |:-:|---|---|
@@ -81,9 +81,9 @@ La Séance 2 produira 6 livrables (`07` à `12`). En cohérence avec les points 
 | 3 | Justifier point par point chaque ligne du `.gitignore` et ajouter ce qui manque. | `09_gitignore_justification.md` |
 | 4 | Créer `backend/.env.example` complet (`PORT=5001`, `DB_*`, `JWT_SECRET=` vide), expliquer chaque variable, fournir une commande de génération du `JWT_SECRET`. | `10_variables_environnement.md` |
 | 5 | Lister tous les scripts npm et commandes utiles (back + front + Docker), harmoniser les ports `5001` / `5174` dans `server.js` et `vite.config.js`, créer le `README.md` racine. | `11_scripts_et_commandes.md` |
-| 6 | Faire le bilan de fin de Séance 2 (avant / après nettoyage, problèmes restants, niveau de préparation atteint). | `12_bilan_preparation.md` |
+| 6 | Faire le bilan de fin de  (avant / après nettoyage, problèmes restants, niveau de préparation atteint). | `12_bilan_preparation.md` |
 
-> **À la fin de la Séance 2, les points bloquants 1, 2, 3 et 4 doivent être résolus.** Seul le point 5 (CI/CD) restera, et sera traité en Séance 3.
+> **À la fin de la , les points bloquants 1, 2, 3 et 4 doivent être résolus.** Seul le point 5 (CI/CD) restera, et sera traité en .
 
 ---
 
@@ -94,12 +94,12 @@ J'ai bien :
 - ☒ lancé le projet et documenté son fonctionnement local (livrable 02),
 - ☒ rempli ma checklist d'audit (livrable 04),
 - ☒ listé mes points bloquants (livrable 05),
-- ☒ produit les 6 livrables attendus dans le dossier `audit_deploiement/`.
+- ☒ produit les 6 livrables attendus dans le dossier `documentation technique/`.
 
-Tous les fichiers sont placés dans `NOVADEMY_DEPLOIEMENT/audit_deploiement/` conformément au rappel important du TP.
+Tous les fichiers sont placés dans `NOVADEMY_DEPLOIEMENT/documentation technique/` conformément au rappel important du TP.
 
-**La Séance 1 — Audit pré-déploiement est terminée.** Le projet est en attente du démarrage de la Séance 2 — Préparation.
+**La  — Audit pré-déploiement est terminée.** Le projet est en attente du démarrage de la  — Préparation.
 
 ---
 
-*Fin du fichier 06_conclusion_audit.md — Fin de la Séance 1.*
+*Fin du fichier 06_conclusion_audit.md — Fin de la .*

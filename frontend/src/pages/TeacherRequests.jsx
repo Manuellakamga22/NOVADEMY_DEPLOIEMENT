@@ -372,7 +372,7 @@ function TeacherRequests() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5001/api/trials/teacher/${user.id}`,
+        `${import.meta.env.VITE_API_URL}/api/trials/teacher/${user.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -403,7 +403,7 @@ function TeacherRequests() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5001/api/trials/status/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/trials/status/${id}`,
         {
           method: "PUT",
           headers: {

@@ -387,7 +387,7 @@ function TeacherRevenue() {
     const fetchRevenues = async () => {
       try {
         const res  = await fetch(
-          `http://localhost:5001/api/payments/teacher/${user.id}`,
+          `${import.meta.env.VITE_API_URL}/api/payments/teacher/${user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) return;

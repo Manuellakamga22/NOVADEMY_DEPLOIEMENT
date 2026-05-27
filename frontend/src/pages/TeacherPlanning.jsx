@@ -123,7 +123,7 @@ function TeacherPlanning() {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5001/api/teacher-planning/teacher/${user.id}`,
+        `${import.meta.env.VITE_API_URL}/api/teacher-planning/teacher/${user.id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (!res.ok) throw new Error();
@@ -174,7 +174,7 @@ function TeacherPlanning() {
     setSaving(true);
     try {
       for (const item of creneauxDB) {
-        await fetch(`http://localhost:5001/api/teacher-planning/${item.id}/deactivate`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/teacher-planning/${item.id}/deactivate`, {
           method: "PUT",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({ teacher_id: user.id }),
@@ -186,7 +186,7 @@ function TeacherPlanning() {
         const [hs, ms] = start.split(":").map(Number);
         const [he, me] = end.split(":").map(Number);
         const dureeMin = (he * 60 + me) - (hs * 60 + ms);
-        await fetch("http://localhost:5001/api/teacher-planning", {
+        await fetch("${import.meta.env.VITE_API_URL}/api/teacher-planning", {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({
@@ -231,7 +231,7 @@ function TeacherPlanning() {
   const handleModifier = async () => {
     if (!creneauEdite) return;
     try {
-      const res = await fetch(`http://localhost:5001/api/teacher-planning/${creneauEdite.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/teacher-planning/${creneauEdite.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
@@ -261,7 +261,7 @@ function TeacherPlanning() {
     if (!creneauEdite) return;
     if (!window.confirm("Supprimer ce créneau ?")) return;
     try {
-      await fetch(`http://localhost:5001/api/teacher-planning/${creneauEdite.id}/deactivate`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/teacher-planning/${creneauEdite.id}/deactivate`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ teacher_id: user.id }),

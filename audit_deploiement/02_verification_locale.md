@@ -1,6 +1,6 @@
 # 02_verification_locale.md
 
-> Séance 1 — Bloc 2 : Vérification du fonctionnement local
+>  — Bloc 2 : Vérification du fonctionnement local
 > Projet : NOVADEMY — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
@@ -32,7 +32,7 @@ cd C:\Users\manue\OneDrive\Documents\NOVADEMY_DEPLOIEMENT\backend
 npm install
 ```
 
-Sortie attendue : `added X packages, audited Y packages in Zs`. Aucune erreur bloquante, quelques warnings de dépréciation non critiques (à arbitrer en Séance 2).
+Sortie attendue : `added X packages, audited Y packages in Zs`. Aucune erreur bloquante, quelques warnings de dépréciation non critiques (à arbitrer en ).
 
 ### Front-end
 
@@ -110,7 +110,7 @@ Logs terminal observés :
   ➜  Network: use --host to expose
 ```
 
-> **Décision Séance 2 :** le port 5174 sera figé dans `vite.config.js` (`server: { port: 5174 }`) pour éviter d'avoir à passer l'argument à chaque lancement.
+> **Décision  :** le port 5174 sera figé dans `vite.config.js` (`server: { port: 5174 }`) pour éviter d'avoir à passer l'argument à chaque lancement.
 
 ---
 
@@ -210,12 +210,12 @@ Logs terminal observés :
 
 - Vite logue chaque rebuild HMR sans erreur.
 - 0 erreur dans la console DevTools sur les pages publiques.
-- 1 warning « React Router Future Flag Warning » (v7) — non bloquant, à traiter en Séance 2.
+- 1 warning « React Router Future Flag Warning » (v7) — non bloquant, à traiter en .
 
 ### Côté base de données
 
 - Aucune erreur dans `mysql` lors des requêtes.
-- Quelques requêtes lentes (`SELECT * FROM announcements ORDER BY created_at DESC`) — index à ajouter en Séance 2 (consigné).
+- Quelques requêtes lentes (`SELECT * FROM announcements ORDER BY created_at DESC`) — index à ajouter en  (consigné).
 
 ---
 

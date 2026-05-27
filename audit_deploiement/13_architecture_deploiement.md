@@ -1,6 +1,6 @@
 # 13_architecture_deploiement.md
 
-> Séance 3 — Bloc 1 : Architecture de déploiement
+>  — Bloc 1 : Architecture de déploiement
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 

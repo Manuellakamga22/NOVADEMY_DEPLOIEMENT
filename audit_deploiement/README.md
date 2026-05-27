@@ -3,7 +3,7 @@
 Plateforme web de mise en relation entre **professeurs particuliers** et **élèves**, du primaire à la terminale.
 Projet personnel de fin de cycle Bachelor Concepteur Développeur d'Applications (ENSITECH, promotion 2026/2027).
 
-> Cette branche `deploiement` correspond au module **« Déploiement de projet informatique »** (formatrice : Hanane SADEG, Diginova). Tous les livrables se trouvent dans le dossier [`audit_deploiement/`](./audit_deploiement/).
+> Cette branche `deploiement` correspond au module **« Déploiement de projet informatique »** (formatrice : Hanane SADEG, Diginova). Tous les livrables se trouvent dans le dossier [`documentation technique/`](./documentation technique/).
 
 ---
 
@@ -59,7 +59,7 @@ git checkout deploiement
 cp .env.example backend/.env
 ```
 
-Puis ouvrir `backend/.env` et **remplir les valeurs** (`DB_PASSWORD`, `JWT_SECRET`, etc.). La documentation détaillée de chaque variable se trouve dans [`audit_deploiement/10_variables_environnement.md`](./audit_deploiement/10_variables_environnement.md).
+Puis ouvrir `backend/.env` et **remplir les valeurs** (`DB_PASSWORD`, `JWT_SECRET`, etc.). La documentation détaillée de chaque variable se trouve dans [`documentation technique/10_variables_environnement.md`](./documentation technique/10_variables_environnement.md).
 
 Génération d'un `JWT_SECRET` aléatoire :
 
@@ -134,15 +134,15 @@ Arrêt :
 docker compose down
 ```
 
-### Option C — Mode production (à partir de la Séance 3)
+### Option C — Mode production (à partir de la )
 
-La procédure complète de mise en ligne est documentée dans [`audit_deploiement/17_plan_mise_en_ligne.md`](./audit_deploiement/17_plan_mise_en_ligne.md) (Séance 3).
+La procédure complète de mise en ligne est documentée dans [`documentation technique/17_plan_mise_en_ligne.md`](./documentation technique/17_plan_mise_en_ligne.md) ().
 
 ---
 
 ## Variables d'environnement
 
-Liste complète documentée dans [`audit_deploiement/10_variables_environnement.md`](./audit_deploiement/10_variables_environnement.md).
+Liste complète documentée dans [`documentation technique/10_variables_environnement.md`](./documentation technique/10_variables_environnement.md).
 Gabarit prêt à dupliquer : [`.env.example`](./.env.example).
 
 | Variable | Rôle |
@@ -180,7 +180,7 @@ Gabarit prêt à dupliquer : [`.env.example`](./.env.example).
 | `preview` | `npm run preview` | Servir le bundle prod en local |
 | `lint` | `npm run lint` | ESLint sur tout le code source |
 
-Documentation détaillée : [`audit_deploiement/11_scripts_et_commandes.md`](./audit_deploiement/11_scripts_et_commandes.md).
+Documentation détaillée : [`documentation technique/11_scripts_et_commandes.md`](./documentation technique/11_scripts_et_commandes.md).
 
 ---
 
@@ -188,7 +188,7 @@ Documentation détaillée : [`audit_deploiement/11_scripts_et_commandes.md`](./a
 
 ```
 NOVADEMY_DEPLOIEMENT/
-├── audit_deploiement/         Livrables du module Déploiement (26 fichiers à terme)
+├── documentation technique/         Livrables du module Déploiement (26 fichiers à terme)
 ├── backend/                   API Express 5 (port 5001)
 │   ├── routes/                Définition des routes (15 fichiers, camelCase)
 │   ├── controllers/           Couche contrôleurs (12 fichiers)
@@ -224,7 +224,7 @@ NOVADEMY_DEPLOIEMENT/
 - Limitation : **rate-limit** global (200 req / 15 min / IP) + spécifique auth (10 tentatives / 15 min).
 - Injection SQL : impossible via `mysql2` avec requêtes paramétrées (`?`).
 - Variables sensibles : **jamais** dans le code, **jamais** committées (cf. `.gitignore`).
-- HTTPS : à activer en production via Nginx + Let's Encrypt (Séance 3).
+- HTTPS : à activer en production via Nginx + Let's Encrypt ().
 
 ---
 
@@ -249,7 +249,7 @@ Objectif : **couverture ≥ 70 %** sur les services métier critiques (`authServ
 | 3 — Mise en ligne | `13_architecture_deploiement.md` → `19_bilan_mise_en_ligne.md` |
 | 4 — Validation | `20_tests_post_deploiement.md` → `26_validation_finale.md` |
 
-Tous dans le dossier [`audit_deploiement/`](./audit_deploiement/).
+Tous dans le dossier [`documentation technique/`](./documentation technique/).
 
 ---
 

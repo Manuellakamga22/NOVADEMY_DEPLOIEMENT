@@ -1,6 +1,6 @@
 # 07_nettoyage_effectue.md
 
-> Séance 2 — Bloc 1 : Nettoyage du projet
+>  — Bloc 1 : Nettoyage du projet
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
@@ -10,15 +10,15 @@
 
 > *Transformer un projet de développement en projet propre et techniquement prêt pour le déploiement.*
 
-Le Bloc 1 de la Séance 2 vise à **supprimer les fichiers inutiles, doublons et éléments obsolètes**, à **ranger et renommer** ce qui est incohérent, et à documenter toutes les opérations dans ce fichier.
+Le Bloc 1 de la  vise à **supprimer les fichiers inutiles, doublons et éléments obsolètes**, à **ranger et renommer** ce qui est incohérent, et à documenter toutes les opérations dans ce fichier.
 
-Tous les changements ont été faits sur la **copie de travail** `NOVADEMY_DEPLOIEMENT` (ouverte dans `C:\Users\manue\OneDrive\Documents\NOVADEMY_DEPLOIEMENT`), conformément à la décision prise en Séance 1.
+Tous les changements ont été faits sur la **copie de travail** `NOVADEMY_DEPLOIEMENT` (ouverte dans `C:\Users\manue\OneDrive\Documents\NOVADEMY_DEPLOIEMENT`), conformément à la décision prise en .
 
 ---
 
 ## 2. État initial constaté (avant nettoyage)
 
-Audit issu de la Séance 1 (`03_structure_projet.md` et `04_checklist_audit.md`) :
+Audit issu de la  (`03_structure_projet.md` et `04_checklist_audit.md`) :
 
 | Élément | Constat |
 |---|---|
@@ -144,12 +144,12 @@ Plusieurs tutoriels recommandent de garder un `package.json` racine pour héberg
 
 ### 3.8. Création de placeholders pour les livrables manquants
 
-Pour préparer les blocs suivants de la Séance 2, les fichiers cibles sont créés (vides au début, remplis dans leurs blocs respectifs) :
+Pour préparer les blocs suivants de la , les fichiers cibles sont créés (vides au début, remplis dans leurs blocs respectifs) :
 
 ```powershell
-ni audit_deploiement\08_etat_git.md, audit_deploiement\09_gitignore_justification.md,
-   audit_deploiement\10_variables_environnement.md,
-   audit_deploiement\11_scripts_et_commandes.md, audit_deploiement\12_bilan_preparation.md `
+ni documentation technique\08_etat_git.md, documentation technique\09_gitignore_justification.md,
+   documentation technique\10_variables_environnement.md,
+   documentation technique\11_scripts_et_commandes.md, documentation technique\12_bilan_preparation.md `
    -ItemType File -Force
 ni .env.example, README.md -ItemType File -Force
 ```
@@ -168,7 +168,7 @@ ni .env.example, README.md -ItemType File -Force
 | `server.js` | Mis à jour pour pointer vers les nouveaux noms en camelCase. |
 | `README.md` racine | Créé (vide à ce stade, rempli au Bloc 5). |
 | `.env.example` | Créé (vide à ce stade, rempli au Bloc 4). |
-| Placeholders `audit_deploiement/08…12.md` | Créés. |
+| Placeholders `documentation technique/08…12.md` | Créés. |
 
 ---
 
@@ -205,7 +205,7 @@ Smoke test :
 | 2 | Suppression physique des artefacts (`coverage/`, fichiers temp Windows) | ✅ Fait |
 | 3 | Renommage `StudentProfileRoutes.js` / `TeacherProfileRoutes.js` en camelCase | ✅ Fait |
 | 4 | Mise à jour des `require(...)` dans `server.js` | ✅ Fait |
-| 5 | Création des placeholders des futurs livrables Séance 2 | ✅ Fait |
+| 5 | Création des placeholders des futurs livrables  | ✅ Fait |
 | 6 | Vérification fonctionnelle post-nettoyage | ✅ Fait, aucune régression |
 
 > **Le projet est maintenant plus propre qu'au début de la séance.** Les blocs suivants (Git, .gitignore, .env, README, scripts) peuvent commencer sur cette base saine.

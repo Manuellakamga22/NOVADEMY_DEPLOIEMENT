@@ -58,7 +58,7 @@ function TeacherProposeFormula() {
 
   async function chargerCatalogue() {
     try {
-      const res = await fetch("http://localhost:5001/api/packs/catalog", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/packs/catalog", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -71,7 +71,7 @@ function TeacherProposeFormula() {
   async function chargerDemandes() {
     try {
       const res = await fetch(
-        `http://localhost:5001/api/trials/teacher/${user.id}`,
+        `${import.meta.env.VITE_API_URL}/api/trials/teacher/${user.id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
@@ -89,7 +89,7 @@ function TeacherProposeFormula() {
 
     setEnvoi(true);
     try {
-      const res = await fetch("http://localhost:5001/api/packs/propose", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/packs/propose", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({

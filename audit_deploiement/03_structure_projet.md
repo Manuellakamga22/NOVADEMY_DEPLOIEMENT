@@ -1,6 +1,6 @@
 # 03_structure_projet.md
 
-> Séance 1 — Bloc 3 : Analyse de la structure
+>  — Bloc 3 : Analyse de la structure
 > Projet : NOVADEMY — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
@@ -11,9 +11,9 @@
 Arborescence du projet `NOVADEMY_DEPLOIEMENT` (copie de travail) — version résumée et commentée. Les sous-dossiers `node_modules/` et `coverage/` sont volontairement omis (ils ne sont pas versionnés).
 
 ```
-NOVADEMY_DEPLOIEMENT/                  Racine du projet, contiendra audit_deploiement/
+NOVADEMY_DEPLOIEMENT/                  Racine du projet, contiendra documentation technique/
 │
-├── audit_deploiement/                 *** Dossier livrables du module (en cours) ***
+├── documentation technique/                 *** Dossier livrables du module (en cours) ***
 │   ├── 01_fiche_projet.md
 │   ├── 02_verification_locale.md
 │   ├── 03_structure_projet.md         (ce fichier)
@@ -25,11 +25,11 @@ NOVADEMY_DEPLOIEMENT/                  Racine du projet, contiendra audit_deploi
 ├── novademy_db.sql                    Dump SQL initial (schéma 13 tables) — sensible : à isoler
 ├── package.json                       Manifest racine (cors + multer en double, à nettoyer S2)
 ├── .gitignore                         Bien rempli : .env, node_modules, coverage, dist, *.sql
-│                                      *** Pas de README.md racine — à créer en Séance 2 ***
+│                                      *** Pas de README.md racine — à créer en  ***
 │
 ├── backend/                           Back-end Node.js + Express 5 (port 5001)
 │   ├── .env                           *** Secrets de dev en clair — à ne JAMAIS commiter ***
-│   │                                  *** Pas de .env.example — à créer en Séance 2 ***
+│   │                                  *** Pas de .env.example — à créer en  ***
 │   ├── Dockerfile                     Image Node Alpine multi-stage
 │   ├── package.json                   Dépendances : express, mysql2, bcrypt, jsonwebtoken,
 │   │                                  helmet, express-rate-limit, dotenv, multer, sqlite3
@@ -87,9 +87,9 @@ NOVADEMY_DEPLOIEMENT/                  Racine du projet, contiendra audit_deploi
 
 | Fichier | Rôle | Observation |
 |---|---|---|
-| `docker-compose.yml` | Orchestration db + backend + frontend pour le déploiement | Les ports backend `5000:5000` et frontend `80:80` devront être harmonisés avec les nouveaux ports (5001/5174) en Séance 3. |
+| `docker-compose.yml` | Orchestration db + backend + frontend pour le déploiement | Les ports backend `5000:5000` et frontend `80:80` devront être harmonisés avec les nouveaux ports (5001/5174) en . |
 | `novademy_db.sql` | Dump du schéma MySQL (13 tables + contraintes) | **Sensible** : exclu du Git par `.gitignore` (`*.sql`). Conserver hors dépôt public ou dans un dossier `db/` privé. |
-| `package.json` (racine) | Double déclaration de `cors` et `multer` | Doublon avec celui du back-end — à supprimer en Séance 2 pour éviter la confusion. |
+| `package.json` (racine) | Double déclaration de `cors` et `multer` | Doublon avec celui du back-end — à supprimer en  pour éviter la confusion. |
 | `.gitignore` | Exclut `.env`, `node_modules`, `coverage`, `dist`, `*.sql`, `*.log`, `*.txt` (sauf README) | **Bon point** : couvre bien les fichiers sensibles et le bruit. |
 
 ### Fichiers sensibles repérés
@@ -98,14 +98,14 @@ NOVADEMY_DEPLOIEMENT/                  Racine du projet, contiendra audit_deploi
 |---|---|---|
 | `backend/.env` | Contient `DB_PASSWORD`, `JWT_SECRET`, port et utilisateur BDD | **Présent en local, exclu de Git** (`.gitignore` OK). Doit avoir un jumeau `.env.example` sans valeurs. |
 | `novademy_db.sql` | Structure de la base + potentiellement des données réelles si re-dumpé après usage | Exclu de Git (`*.sql`). À garder hors dépôt public. |
-| `backend/seedAdmin.js` | Crée un admin avec mot de passe — vérifier qu'il ne contient pas le mot de passe en dur | À auditer en Séance 2. |
+| `backend/seedAdmin.js` | Crée un admin avec mot de passe — vérifier qu'il ne contient pas le mot de passe en dur | À auditer en . |
 | `JWT_SECRET` (dans .env) | Valeur `novademy_secret_key_2024` triviale | À régénérer en valeur aléatoire forte pour la prod. |
 
 ### Documentation présente
 
 | Fichier | État |
 |---|---|
-| `frontend/README.md` | Présent mais générique (template Vite). À enrichir en Séance 2. |
+| `frontend/README.md` | Présent mais générique (template Vite). À enrichir en . |
 | `backend/README.md` | **Absent.** À créer. |
 | `README.md` racine | **Absent.** À créer (vue d'ensemble + démarrage rapide). |
 
@@ -122,7 +122,7 @@ NOVADEMY_DEPLOIEMENT/                  Racine du projet, contiendra audit_deploi
 | `frontend/package.json` | `preview` | Servir le bundle prod en local |
 | `frontend/package.json` | `lint` | `eslint .` |
 
-Manquent : un script `start:prod` côté backend qui force `NODE_ENV=production`, et un script « tout-en-un » à la racine pour démarrer back + front en parallèle (à voir en Séance 2).
+Manquent : un script `start:prod` côté backend qui force `NODE_ENV=production`, et un script « tout-en-un » à la racine pour démarrer back + front en parallèle (à voir en ).
 
 ---
 
@@ -135,7 +135,7 @@ Manquent : un script `start:prod` côté backend qui force `NODE_ENV=production`
 - une **conteneurisation déjà amorcée** (deux Dockerfiles + un docker-compose) ;
 - un **.gitignore solide** qui protège les fichiers sensibles.
 
-Les **points à corriger** pour rendre la structure « prête à déployer » sont identifiés et tous traitables en Séance 2 :
+Les **points à corriger** pour rendre la structure « prête à déployer » sont identifiés et tous traitables en  :
 
 - absence de `README.md` racine et back-end ;
 - absence de `.env.example` (le `.env` existe mais aucun gabarit n'est fourni à un nouveau développeur) ;

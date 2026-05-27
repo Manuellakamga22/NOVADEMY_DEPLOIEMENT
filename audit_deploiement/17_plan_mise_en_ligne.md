@@ -1,6 +1,6 @@
 # 17_plan_mise_en_ligne.md
 
-> Séance 3 — Bloc 5 : Plan de mise en ligne
+>  — Bloc 5 : Plan de mise en ligne
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
@@ -242,7 +242,7 @@ docker compose --env-file .env up --build -d
 
 ---
 
-## 6. Checklist de fin de Séance 3
+## 6. Checklist de fin de 
 
 | # | Action | Fait ? |
 |:-:|---|:-:|

@@ -61,7 +61,7 @@ function Notifications() {
   async function charger() {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5001/api/notifications", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/notifications", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -78,7 +78,7 @@ function Notifications() {
 
   async function marquerLue(id) {
     try {
-      await fetch(`http://localhost:5001/api/notifications/${id}/lue`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/notifications/${id}/lue`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -93,7 +93,7 @@ function Notifications() {
 
   async function toutMarquerLues() {
     try {
-      await fetch("http://localhost:5001/api/notifications/toutes/lues", {
+      await fetch("${import.meta.env.VITE_API_URL}/api/notifications/toutes/lues", {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -107,7 +107,7 @@ function Notifications() {
   async function supprimer(id, e) {
     e.stopPropagation();
     try {
-      await fetch(`http://localhost:5001/api/notifications/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/notifications/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

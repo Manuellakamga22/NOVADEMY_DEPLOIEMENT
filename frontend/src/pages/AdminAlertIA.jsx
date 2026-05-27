@@ -53,7 +53,7 @@ function AdminAlertIA() {
   useEffect(() => {
     const charger = async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/messages/admin/bloques", {
+        const res = await fetch("${import.meta.env.VITE_API_URL}/api/messages/admin/bloques", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.ok) {

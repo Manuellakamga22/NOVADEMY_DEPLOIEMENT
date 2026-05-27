@@ -1,6 +1,6 @@
 # 08_etat_git.md
 
-> Séance 2 — Bloc 2 : Vérifier ou initialiser Git
+>  — Bloc 2 : Vérifier ou initialiser Git
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 
@@ -48,7 +48,7 @@ git config core.autocrlf true
 
 ## 3. État courant du dépôt (`git status`)
 
-Au début de la Séance 2, après les opérations de nettoyage du Bloc 1, mais avant tout commit :
+Au début de la , après les opérations de nettoyage du Bloc 1, mais avant tout commit :
 
 ```text
 On branch deploiement
@@ -65,7 +65,7 @@ Changes not staged for commit:
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-        audit_deploiement/
+        documentation technique/
         .env.example
         README.md
 ```
@@ -76,7 +76,7 @@ Untracked files:
 - 2 fichiers renommés (routes camelCase) — voulu.
 - 1 fichier modifié (`server.js` : `require(...)` mis à jour) — voulu.
 - 1 fichier modifié (`backend/.env` : `PORT 5000 → 5001`) — **ne sera PAS committé** (exclu par `.gitignore`, confirmé Bloc 3).
-- 3 ajouts (dossier `audit_deploiement/`, `.env.example`, `README.md`) — nouveaux livrables.
+- 3 ajouts (dossier `documentation technique/`, `.env.example`, `README.md`) — nouveaux livrables.
 
 Aucun fichier sensible n'apparaît dans les fichiers suivis.
 
@@ -87,7 +87,7 @@ Aucun fichier sensible n'apparaît dans les fichiers suivis.
 | Branche | Rôle | Politique |
 |---|---|---|
 | `main` | Version de référence de NOVADEMY (mémoire + DP). | **Ne jamais pousser** de modifications « déploiement » directement dessus avant validation. |
-| `deploiement` | Branche de travail du module Déploiement de projet (Diginova). | Branche active sur laquelle tous les commits Séance 1 → Séance 4 sont effectués. |
+| `deploiement` | Branche de travail du module Déploiement de projet (Diginova). | Branche active sur laquelle tous les commits  → Séance 4 sont effectués. |
 | `feature/*` | Branches éphémères pour expérimentations. | Mergées dans `deploiement` après vérification. |
 
 Création de la branche `deploiement` (si elle n'existait pas) :
@@ -117,7 +117,7 @@ git log --oneline -10
 Extrait représentatif (les hashes seront différents pour ton dépôt — l'idée est d'avoir une vue lisible) :
 
 ```
-8f3a1b2 (HEAD -> deploiement) chore(seance1): livrables audit_deploiement/ 01 à 06
+8f3a1b2 (HEAD -> deploiement) chore(seance1): livrables documentation technique/ 01 à 06
 2d9c4e7 chore: branche deploiement créée depuis main
 a14b2c5 (origin/main, main) doc: mémoire et DP NOVADEMY finalisés
 9e0d18f feat(admin): écran statistiques globales
@@ -143,7 +143,7 @@ origin  git@github.com:RosalieManuella/NOVADEMY.git (fetch)
 origin  git@github.com:RosalieManuella/NOVADEMY.git (push)
 ```
 
-> **Note de sécurité.** Pour la mise en ligne (Séance 3), si le dépôt est public, **vérifier qu'aucun secret n'a jamais été commité** dans l'historique (un `git log -p | findstr JWT_SECRET` doit ne rien retourner). Si une fuite a eu lieu, le secret doit être considéré comme compromis et regénéré.
+> **Note de sécurité.** Pour la mise en ligne (), si le dépôt est public, **vérifier qu'aucun secret n'a jamais été commité** dans l'historique (un `git log -p | findstr JWT_SECRET` doit ne rien retourner). Si une fuite a eu lieu, le secret doit être considéré comme compromis et regénéré.
 
 Vérification rapide :
 

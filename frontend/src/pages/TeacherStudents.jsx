@@ -57,7 +57,7 @@ function TeacherStudents() {
       try {
         // on charge les paiements du prof pour récupérer les élèves
         const res = await fetch(
-          `http://localhost:5001/api/payments/teacher/${user.id}`,
+          `${import.meta.env.VITE_API_URL}/api/payments/teacher/${user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) throw new Error();

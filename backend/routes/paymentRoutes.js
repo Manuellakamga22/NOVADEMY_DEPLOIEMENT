@@ -1,28 +1,39 @@
-const express = require("express");
-const router  = express.Router();
-const paymentController = require("../controllers/paymentController");
-const { verifyToken, requireRole } = require("../middleware/authMiddleware");
+const paymentService = require("../services/paymentService");
+
+exports.createPayment = async (req, res) => {
+  try {
+    const result = await paymentService.createPayment(req.body);
+    return res.status(201).json(result);
+  } catch (error) {
+    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  }
+};
+
+exports.getPaymentsByStudent = async (req, res) => {
+  try {
+    const result = await paymentService.getPaymentsByStudent(req.params.id);
+    return res.json(result);
+  } catch (error) {
+    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  }
+};
+
+// je récupère les revenus d'un prof
+exports.getPaymentsByTeacher = async (req, res) => {
+  try {
+    const result = await paymentService.getPaymentsByTeacher(req.params.id);
+    return res.json(result);
+  } catch (error) {
+    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  }
+};
 
 // Admin : tous les paiements
-router.get(
-  "/",
-  verifyToken,
-  requireRole("admin"),
-  paymentController.getAllPayments
-);
-
-// Enregistrer un paiement
-router.post("/", paymentController.createPayment);
-
-// Paiements d'un élève
-router.get("/student/:id", paymentController.getPaymentsByStudent);
-
-// Revenus d'un prof
-router.get(
-  "/teacher/:id",
-  verifyToken,
-  requireRole("teacher"),
-  paymentController.getPaymentsByTeacher
-);
-
-module.exports = router;
+exports.getAllPayments = async (req, res) => {
+  try {
+    const result = await paymentService.getAllPayments();
+    return res.json(result);
+  } catch (error) {
+    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
+  }
+};

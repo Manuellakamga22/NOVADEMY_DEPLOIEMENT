@@ -63,7 +63,7 @@ function SearchTeachers() {
       if (filters.city) query.append("city", filters.city);
       if (filters.mode) query.append("mode", filters.mode);
 
-      const res = await fetch(`http://localhost:5001/api/announcements?${query.toString()}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/announcements?${query.toString()}`);
       const data = await res.json();
 
       if (!res.ok) { alert(data.message || "Erreur lors de la recherche"); return; }

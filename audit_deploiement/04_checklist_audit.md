@@ -1,6 +1,6 @@
 # 04_checklist_audit.md
 
-> Séance 1 — Bloc 4 : Checklist d'audit pré-déploiement
+>  — Bloc 4 : Checklist d'audit pré-déploiement
 > Projet : NOVADEMY — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 > Grille : **Oui / Non / Partiel / Commentaire**
@@ -39,7 +39,7 @@
 | Les dépendances sont identifiées (`package.json`) | X | | | Versions figées avec `^` côté back et front. |
 | `package-lock.json` présent | | | X | Présent côté `frontend/`, à vérifier côté `backend/`. |
 | Aucune dépendance en double | | | X | `cors` et `multer` déclarés à la fois dans le `package.json` racine et dans `backend/package.json` → à nettoyer. |
-| Pas d'audit critique `npm audit` non résolu | | | X | À relancer `npm audit` en Séance 2 et arbitrer les vulnérabilités modérées. |
+| Pas d'audit critique `npm audit` non résolu | | | X | À relancer `npm audit` en  et arbitrer les vulnérabilités modérées. |
 | Versions LTS / récentes utilisées | X | | | Node 20 LTS, React 19, Express 5, MySQL 8, Vite 7. |
 
 ---
@@ -49,7 +49,7 @@
 | Élément à vérifier | Oui | Non | Partiel | Commentaire |
 |---|:---:|:---:|:---:|---|
 | Les scripts sont présents (`dev`, `start`, `build`) | X | | | Back : `dev`, `start`, `test`, `test:coverage`. Front : `dev`, `build`, `lint`, `preview`. |
-| Un script `start:prod` explicite côté back | | X | | À ajouter en Séance 2 (`NODE_ENV=production node server.js`). |
+| Un script `start:prod` explicite côté back | | X | | À ajouter en  (`NODE_ENV=production node server.js`). |
 | Un script global racine pour démarrer back + front | | X | | Absent. Optionnel mais utile (ex. `concurrently`). |
 | Le port n'est pas hard-codé | | | X | Back-end : `process.env.PORT || 5000` → OK mais fallback obsolète, doit devenir `5001`. Front-end : port à figer dans `vite.config.js`. |
 
@@ -62,7 +62,7 @@
 | Le `README.md` racine existe | | X | | **Absent.** À créer (présentation, prérequis, démarrage local, démarrage Docker). |
 | Le `README.md` back-end existe | | X | | **Absent.** À créer (variables d'env, commandes, endpoints). |
 | Le `README.md` front-end existe | X | | | Présent mais générique (template Vite). À enrichir. |
-| Documentation des endpoints API (collection Postman, OpenAPI…) | | X | | Aucune collection versionnée trouvée. À produire en Séance 2 ou 4. |
+| Documentation des endpoints API (collection Postman, OpenAPI…) | | X | | Aucune collection versionnée trouvée. À produire en  ou 4. |
 | Schéma de la base versionné | X | | | `novademy_db.sql` présent (et exclu de Git, normal). |
 
 ---
@@ -73,7 +73,7 @@
 |---|:---:|:---:|:---:|---|
 | Les variables sont repérées | X | | | `PORT`, `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `JWT_SECRET`. |
 | Un `.env` existe côté back | X | | | `backend/.env` présent. |
-| Un `.env.example` existe (gabarit) | | X | | **Absent.** À créer en Séance 2 (Bloc 10). |
+| Un `.env.example` existe (gabarit) | | X | | **Absent.** À créer en  (Bloc 10). |
 | Un `.env` existe côté front si besoin | | X | | Pas indispensable aujourd'hui (URL API hard-codée à confirmer). À introduire pour `VITE_API_URL`. |
 | Le `docker-compose.yml` consomme les variables d'env | | | X | Lit `${DB_ROOT_PASSWORD}`, `${DB_NAME}`, `${JWT_SECRET}` (bon) mais pas de `.env` racine fourni pour les alimenter. |
 
@@ -87,7 +87,7 @@
 | Aucun secret en clair dans le code source versionné | X | | | Secrets uniquement dans `backend/.env` (non versionné). |
 | `JWT_SECRET` fort | | X | | Actuellement `novademy_secret_key_2024` (trivial). À régénérer en valeur aléatoire 64+ caractères. |
 | Hashage des mots de passe | X | | | bcrypt 10 rounds. |
-| HTTPS prévu pour la production | | | X | Pas encore configuré. Prévu en Séance 3 via Nginx + Let's Encrypt. |
+| HTTPS prévu pour la production | | | X | Pas encore configuré. Prévu en  via Nginx + Let's Encrypt. |
 | Middlewares de sécurité actifs | X | | | Helmet + express-rate-limit (global + auth) + CORS. |
 | Requêtes SQL paramétrées (anti-injection) | X | | | mysql2 utilisé avec placeholders `?`. |
 | Validation des entrées utilisateur | | | X | Validation côté contrôleurs présente mais non systématique. À auditer en Séance 4. |
@@ -98,10 +98,10 @@
 
 | Élément à vérifier | Oui | Non | Partiel | Commentaire |
 |---|:---:|:---:|:---:|---|
-| Un `Dockerfile` back-end existe | X | | | Image Node Alpine, à confirmer comme multi-stage en Séance 2. |
+| Un `Dockerfile` back-end existe | X | | | Image Node Alpine, à confirmer comme multi-stage en . |
 | Un `Dockerfile` front-end existe | X | | | Build Vite + Nginx. |
 | Un `docker-compose.yml` orchestre les services | X | | | 3 services : db, backend, frontend. |
-| Les ports `docker-compose` correspondent aux nouveaux ports (5001/5174) | | X | | Ports encore à `5000` et `80`. À mettre à jour en Séance 3. |
+| Les ports `docker-compose` correspondent aux nouveaux ports (5001/5174) | | X | | Ports encore à `5000` et `80`. À mettre à jour en . |
 | Volumes nommés pour persister MySQL | X | | | `db_data:/var/lib/mysql`. |
 | Healthcheck défini sur la BDD | X | | | `mysqladmin ping` configuré. |
 
@@ -114,7 +114,7 @@
 | Tests unitaires présents | X | | | Dossier `backend/tests/` + dépendance Jest. |
 | Couverture mesurable | X | | | Script `test:coverage` disponible, dossier `coverage/` généré. |
 | ESLint configuré | | | X | Présent côté front-end (`eslint.config.js`). Aucun côté back. À ajouter. |
-| Pipeline CI/CD | | X | | Aucun fichier `.github/workflows/` détecté. À introduire en Séance 3. |
+| Pipeline CI/CD | | X | | Aucun fichier `.github/workflows/` détecté. À introduire en . |
 | Hooks Git (pre-commit) | | X | | Aucun (par ex. Husky). Optionnel. |
 
 ---

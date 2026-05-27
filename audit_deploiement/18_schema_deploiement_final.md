@@ -1,6 +1,6 @@
 # 18_schema_deploiement_final.md
 
-> Séance 3 — Bloc 6 : Schéma de déploiement final
+>  — Bloc 6 : Schéma de déploiement final
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 

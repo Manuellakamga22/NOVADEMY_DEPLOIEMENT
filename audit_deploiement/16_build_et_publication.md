@@ -1,6 +1,6 @@
 # 16_build_et_publication.md
 
-> Séance 3 — Bloc 4 : Build et publication
+>  — Bloc 4 : Build et publication
 > Projet : NOVADEMY_DEPLOIEMENT — Étudiante : KAMGA MAFFO Rosalie Manuella
 > Date : 26/05/2026
 

@@ -24,6 +24,10 @@ services:
       DB_NAME: ${DB_NAME}
       JWT_SECRET: ${JWT_SECRET}
       PORT: 5001
+      NODE_ENV: production
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      MONGO_URI: ${MONGO_URI}
+      FRONTEND_URL: ${FRONTEND_URL}
     depends_on:
       db:
         condition: service_healthy

@@ -385,7 +385,7 @@ function TeacherAnnouncements() {
     try {
       setLoading(true);
 
-      const response = await fetch("http://localhost:5001/api/announcements", {
+      const response = await fetch("${import.meta.env.VITE_API_URL}/api/announcements", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -426,7 +426,7 @@ function TeacherAnnouncements() {
 
     try {
       const response = await fetch(
-        `http://localhost:5001/api/announcements/teacher/${user.id}`
+        `${import.meta.env.VITE_API_URL}/api/announcements/teacher/${user.id}`
       );
       const data = await response.json();
 

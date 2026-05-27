@@ -1,39 +1,48 @@
-const paymentService = require("../services/paymentService");
+const express = require("express");
+const router = express.Router();
+const paymentController = require("../controllers/paymentController");
+const { verifyToken, requireRole } = require("../middleware/authMiddleware");
 
-exports.createPayment = async (req, res) => {
-  try {
-    const result = await paymentService.createPayment(req.body);
-    return res.status(201).json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
-  }
-};
+router.get(
+  "/",
+  verifyToken,
+  requireRole("admin"),
+  paymentController.getAllPayments
+);
 
-exports.getPaymentsByStudent = async (req, res) => {
-  try {
-    const result = await paymentService.getPaymentsByStudent(req.params.id);
-    return res.json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
-  }
-};
+router.post(
+  "/create-checkout-session",
+  verifyToken,
+  requireRole("student"),
+  paymentController.createCheckoutSession
+);
 
-// je récupère les revenus d'un prof
-exports.getPaymentsByTeacher = async (req, res) => {
-  try {
-    const result = await paymentService.getPaymentsByTeacher(req.params.id);
-    return res.json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
-  }
-};
+router.post(
+  "/confirm/:sessionId",
+  verifyToken,
+  requireRole("student"),
+  paymentController.confirmStripePayment
+);
 
-// Admin : tous les paiements
-exports.getAllPayments = async (req, res) => {
-  try {
-    const result = await paymentService.getAllPayments();
-    return res.json(result);
-  } catch (error) {
-    return res.status(error.status || 500).json({ message: error.message || "Erreur serveur" });
-  }
-};
+router.post(
+  "/",
+  verifyToken,
+  requireRole("student"),
+  paymentController.createPayment
+);
+
+router.get(
+  "/student/:id",
+  verifyToken,
+  requireRole("student"),
+  paymentController.getPaymentsByStudent
+);
+
+router.get(
+  "/teacher/:id",
+  verifyToken,
+  requireRole("teacher"),
+  paymentController.getPaymentsByTeacher
+);
+
+module.exports = router;

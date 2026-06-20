@@ -62,6 +62,12 @@ exports.createTrialRequest = async (data) => {
       throw { status: 400, message: "Ce créneau n'est plus disponible." };
     }
 
+    // un créneau déjà accepté pour un autre élève ne peut pas être réservé
+    const dejaReserve = await trialRepository.isSlotReserved(planning_id);
+    if (dejaReserve) {
+      throw { status: 400, message: "Ce créneau est déjà réservé par un autre élève." };
+    }
+
     finalDate = selectedPlanning.planning_date || selectedPlanning.availability_date || requested_date || null;
     finalDay = selectedPlanning.day_of_week;
     finalStart = selectedPlanning.start_time;
@@ -123,8 +129,8 @@ exports.createTrialRequest = async (data) => {
     period_end: normalizedType === "suivi_regulier" ? period_end : null,
   });
 
-  // on notifie le prof qu'il a reçu une nouvelle demande
-  // on récupère le nom de l'élève depuis la base
+  // notif prof
+  // nom élève
   try {
     const trials = await trialRepository.getStudentTrials(student_id);
     const trial = trials.find(t => t.id === result.insertId);
@@ -138,7 +144,7 @@ exports.createTrialRequest = async (data) => {
       trial_id: result.insertId,
     });
   } catch {
-    // la notif est non bloquante
+    // notif non bloquante
   }
 
   return {
@@ -186,7 +192,7 @@ exports.updateTrialStatus = async (id, status) => {
 
   await trialRepository.updateTrialStatus(id, status);
 
-  // on notifie l'élève selon la décision du prof
+  // notif élève
   try {
     const trials = await trialRepository.getAllTrials();
     const trial = trials.find(t => t.id === Number(id));
@@ -209,7 +215,7 @@ exports.updateTrialStatus = async (id, status) => {
       }
     }
   } catch {
-    // la notif est non bloquante
+    // notif non bloquante
   }
 
   return {

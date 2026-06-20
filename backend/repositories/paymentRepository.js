@@ -71,10 +71,13 @@ exports.getAllPayments = async () => {
   const [rows] = await db.query(
     `SELECT p.*,
        u.prenom AS student_prenom, u.nom AS student_nom,
-       fp.type AS formula_type, fp.teacher_id
+       fp.type AS formula_type, fp.teacher_id,
+       fp.teacher_rate, fp.total_hours, fp.final_price,
+       CONCAT(t.prenom, ' ', t.nom) AS teacher_name
      FROM payments p
      LEFT JOIN users u ON u.id = p.student_id
      LEFT JOIN formula_proposals fp ON fp.id = p.pack_id
+     LEFT JOIN users t ON t.id = fp.teacher_id
      ORDER BY p.payment_date DESC`
   );
 

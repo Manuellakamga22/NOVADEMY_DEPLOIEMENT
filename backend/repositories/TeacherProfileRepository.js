@@ -1,6 +1,6 @@
 const db = require("../db");
 
-// je récupère le profil d'un prof par son user_id
+// profil prof par son user_id
 exports.getTeacherProfileByUserId = async (userId) => {
   const [rows] = await db.query(
     `SELECT * FROM teacher_profiles WHERE user_id = ? LIMIT 1`,
@@ -9,7 +9,7 @@ exports.getTeacherProfileByUserId = async (userId) => {
   return rows[0] || null;
 };
 
-// je crée un profil prof - colonnes réelles en BDD
+// create un profil prof - colonnes réelles en BDD
 exports.createTeacherProfile = async ({
   user_id,
   city,
@@ -32,7 +32,7 @@ exports.createTeacherProfile = async ({
   return result;
 };
 
-// je mets à jour le profil prof - colonnes réelles en BDD
+// update le profil prof - colonnes réelles en BDD
 exports.updateTeacherProfile = async ({
   user_id,
   city,
@@ -55,7 +55,7 @@ exports.updateTeacherProfile = async ({
   return result;
 };
 
-// je mets à jour la photo du prof
+// update la photo du prof
 exports.updateTeacherPhoto = async (userId, photoUrl) => {
   const [result] = await db.query(
     `UPDATE teacher_profiles SET photo_url = ? WHERE user_id = ?`,

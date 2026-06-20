@@ -1,38 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-const S = {
-  wrap: { fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#F9FAFB" },
-  dash: { display: "grid", gridTemplateColumns: "280px 1fr", minHeight: "100vh" },
-  sidebar: { background: "#fff", borderRight: "1px solid #E5E7EB", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", overflowY: "auto" },
-  sbBrand: { padding: "26px 22px", borderBottom: "1px solid #E5E7EB" },
-  logo: { fontSize: 21, fontWeight: 800, letterSpacing: "-0.02em" },
-  logoEm: { color: "#2563EB" },
-  sbRole: { display: "inline-block", marginTop: 10, fontSize: 13, fontWeight: 700, textTransform: "uppercase", padding: "5px 12px", borderRadius: 20, background: "#EFF6FF", color: "#2563EB" },
-  sbNav: { padding: 14, flex: 1 },
-  sbLabel: { fontSize: 12, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#9CA3AF", padding: "0 10px", margin: "18px 0 8px", display: "block" },
-  sbLink: { display: "flex", alignItems: "center", gap: 12, padding: "14px 15px", borderRadius: 10, fontSize: 16, fontWeight: 500, color: "#4B5563", textDecoration: "none", marginBottom: 4 },
-  sbLinkActive: { display: "flex", alignItems: "center", gap: 12, padding: "14px 15px", borderRadius: 10, fontSize: 16, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", textDecoration: "none", marginBottom: 4 },
-  sbBadge: { marginLeft: "auto", background: "#2563EB", color: "#fff", fontSize: 12, fontWeight: 700, padding: "3px 9px", borderRadius: 10 },
-  sbUser: { padding: "18px 22px", borderTop: "1px solid #E5E7EB", display: "flex", alignItems: "center", gap: 12 },
-  av: { width: 42, height: 42, borderRadius: "50%", background: "linear-gradient(135deg,#2563EB,#1D4ED8)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 16, flexShrink: 0 },
-  main: { padding: "30px" },
-  pageTitle: { fontSize: 28, fontWeight: 800, color: "#111827", marginBottom: 20 },
-  card: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "20px 22px", marginBottom: 18 },
-  cardTitle: { fontSize: 17, fontWeight: 800, color: "#111827", marginBottom: 14 },
-  noteBox: { background: "#EFF6FF", border: "1px solid #BFDBFE", color: "#1D4ED8", borderRadius: 10, padding: "13px 15px", fontSize: 14, lineHeight: 1.6, marginBottom: 14 },
-  item: { background: "#F9FAFB", border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, marginBottom: 12 },
-  itemActive: { background: "#fff", border: "2px solid #2563EB", borderRadius: 12, padding: 16, marginBottom: 12 },
-  itemName: { fontSize: 17, fontWeight: 700, color: "#111827", marginBottom: 4 },
-  itemSub: { fontSize: 14, color: "#6B7280", marginBottom: 10 },
-  pillRow: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 },
-  pill: { fontSize: 12, fontWeight: 700, padding: "4px 10px", borderRadius: 20, display: "inline-block" },
-  btnRow: { display: "flex", gap: 10, marginTop: 10, flexWrap: "wrap" },
-  btn: { fontFamily: "inherit", fontSize: 14, fontWeight: 600, padding: "9px 16px", borderRadius: 9, border: "none", cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center" },
-  btnPrimary: { background: "#2563EB", color: "#fff" },
-  btnGhost: { background: "#F3F4F6", color: "#4B5563" },
-  empty: { textAlign: "center", padding: "28px", color: "#9CA3AF", fontSize: 14 },
-  recapBox: { background: "#F9FAFB", border: "1px solid #E5E7EB", borderRadius: 10, padding: 14, marginBottom: 14, fontSize: 14, color: "#374151", lineHeight: 1.9 },
-};
+import S from "../styles/pages/TeacherProposeFormula.styles.js";
+import { apiFetch } from "../config/api.js";
+import Sidebar from "../components/layout/Sidebar.jsx";
 
 const typeLabel = {
   suivi_regulier: "Suivi régulier",
@@ -58,7 +28,7 @@ function TeacherProposeFormula() {
 
   async function chargerCatalogue() {
     try {
-      const res = await fetch("${import.meta.env.VITE_API_URL}/api/packs/catalog", {
+      const res = await apiFetch("/api/packs/catalog", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -89,7 +59,7 @@ function TeacherProposeFormula() {
 
     setEnvoi(true);
     try {
-      const res = await fetch("${import.meta.env.VITE_API_URL}/api/packs/propose", {
+      const res = await apiFetch("/api/packs/propose", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
@@ -131,34 +101,8 @@ function TeacherProposeFormula() {
     <div style={S.wrap}>
       <div style={S.dash}>
 
-        <aside style={S.sidebar}>
-          <div style={S.sbBrand}>
-            <div style={S.logo}>NOVA<span style={S.logoEm}>DEMY</span></div>
-            <span style={S.sbRole}>Professeur</span>
-          </div>
-          <nav style={S.sbNav}>
-            <span style={S.sbLabel}>Principal</span>
-            <a style={S.sbLink} href="/teacher/dashboard">🏠 Tableau de bord</a>
-            <a style={S.sbLink} href="/teacher/profile">👤 Mon profil</a>
-            <a style={S.sbLink} href="/teacher/announcements">📢 Annonces</a>
-            <span style={S.sbLabel}>Organisation</span>
-            <a style={S.sbLink} href="/teacher/planning">📅 Planning</a>
-            <a style={S.sbLink} href="/teacher/requests">📬 Demandes <span style={S.sbBadge}>0</span></a>
-            <a style={S.sbLinkActive} href="/teacher/propose/formula">📦 Formules</a>
-            <a style={S.sbLink} href="/chat">💬 Messages <span style={S.sbBadge}>0</span></a>
-            <span style={S.sbLabel}>Compte</span>
-            <a style={S.sbLink} href="/teacher/revenue">💳 Revenus</a>
-          </nav>
-          <div style={S.sbUser}>
-            <div style={S.av}>{user?.prenom?.[0]?.toUpperCase() || "P"}</div>
-            <div>
-              <div style={{ fontSize: 15, fontWeight: 700 }}>
-                {user ? user.prenom + " " + user.nom : "Prof"}
-              </div>
-              <div style={{ fontSize: 13, color: "#9CA3AF" }}>Professeur</div>
-            </div>
-          </div>
-        </aside>
+        {/* ── SIDEBAR ── */}
+        <Sidebar role={"professeur"} user={user} active={"/teacher/propose/formula"} />
 
         <main style={S.main}>
           <div style={S.pageTitle}>Proposer une formule</div>

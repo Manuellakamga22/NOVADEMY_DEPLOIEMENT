@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { apiFetch } from "../config/api.js";
 
-const API_URL = "${import.meta.env.VITE_API_URL}";
+
 
 function Payment() {
   const savedUser = localStorage.getItem("user");
   const user = savedUser ? JSON.parse(savedUser) : null;
-  const token = localStorage.getItem("token");
 
   const [acceptedFormula, setAcceptedFormula] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  // je récupère la formule acceptée de l'élève
+  // je récupère la formule à payer
   const fetchAcceptedFormula = async () => {
     if (!user?.id) {
       setLoading(false);
@@ -19,24 +19,34 @@ function Payment() {
     }
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/packs/accepted/${user.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const params = new URLSearchParams(window.location.search);
+      const formulaIdFromUrl = params.get("formula_id");
+
+      // Priorité : formula_id dans l'URL (vient du chat après acceptation)
+      if (formulaIdFromUrl) {
+        const token = localStorage.getItem("token");
+        const response = await apiFetch(`/api/packs/formula/${formulaIdFromUrl}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.id) {
+            setAcceptedFormula(data);
+            setLoading(false);
+            return;
+          }
         }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setAcceptedFormula(null);
-        return;
       }
 
-      setAcceptedFormula(data || null);
-    } catch (error) {
+      // Fallback : formule acceptée de l'élève
+      const response = await apiFetch(`/api/packs/student/${user.id}/accepted`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.id) {
+          setAcceptedFormula(data);
+        }
+      }
+    } catch {
       setAcceptedFormula(null);
     } finally {
       setLoading(false);
@@ -46,15 +56,9 @@ function Payment() {
   // je confirme le paiement quand Stripe renvoie vers la page
   const confirmStripePayment = async (sessionId) => {
     try {
-      const response = await fetch(
-        `${API_URL}/api/payments/confirm/${sessionId}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await apiFetch(`/api/payments/confirm/${sessionId}`, {
+        method: "POST",
+      });
 
       const data = await response.json();
 
@@ -63,8 +67,10 @@ function Payment() {
         return;
       }
 
-      alert("Paiement confirmé avec succès !");
-      window.location.href = "/student/courses";
+      // Redirection vers la page de confirmation avec les vrais détails du backend
+      const confirmedAmount  = data.amount || acceptedFormula?.final_price || "";
+      const confirmedFormula = data.formula_type || acceptedFormula?.type || "";
+      window.location.href = `/payment/success?amount=${encodeURIComponent(confirmedAmount)}&formula=${encodeURIComponent(confirmedFormula)}`;
     } catch (error) {
       alert("Erreur de connexion au serveur.");
     }
@@ -124,20 +130,13 @@ function Payment() {
     setSubmitting(true);
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/payments/create-checkout-session`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            pack_id: acceptedFormula.id,
-            amount: amountToPayNow,
-          }),
-        }
-      );
+      const response = await apiFetch("/api/payments/create-checkout-session", {
+        method: "POST",
+        body: JSON.stringify({
+          pack_id: acceptedFormula.id,
+          amount: amountToPayNow,
+        }),
+      });
 
       const data = await response.json();
 
@@ -219,7 +218,7 @@ function Payment() {
             </form>
 
             <p style={hintStyle}>
-              Paiement test : utilisez la carte Stripe 4242 4242 4242 4242.
+              Paiement sécurisé par Stripe. Vos données bancaires ne transitent pas par nos serveurs.
             </p>
           </>
         )}

@@ -1,4 +1,6 @@
-const repo = require("../repositories/groupClassRepository");
+const repo            = require("../repositories/groupClassRepository");
+const invitationRepo  = require("../repositories/collectiveInvitationRepository");
+const eventRepo       = require("../repositories/collectiveEventRepository");
 
 // génère un code unique style "MATH-4521"
 const genererCode = (subject) => {
@@ -34,7 +36,7 @@ exports.createGroupClass = async ({
     throw { status: 400, message: "Le maximum doit être supérieur ou égal au minimum." };
   }
 
-  // on génère un code unique
+  // code unique pour la session
   const session_code = genererCode(subject);
 
   const result = await repo.createGroupClass({
@@ -53,6 +55,30 @@ exports.createGroupClass = async ({
 
   // l'élève créateur est automatiquement inscrit
   await repo.enroll(result.insertId, student_id);
+
+  // log MongoDB
+  try {
+    await invitationRepo.creer({
+      session_code,
+      group_class_id:     result.insertId,
+      teacher_id:         Number(teacher_id),
+      created_by_student: Number(student_id),
+      subject,
+      level:              level || "college",
+      min_students:       min,
+      max_students:       max,
+      participants:       [{ student_id: Number(student_id) }],
+    });
+
+    await eventRepo.loggerEvenement({
+      group_class_id: result.insertId,
+      session_code,
+      type: "session_creee",
+      data: { student_id, subject, min_students: min, max_students: max },
+    });
+  } catch {
+    // MongoDB optionnel
+  }
 
   return {
     message: "Session collective créée avec succès !",
@@ -81,6 +107,26 @@ exports.repondreSession = async (groupClassId, teacherId, decision) => {
   if (decision === "refused") {
     await repo.updateStatus(groupClassId, "annulee");
     await repo.updateAllEnrollments(groupClassId, "annule");
+  }
+
+  // update MongoDB
+  try {
+    const reponse = decision === "accepted" ? "acceptee" : "refusee";
+    await invitationRepo.mettreAJourReponseProf(session.session_code, reponse);
+
+    if (decision === "refused") {
+      await invitationRepo.mettreAJourStatut(session.session_code, "annulee");
+      await invitationRepo.mettreAJourParticipants(session.session_code, "annule");
+    }
+
+    await eventRepo.loggerEvenement({
+      group_class_id: Number(groupClassId),
+      session_code:   session.session_code,
+      type:           decision === "accepted" ? "prof_accepte" : "prof_refuse",
+      data:           { teacher_id: Number(teacherId) },
+    });
+  } catch {
+    // MongoDB optionnel
   }
 
   return {
@@ -132,10 +178,34 @@ exports.joinByCode = async (code, studentId) => {
 
   await repo.enroll(session.id, studentId);
 
+  // log MongoDB
+  try {
+    await invitationRepo.ajouterParticipant(code, Number(studentId));
+
+    await eventRepo.loggerEvenement({
+      group_class_id: session.id,
+      session_code:   code,
+      type:           "eleve_rejoint",
+      data:           { student_id: studentId },
+    });
+  } catch {
+    // MongoDB optionnel
+  }
+
   // si max atteint → complete
   const updated = await repo.getById(session.id);
   if (Number(updated.enrolled_count) >= Number(updated.max_students)) {
     await repo.updateStatus(session.id, "complete");
+
+    try {
+      await invitationRepo.mettreAJourStatut(code, "complete");
+      await eventRepo.loggerEvenement({
+        group_class_id: session.id,
+        session_code:   code,
+        type:           "session_complete",
+        data:           { max_students: session.max_students },
+      });
+    } catch { /* MongoDB optionnel */ }
   }
 
   return {
@@ -161,6 +231,18 @@ exports.closeSession = async (groupClassId, teacherId) => {
   if (enrolled >= min) {
     await repo.updateStatus(groupClassId, "validee");
     await repo.updateAllEnrollments(groupClassId, "confirme");
+
+    try {
+      await invitationRepo.mettreAJourStatut(session.session_code, "validee");
+      await invitationRepo.mettreAJourParticipants(session.session_code, "confirme");
+      await eventRepo.loggerEvenement({
+        group_class_id: Number(groupClassId),
+        session_code:   session.session_code,
+        type:           "session_validee",
+        data:           { enrolled, teacher_id: Number(teacherId) },
+      });
+    } catch { /* MongoDB optionnel */ }
+
     return {
       message: `Session validée. ${enrolled} élève(s) confirmé(s).`,
       status: "validee",
@@ -168,6 +250,18 @@ exports.closeSession = async (groupClassId, teacherId) => {
   } else {
     await repo.updateStatus(groupClassId, "annulee");
     await repo.updateAllEnrollments(groupClassId, "annule");
+
+    try {
+      await invitationRepo.mettreAJourStatut(session.session_code, "annulee");
+      await invitationRepo.mettreAJourParticipants(session.session_code, "annule");
+      await eventRepo.loggerEvenement({
+        group_class_id: Number(groupClassId),
+        session_code:   session.session_code,
+        type:           "session_annulee",
+        data:           { enrolled, min_required: min },
+      });
+    } catch { /* MongoDB optionnel */ }
+
     return {
       message: `Session annulée : ${enrolled} inscrit(s) sur ${min} requis.`,
       status: "annulee",
@@ -195,4 +289,16 @@ exports.getEnrollmentsByClass = async (groupClassId, teacherId) => {
 exports.getByCode = async (code) => {
   if (!code) throw { status: 400, message: "Code manquant." };
   return await repo.getByCode(code);
+};
+
+// récupère les détails d'invitation MongoDB pour une session (participants, historique)
+exports.getInvitationParCode = async (code) => {
+  if (!code) throw { status: 400, message: "Code manquant." };
+  return await invitationRepo.getParCode(code);
+};
+
+// récupère l'historique des événements d'une session
+exports.getHistoriqueSession = async (groupClassId) => {
+  if (!groupClassId) throw { status: 400, message: "ID session manquant." };
+  return await eventRepo.getHistoriqueSession(Number(groupClassId));
 };

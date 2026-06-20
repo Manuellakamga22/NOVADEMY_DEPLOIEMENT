@@ -31,7 +31,7 @@ exports.createCheckoutSession = async ({ pack_id, amount }, user) => {
       },
     ],
 
-    success_url: `${process.env.FRONTEND_URL}/payment?success=true&session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${process.env.FRONTEND_URL}/payment?success=true&session_id={CHECKOUT_SESSION_ID}&pack_id=${pack_id}&amount=${amount}`,
     cancel_url: `${process.env.FRONTEND_URL}/payment?canceled=true`,
 
     metadata: {
@@ -87,9 +87,13 @@ exports.confirmStripePayment = async (sessionId, user) => {
     [packId]
   );
 
+  // Récupérer les détails de la formule pour la page de confirmation
+  let formulaType = "Formule NOVADEMY";
+  let finalAmount = amount;
   try {
-    const [rows] = await db.query(
-      `SELECT fp.teacher_id, u.prenom AS student_prenom, u.nom AS student_nom
+    const [fRows] = await db.query(
+      `SELECT fp.type, fp.final_price, fp.teacher_id,
+              u.prenom AS student_prenom, u.nom AS student_nom
        FROM formula_proposals fp
        JOIN users u ON u.id = ?
        WHERE fp.id = ?
@@ -97,23 +101,26 @@ exports.confirmStripePayment = async (sessionId, user) => {
       [studentId, packId]
     );
 
-    if (rows.length > 0) {
-      const { teacher_id, student_prenom, student_nom } = rows[0];
+    if (fRows.length > 0) {
+      const { type, final_price, teacher_id, student_prenom, student_nom } = fRows[0];
+      formulaType = type || "Formule NOVADEMY";
+      finalAmount = final_price || amount;
 
       await notifService.paiementRecu({
         teacher_id: Number(teacher_id),
-        student_nom:
-          `${student_prenom || ""} ${student_nom || ""}`.trim() || "Un élève",
+        student_nom: `${student_prenom || ""} ${student_nom || ""}`.trim() || "Un élève",
         montant: amount,
-      });
+      }).catch(() => {});
     }
   } catch {
-    // notification non bloquante
+    // notif optionnelle
   }
 
   return {
     message: "Paiement Stripe confirmé avec succès",
     paymentId: result.insertId,
+    formula_type: formulaType,
+    amount: finalAmount,
   };
 };
 

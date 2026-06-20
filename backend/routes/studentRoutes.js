@@ -2,7 +2,7 @@ const express = require("express");
 const db      = require("../db");
 const router  = express.Router();
 
-// je récupère tous les élèves
+// liste des élèves
 router.get("/", async (req, res) => {
   try {
     const [results] = await db.query(

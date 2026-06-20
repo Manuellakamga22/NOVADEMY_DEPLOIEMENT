@@ -30,4 +30,10 @@ router.put("/:groupClassId/close", verifyToken, requireRole("teacher"), controll
 // inscrits d'une session (prof)
 router.get("/:groupClassId/enrollments", verifyToken, requireRole("teacher"), controller.getEnrollmentsByClass);
 
+// détails invitation MongoDB (participants + statuts) par code
+router.get("/code/:code/invitation", verifyToken, controller.getInvitationParCode);
+
+// historique des événements d'une session (MongoDB)
+router.get("/:groupClassId/historique", verifyToken, controller.getHistoriqueSession);
+
 module.exports = router;

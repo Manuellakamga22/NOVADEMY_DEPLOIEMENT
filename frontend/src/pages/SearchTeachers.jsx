@@ -1,46 +1,8 @@
 import React, { useState } from "react";
 
-const S = {
-  wrap: { fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#F9FAFB" },
-  dash: { display: "grid", gridTemplateColumns: "260px 1fr", minHeight: "100vh" },
-  sidebar: { background: "#fff", borderRight: "1px solid #E5E7EB", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", overflowY: "auto" },
-  sbBrand: { padding: "24px 22px", borderBottom: "1px solid #E5E7EB" },
-  logo: { fontSize: 20, fontWeight: 800, letterSpacing: "-0.02em" },
-  logoEm: { color: "#2563EB" },
-  sbRole: { display: "inline-block", marginTop: 8, fontSize: 12, fontWeight: 700, textTransform: "uppercase", padding: "4px 12px", borderRadius: 20, background: "#ECFDF5", color: "#059669" },
-  sbNav: { padding: 14, flex: 1 },
-  sbLabel: { fontSize: 11, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#9CA3AF", padding: "0 10px", margin: "18px 0 6px", display: "block" },
-  sbLink: { display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 9, fontSize: 15, fontWeight: 500, color: "#4B5563", textDecoration: "none", marginBottom: 2 },
-  sbLinkActive: { display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 9, fontSize: 15, fontWeight: 600, color: "#2563EB", background: "#EFF6FF", textDecoration: "none", marginBottom: 2 },
-  sbBadge: { marginLeft: "auto", background: "#2563EB", color: "#fff", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 10 },
-  sbUser: { padding: "18px 22px", borderTop: "1px solid #E5E7EB", display: "flex", alignItems: "center", gap: 12 },
-  av: { width: 38, height: 38, borderRadius: "50%", background: "linear-gradient(135deg,#059669,#0891B2)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 15, flexShrink: 0 },
-  main: { padding: "36px" },
-  pageTitle: { fontSize: 28, fontWeight: 800, color: "#111827", marginBottom: 8 },
-  pageSub: { fontSize: 15, color: "#9CA3AF", lineHeight: 1.6, marginBottom: 28 },
-  card: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 18 },
-  cardTitle: { fontSize: 16, fontWeight: 700, marginBottom: 14 },
-  cardDesc: { fontSize: 14, color: "#9CA3AF", lineHeight: 1.7, marginBottom: 16 },
-  searchRow: { display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" },
-  input: { flex: 1, minWidth: 160, padding: "12px 16px", borderRadius: 9, border: "1.5px solid #E5E7EB", fontFamily: "inherit", fontSize: 14, outline: "none", background: "#fff" },
-  btn: { display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit", fontSize: 14, fontWeight: 600, padding: "10px 20px", borderRadius: 9, border: "none", cursor: "pointer", textDecoration: "none" },
-  btnPrimary: { background: "#2563EB", color: "#fff" },
-  btnOutline: { background: "transparent", color: "#2563EB", border: "1.5px solid #2563EB" },
-  btnSm: { padding: "8px 14px", fontSize: 13 },
-  resultsGrid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 14 },
-  teacherCard: { background: "#fff", border: "1.5px solid #E5E7EB", borderRadius: 12, padding: 18 },
-  topRow: { display: "flex", gap: 12, marginBottom: 12 },
-  avatar: { width: 42, height: 42, borderRadius: "50%", background: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 14, flexShrink: 0 },
-  teacherName: { fontSize: 15, fontWeight: 700, color: "#111827" },
-  teacherSub: { fontSize: 13, color: "#9CA3AF", marginTop: 4 },
-  tagsRow: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 },
-  pill: { fontSize: 12, fontWeight: 600, padding: "4px 12px", borderRadius: 20, display: "inline-block" },
-  bottomRow: { display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 12, borderTop: "1px solid #F3F4F6" },
-  price: { fontSize: 18, fontWeight: 800, color: "#111827" },
-  priceSub: { fontSize: 11, color: "#9CA3AF", fontWeight: 400 },
-  freeTrial: { fontSize: 11, color: "#059669", fontWeight: 600 },
-  empty: { textAlign: "center", padding: "28px 20px", color: "#9CA3AF" },
-};
+import S from "../styles/pages/SearchTeachers.styles.js";
+import { apiFetch } from "../config/api.js";
+import Sidebar from "../components/layout/Sidebar.jsx";
 
 function SearchTeachers() {
   const savedUser = localStorage.getItem("user");
@@ -63,7 +25,7 @@ function SearchTeachers() {
       if (filters.city) query.append("city", filters.city);
       if (filters.mode) query.append("mode", filters.mode);
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/announcements?${query.toString()}`);
+      const res = await apiFetch(`/api/announcements?${query.toString()}`);
       const data = await res.json();
 
       if (!res.ok) { alert(data.message || "Erreur lors de la recherche"); return; }
@@ -80,33 +42,8 @@ function SearchTeachers() {
   return (
     <div style={S.wrap}>
       <div style={S.dash}>
-        <aside style={S.sidebar}>
-          <div style={S.sbBrand}>
-            <div style={S.logo}>NOVA<span style={S.logoEm}>DEMY</span></div>
-            <span style={S.sbRole}>Élève</span>
-          </div>
-          <nav style={S.sbNav}>
-            <span style={S.sbLabel}>Principal</span>
-            <a style={S.sbLink} href="/student/dashboard">🏠 Tableau de bord</a>
-            <a style={S.sbLink} href="/student/profile">👤 Mon profil</a>
-            <a style={S.sbLinkActive} href="/search">🔍 Trouver un prof</a>
-            <span style={S.sbLabel}>Mes cours</span>
-            <a style={S.sbLink} href="/student/requests">📬 Mes demandes <span style={S.sbBadge}>0</span></a>
-            <a style={S.sbLink} href="/student/courses">📚 Mes cours</a>
-            <a style={S.sbLink} href="/student/planning">📅 Mon calendrier</a>
-            <a style={S.sbLink} href="/student/chat">💬 Messages <span style={S.sbBadge}>0</span></a>
-            <span style={S.sbLabel}>Compte</span>
-            <a style={S.sbLink} href="/student/payments">💳 Paiements</a>
-            <a style={S.sbLink} href="/student/review">⭐ Donner un avis</a>
-          </nav>
-          <div style={S.sbUser}>
-            <div style={S.av}>{user?.prenom?.[0]?.toUpperCase() || "É"}</div>
-            <div>
-              <div style={{ fontSize: 15, fontWeight: 600 }}>{user ? `${user.prenom} ${user.nom}` : "Élève"}</div>
-              <div style={{ fontSize: 13, color: "#9CA3AF", marginTop: 2 }}>Élève</div>
-            </div>
-          </div>
-        </aside>
+        {/* ── SIDEBAR ── */}
+        <Sidebar role={"eleve"} user={user} active={"/search"} />
 
         <main style={S.main}>
           <div style={S.pageTitle}>🔍 Trouver un professeur</div>

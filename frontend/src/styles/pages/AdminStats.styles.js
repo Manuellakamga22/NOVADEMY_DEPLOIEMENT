@@ -1,0 +1,23 @@
+const S = {
+  wrap:{ fontFamily:"Segoe UI", minHeight:"100vh", background:"#F9FAFB" },
+  logo:{ fontSize:20, fontWeight:800 },
+  logoEm:{ color:"#2563EB" },
+  dash:{ display:"grid", gridTemplateColumns:"240px 1fr", minHeight:"100vh" },
+  sidebar:{ background:"#fff", borderRight:"1px solid #E5E7EB", display:"flex", flexDirection:"column", height:"100vh" },
+  sbBrand:{ padding:20, borderBottom:"1px solid #E5E7EB" },
+  sbRole:{ fontSize:10, fontWeight:700, background:"#FEF2F2", color:"#DC2626", padding:"2px 10px", borderRadius:20, display:"inline-block" },
+  sbNav:{ padding:12, flex:1 },
+  sbLink:{ padding:"10px 12px", display:"block", textDecoration:"none", color:"#4B5563" },
+  sbLinkActive:{ padding:"10px 12px", display:"block", background:"#EFF6FF", color:"#2563EB", fontWeight:600, textDecoration:"none" },
+  sbUser:{ padding:"14px 20px", borderTop:"1px solid #E5E7EB", display:"flex", alignItems:"center", gap:10 },
+  av:{ width:34, height:34, borderRadius:"50%", background:"linear-gradient(135deg,#6B7280,#374151)", display:"flex", alignItems:"center", justifyContent:"center", color:"#fff", fontWeight:700, fontSize:12, flexShrink:0 },
+  main:{ padding:30 },
+  title:{ fontSize:26, fontWeight:800 },
+  sub:{ fontSize:14, color:"#9CA3AF", marginBottom:24 },
+  grid:{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, marginTop:25 },
+  card:{ background:"#fff", padding:20, borderRadius:12, border:"1px solid #E5E7EB" },
+  stat:{ fontSize:30, fontWeight:800 },
+  label:{ fontSize:12, color:"#9CA3AF", marginBottom:8 },
+};
+
+export default S;

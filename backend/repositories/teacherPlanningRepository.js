@@ -51,6 +51,39 @@ exports.createPlanning = async ({
   return result;
 };
 
+// récupère les créneaux d'un prof avec leur statut de réservation
+// un créneau est RESERVE si une demande avec status='accepted' pointe dessus
+exports.getPlanningWithStatus = async (teacherId) => {
+  const [rows] = await db.query(
+    `
+    SELECT
+      tp.id,
+      tp.teacher_id,
+      tp.planning_date,
+      tp.day_of_week,
+      tp.start_time,
+      tp.end_time,
+      tp.duration_minutes,
+      tp.week_label,
+      tp.is_active,
+      tp.course_title,
+      tp.course_type,
+      CASE WHEN tr.id IS NOT NULL THEN 1 ELSE 0 END AS is_reserved,
+      tr.student_id AS reserved_by_student_id
+    FROM teacher_planning tp
+    LEFT JOIN trial_requests tr
+      ON tr.planning_id = tp.id AND tr.status = 'accepted'
+    WHERE tp.teacher_id = ? AND tp.is_active = 1
+    ORDER BY
+      tp.planning_date ASC,
+      FIELD(tp.day_of_week, 'lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'),
+      tp.start_time ASC
+    `,
+    [teacherId]
+  );
+  return rows;
+};
+
 // récupère tous les créneaux actifs d'un prof
 exports.getPlanningByTeacherId = async (teacherId) => {
   const [rows] = await db.query(

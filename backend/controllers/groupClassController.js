@@ -95,3 +95,24 @@ exports.getEnrollmentsByClass = async (req, res) => {
     return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
   }
 };
+
+// invitation MongoDB par code de session (participants + statuts)
+exports.getInvitationParCode = async (req, res) => {
+  try {
+    const result = await service.getInvitationParCode(req.params.code);
+    if (!result) return res.status(404).json({ message: "Invitation introuvable" });
+    return res.json(result);
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
+  }
+};
+
+// historique des événements d'une session
+exports.getHistoriqueSession = async (req, res) => {
+  try {
+    const result = await service.getHistoriqueSession(req.params.groupClassId);
+    return res.json(result);
+  } catch (err) {
+    return res.status(err.status || 500).json({ message: err.message || "Erreur serveur" });
+  }
+};

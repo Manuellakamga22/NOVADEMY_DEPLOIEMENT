@@ -98,6 +98,16 @@ exports.getPlanningByTeacherId = async (teacherId) => {
   return await repository.getPlanningByTeacherId(teacherId);
 };
 
+// récupère les créneaux avec leur statut de réservation (pour l'élève qui choisit un créneau)
+// is_reserved = 1 si une demande acceptée existe pour ce créneau
+exports.getPlanningWithStatus = async (teacherId) => {
+  if (!teacherId) {
+    throw { status: 400, message: "teacherId manquant." };
+  }
+
+  return await repository.getPlanningWithStatus(teacherId);
+};
+
 // récupère les créneaux d'un prof pour une semaine donnée
 exports.getPlanningParSemaine = async (teacherId, dateDebut, dateFin) => {
   if (!teacherId || !dateDebut || !dateFin) {

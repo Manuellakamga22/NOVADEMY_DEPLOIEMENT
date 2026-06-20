@@ -1,6 +1,6 @@
 const teacherProfileRepository = require("../repositories/TeacherProfileRepository");
 
-// je récupère le profil d'un prof
+// profil prof
 exports.getTeacherProfile = async (userId) => {
   if (!userId) throw { status: 400, message: "userId manquant" };
 
@@ -22,7 +22,7 @@ exports.getTeacherProfile = async (userId) => {
   };
 };
 
-// je sauvegarde le profil d'un prof
+// save profil
 exports.saveTeacherProfile = async ({
   user_id,
   city,
@@ -73,7 +73,7 @@ exports.saveTeacherProfile = async ({
   };
 };
 
-// je sauvegarde la photo du prof
+// update photo
 exports.saveTeacherPhoto = async (userId, photoUrl) => {
   if (!userId || !photoUrl) throw { status: 400, message: "Paramètres manquants" };
 

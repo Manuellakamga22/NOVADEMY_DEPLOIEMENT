@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { apiFetch } from "../config/api.js";
 
 function ResetPassword() {
   const { token } = useParams();
@@ -10,7 +11,7 @@ function ResetPassword() {
   });
 
   const isStrongPassword = (password) => {
-    return /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{12,}$/.test(password);
   };
 
   const handleChange = (e) => {
@@ -26,7 +27,7 @@ function ResetPassword() {
     }
 
     if (!isStrongPassword(formData.newPassword)) {
-      alert("Le mot de passe doit contenir au moins 8 caractères, 1 majuscule et 1 chiffre.");
+      alert("Le mot de passe doit contenir au moins 12 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial.");
       return;
     }
 
@@ -36,7 +37,7 @@ function ResetPassword() {
     }
 
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/auth/reset-password", {
+      const response = await apiFetch("/api/auth/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

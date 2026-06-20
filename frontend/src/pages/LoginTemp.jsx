@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "../config/api.js";
 export function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
@@ -19,7 +20,7 @@ function LoginTemp() {
     e.preventDefault();
 
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/auth/login", {
+      const response = await apiFetch(`/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,6 +48,7 @@ function LoginTemp() {
         role: data.user.role,
       };
 
+      localStorage.clear();
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(safeUser));
 

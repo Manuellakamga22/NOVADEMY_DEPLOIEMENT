@@ -1,4 +1,4 @@
-jest.mock("../repositories/trialRepository", () => ({
+jest.mock("../repositories/trialRequestRepository", () => ({
   findExistingTrialRequest: jest.fn(),
   createTrialRequest: jest.fn(),
   getTeacherTrials: jest.fn(),

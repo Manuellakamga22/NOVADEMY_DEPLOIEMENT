@@ -155,6 +155,17 @@ exports.getTrialById = async (trialId) => {
   return rows[0] || null;
 };
 
+// vérifie si un créneau est déjà bloqué par une demande acceptée
+exports.isSlotReserved = async (planningId) => {
+  const [rows] = await db.query(
+    `SELECT id FROM trial_requests
+     WHERE planning_id = ? AND status = 'accepted'
+     LIMIT 1`,
+    [planningId]
+  );
+  return !!rows[0];
+};
+
 exports.hasAcceptedTrialBetweenUsers = async (studentId, teacherId) => {
   const [rows] = await db.query(
     `

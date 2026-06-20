@@ -1,6 +1,6 @@
 const db = require("../db");
 
-// je récupère tous les messages entre deux users
+// liste des messages entre deux users
 exports.getMessagesBetweenUsers = async (senderId, receiverId) => {
   const [rows] = await db.query(
     `SELECT *
@@ -13,14 +13,14 @@ exports.getMessagesBetweenUsers = async (senderId, receiverId) => {
   return rows;
 };
 
-// je crée un message en gérant automatiquement la conversation
+// create un message en gérant automatiquement la conversation
 exports.createMessage = async ({
   sender_id,
   receiver_id,
   content,
   blocked_content_detected
 }) => {
-  // je cherche si une conversation existe déjà entre ces deux users
+  // check si une conversation existe déjà entre ces deux users
   const [convRows] = await db.query(
     `SELECT id FROM conversations
      WHERE (teacher_id = ? AND student_id = ?)
@@ -35,7 +35,7 @@ exports.createMessage = async ({
     // j'utilise la conversation existante
     conversation_id = convRows[0].id;
   } else {
-    // je cherche l'announcement_id depuis un trial accepté entre ces deux users
+    // check l'announcement_id depuis un trial accepté entre ces deux users
     const [trialRows] = await db.query(
       `SELECT announcement_id FROM trial_requests
        WHERE ((student_id = ? AND teacher_id = ?) OR (student_id = ? AND teacher_id = ?))
@@ -44,9 +44,9 @@ exports.createMessage = async ({
       [sender_id, receiver_id, receiver_id, sender_id]
     );
 
-    const announcement_id = trialRows.length > 0 ? trialRows[0].announcement_id : 1;
+    const announcement_id = trialRows.length > 0 ? (trialRows[0].announcement_id || null) : null;
 
-    // je détermine qui est prof et qui est élève
+    // détermine qui est prof et qui est élève
     const [userRows] = await db.query(
       `SELECT id, role FROM users WHERE id IN (?, ?)`,
       [sender_id, receiver_id]
@@ -57,7 +57,7 @@ exports.createMessage = async ({
     const teacher_id = teacher ? teacher.id : sender_id;
     const student_id = student ? student.id : receiver_id;
 
-    // je crée la conversation
+    // create la conversation
     const [newConv] = await db.query(
       `INSERT INTO conversations (teacher_id, student_id, announcement_id)
        VALUES (?, ?, ?)`,

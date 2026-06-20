@@ -1,26 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-const S = {
-  wrap:{ fontFamily:"Segoe UI", minHeight:"100vh", background:"#F9FAFB" },
-  logo:{ fontSize:20, fontWeight:800 },
-  logoEm:{ color:"#2563EB" },
-  dash:{ display:"grid", gridTemplateColumns:"240px 1fr", minHeight:"100vh" },
-  sidebar:{ background:"#fff", borderRight:"1px solid #E5E7EB", display:"flex", flexDirection:"column", height:"100vh" },
-  sbBrand:{ padding:20, borderBottom:"1px solid #E5E7EB" },
-  sbRole:{ fontSize:10, fontWeight:700, background:"#FEF2F2", color:"#DC2626", padding:"2px 10px", borderRadius:20, display:"inline-block" },
-  sbNav:{ padding:12, flex:1 },
-  sbLink:{ padding:"10px 12px", display:"block", textDecoration:"none", color:"#4B5563" },
-  sbLinkActive:{ padding:"10px 12px", display:"block", background:"#EFF6FF", color:"#2563EB", fontWeight:600, textDecoration:"none" },
-  sbUser:{ padding:"14px 20px", borderTop:"1px solid #E5E7EB", display:"flex", alignItems:"center", gap:10 },
-  av:{ width:34, height:34, borderRadius:"50%", background:"linear-gradient(135deg,#6B7280,#374151)", display:"flex", alignItems:"center", justifyContent:"center", color:"#fff", fontWeight:700, fontSize:12, flexShrink:0 },
-  main:{ padding:30 },
-  title:{ fontSize:26, fontWeight:800 },
-  sub:{ fontSize:14, color:"#9CA3AF", marginBottom:24 },
-  grid:{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, marginTop:25 },
-  card:{ background:"#fff", padding:20, borderRadius:12, border:"1px solid #E5E7EB" },
-  stat:{ fontSize:30, fontWeight:800 },
-  label:{ fontSize:12, color:"#9CA3AF", marginBottom:8 },
-};
+import S from "../styles/pages/AdminStats.styles.js";
+import { apiFetch } from "../config/api.js";
+import Sidebar from "../components/layout/Sidebar.jsx";
 
 function AdminStats() {
   const savedUser = localStorage.getItem("user");
@@ -41,11 +23,11 @@ function AdminStats() {
       try {
         const [teachersRes, studentsRes, trialsRes, paymentsRes, groupRes] =
           await Promise.all([
-            fetch("${import.meta.env.VITE_API_URL}/api/teachers",                   { headers }),
-            fetch("${import.meta.env.VITE_API_URL}/api/students",                   { headers }),
-            fetch("${import.meta.env.VITE_API_URL}/api/trials",                     { headers }),
-            fetch("${import.meta.env.VITE_API_URL}/api/payments",                   { headers }),
-            fetch("${import.meta.env.VITE_API_URL}/api/group-classes/open",         { headers }),
+            apiFetch("/api/teachers",                   { headers }),
+            apiFetch("/api/students",                   { headers }),
+            apiFetch("/api/trials",                     { headers }),
+            apiFetch("/api/payments",                   { headers }),
+            apiFetch("/api/group-classes/open",         { headers }),
           ]);
 
         if (teachersRes.ok)     setTeachers(await teachersRes.json());
@@ -84,33 +66,8 @@ function AdminStats() {
       <div style={S.dash}>
 
         {/* ── SIDEBAR ── */}
-        <aside style={S.sidebar}>
-          <div style={S.sbBrand}>
-            <div style={S.logo}>NOVA<span style={S.logoEm}>DEMY</span></div>
-            <div style={S.sbRole}>Admin</div>
-          </div>
-
-          <nav style={S.sbNav}>
-            <a href="/admin/dashboard"     style={S.sbLink}>📊 Dashboard</a>
-            <a href="/admin/teachers"      style={S.sbLink}>👩‍🏫 Professeurs</a>
-            <a href="/admin/students"      style={S.sbLink}>🎓 Élèves</a>
-            <a href="/admin/announcements" style={S.sbLink}>📢 Annonces</a>
-            <a href="/admin/trials"        style={S.sbLink}>🧪 Essais</a>
-            <a href="/admin/payments"      style={S.sbLink}>💳 Paiements</a>
-            <a href="/admin/stats"         style={S.sbLinkActive}>📈 Statistiques</a>
-            <a href="/admin/settings"      style={S.sbLink}>⚙️ Paramètres</a>
-          </nav>
-
-          <div style={S.sbUser}>
-            <div style={S.av}>{user?.prenom?.[0]?.toUpperCase() || "A"}</div>
-            <div>
-              <div style={{ fontSize:13, fontWeight:600 }}>
-                {user ? `${user.prenom} ${user.nom}` : "Administrateur"}
-              </div>
-              <div style={{ fontSize:11, color:"#9CA3AF" }}>Super Admin</div>
-            </div>
-          </div>
-        </aside>
+        {/* ── SIDEBAR ── */}
+        <Sidebar role={"admin"} user={user} active={"/admin/stats"} />
 
         {/* ── MAIN ── */}
         <main style={S.main}>

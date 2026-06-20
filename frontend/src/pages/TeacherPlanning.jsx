@@ -1,59 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-const S = {
-  wrap: { fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#F9FAFB" },
-  dash: { display: "grid", gridTemplateColumns: "280px 1fr", minHeight: "100vh" },
-  sidebar: { background: "#fff", borderRight: "1px solid #E5E7EB", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", overflowY: "auto" },
-  sbBrand: { padding: "26px 22px", borderBottom: "1px solid #E5E7EB" },
-  logo: { fontSize: 21, fontWeight: 800, letterSpacing: "-0.02em" },
-  logoEm: { color: "#2563EB" },
-  sbRole: { display: "inline-block", marginTop: 10, fontSize: 14, fontWeight: 700, textTransform: "uppercase", padding: "5px 12px", borderRadius: 20, background: "#EFF6FF", color: "#2563EB" },
-  sbNav: { padding: 14, flex: 1 },
-  sbLabel: { fontSize: 13, fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#9CA3AF", padding: "0 10px", margin: "18px 0 8px", display: "block" },
-  sbLink: { display: "flex", alignItems: "center", gap: 12, padding: "14px 15px", borderRadius: 10, fontSize: 17, fontWeight: 500, color: "#4B5563", textDecoration: "none", marginBottom: 4 },
-  sbLinkActive: { display: "flex", alignItems: "center", gap: 12, padding: "14px 15px", borderRadius: 10, fontSize: 17, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", textDecoration: "none", marginBottom: 4 },
-  sbUser: { padding: "18px 22px", borderTop: "1px solid #E5E7EB", display: "flex", alignItems: "center", gap: 12 },
-  av: { width: 42, height: 42, borderRadius: "50%", background: "linear-gradient(135deg,#2563EB,#1D4ED8)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 17, flexShrink: 0 },
-  main: { padding: "30px" },
-  pageTitle: { fontSize: 28, fontWeight: 800, color: "#111827", marginBottom: 6 },
-  pageSub: { fontSize: 16, color: "#6B7280", marginBottom: 24 },
-  card: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "20px 22px", marginBottom: 18 },
-  cardTitle: { fontSize: 17, fontWeight: 800, marginBottom: 14, color: "#111827" },
-  successMsg: { background: "#ECFDF5", border: "1px solid #A7F3D0", color: "#059669", borderRadius: 10, padding: "12px 16px", fontSize: 14, marginBottom: 16 },
-  errorMsg: { background: "#FEF2F2", border: "1px solid #FCA5A5", color: "#DC2626", borderRadius: 10, padding: "12px 16px", fontSize: 14, marginBottom: 16 },
-  empty: { textAlign: "center", padding: "28px", color: "#9CA3AF", fontSize: 15 },
-  navRow: { display: "flex", alignItems: "center", gap: 10, marginBottom: 18, flexWrap: "wrap" },
-  navBtn: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 8, padding: "8px 16px", fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", color: "#374151" },
-  navTitre: { flex: 1, textAlign: "center", fontSize: 15, fontWeight: 700, color: "#111827" },
-  agendaWrap: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 16, overflow: "auto", marginBottom: 20 },
-  agendaTable: { width: "100%", borderCollapse: "collapse", minWidth: 600 },
-  thHeure: { padding: "12px 8px", fontSize: 12, fontWeight: 700, color: "#9CA3AF", background: "#F9FAFB", borderBottom: "1px solid #E5E7EB", borderRight: "1px solid #E5E7EB", width: 90, textAlign: "center" },
-  thJour: { padding: "12px 8px", fontSize: 13, fontWeight: 700, color: "#374151", background: "#F9FAFB", borderBottom: "1px solid #E5E7EB", borderRight: "1px solid #F3F4F6", textAlign: "center" },
-  thJourAujourd: { padding: "12px 8px", fontSize: 13, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", borderBottom: "2px solid #2563EB", borderRight: "1px solid #F3F4F6", textAlign: "center" },
-  tdHeure: { padding: "10px 8px", fontSize: 12, color: "#9CA3AF", background: "#F9FAFB", borderBottom: "1px solid #F3F4F6", borderRight: "1px solid #E5E7EB", textAlign: "center", fontWeight: 600 },
-  tdCell: { padding: 6, borderBottom: "1px solid #F3F4F6", borderRight: "1px solid #F3F4F6", textAlign: "center", cursor: "pointer" },
-  tdCellSelected: { padding: 6, borderBottom: "1px solid #F3F4F6", borderRight: "1px solid #F3F4F6", textAlign: "center", cursor: "pointer", background: "#EFF6FF" },
-  checkbox: { width: 22, height: 22, borderRadius: 6, border: "2px solid #D1D5DB", background: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", cursor: "pointer" },
-  checkboxSelected: { width: 22, height: 22, borderRadius: 6, border: "2px solid #2563EB", background: "#2563EB", display: "inline-flex", alignItems: "center", justifyContent: "center", cursor: "pointer" },
-  daysRow: { display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" },
-  dayChip: { padding: "8px 14px", borderRadius: 20, border: "1.5px solid #E5E7EB", background: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer", color: "#374151", fontFamily: "inherit" },
-  dayChipActive: { padding: "8px 14px", borderRadius: 20, border: "1.5px solid #2563EB", background: "#EFF6FF", fontSize: 13, fontWeight: 700, cursor: "pointer", color: "#2563EB", fontFamily: "inherit" },
-  actionsRow: { display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" },
-  btnPrimary: { background: "#2563EB", color: "#fff", border: "none", borderRadius: 10, padding: "12px 22px", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" },
-  btnGhost: { background: "#F3F4F6", color: "#4B5563", border: "none", borderRadius: 10, padding: "12px 22px", fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" },
-  btnDanger: { background: "#FEF2F2", color: "#DC2626", border: "1px solid #FCA5A5", borderRadius: 10, padding: "10px 20px", fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" },
-  pill: { fontSize: 12, fontWeight: 700, padding: "3px 9px", borderRadius: 20, background: "#EFF6FF", color: "#2563EB", display: "inline-block", margin: "2px 3px" },
-  overlay: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 20 },
-  modal: { background: "#fff", borderRadius: 16, padding: "28px 26px", width: "100%", maxWidth: 460, boxShadow: "0 20px 60px rgba(0,0,0,.15)" },
-  modalTitle: { fontSize: 18, fontWeight: 800, color: "#111827", marginBottom: 20 },
-  label: { fontSize: 13, fontWeight: 700, color: "#374151", display: "block", marginBottom: 6 },
-  input: { width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #D1D5DB", fontSize: 14, fontFamily: "inherit", boxSizing: "border-box", marginBottom: 14 },
-  dureeRow: { display: "flex", alignItems: "center", gap: 10, marginBottom: 14 },
-  dureeBtn: { width: 36, height: 36, borderRadius: 8, border: "1px solid #D1D5DB", background: "#F3F4F6", fontSize: 20, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit", color: "#374151" },
-  dureeVal: { minWidth: 80, textAlign: "center", fontSize: 15, fontWeight: 800, color: "#111827" },
-  heureFinBox: { padding: "10px 12px", borderRadius: 8, background: "#EFF6FF", color: "#2563EB", fontWeight: 800, textAlign: "center", marginBottom: 14 },
-  modalActions: { display: "flex", gap: 10, marginTop: 6, flexWrap: "wrap" },
-};
+import S from "../styles/pages/TeacherPlanning.styles.js";
+import { apiFetch } from "../config/api.js";
+import Sidebar from "../components/layout/Sidebar.jsx";
 
 const JOURS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
 const CRENEAUX = [
@@ -106,9 +55,9 @@ function TeacherPlanning() {
   const [creneauEdite, setCreneauEdite] = useState(null);
   const [formDate, setFormDate] = useState("");
   const [formHeure, setFormHeure] = useState("09:00");
-  const [formDuree, setFormDuree] = useState(60);
   const [formTitre, setFormTitre] = useState("");
-  const fin = calcFin(formHeure, formDuree);
+  // la durée est toujours 60 min (blocs fixes d'1h) — le prof ne choisit pas la durée
+  const fin = calcFin(formHeure, 60);
 
   const joursSemaine = Array.from({ length: 7 }, (_, i) => {
     const d = new Date(lundi);
@@ -174,7 +123,7 @@ function TeacherPlanning() {
     setSaving(true);
     try {
       for (const item of creneauxDB) {
-        await fetch(`${import.meta.env.VITE_API_URL}/api/teacher-planning/${item.id}/deactivate`, {
+        await apiFetch(`/api/teacher-planning/${item.id}/deactivate`, {
           method: "PUT",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({ teacher_id: user.id }),
@@ -186,7 +135,7 @@ function TeacherPlanning() {
         const [hs, ms] = start.split(":").map(Number);
         const [he, me] = end.split(":").map(Number);
         const dureeMin = (he * 60 + me) - (hs * 60 + ms);
-        await fetch("${import.meta.env.VITE_API_URL}/api/teacher-planning", {
+        await apiFetch("/api/teacher-planning", {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({
@@ -221,7 +170,6 @@ function TeacherPlanning() {
     setModeModal(mode);
     setFormDate(item.planning_date ? item.planning_date.slice(0, 10) : "");
     setFormHeure(item.start_time.slice(0, 5));
-    setFormDuree(item.duration_minutes || 60);
     setFormTitre(item.course_title || "");
     setModalOuvert(true);
   };
@@ -231,16 +179,15 @@ function TeacherPlanning() {
   const handleModifier = async () => {
     if (!creneauEdite) return;
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/teacher-planning/${creneauEdite.id}`, {
+      const res = await apiFetch(`/api/teacher-planning/${creneauEdite.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           teacher_id: user.id,
           planning_date: formDate || null,
           day_of_week: creneauEdite.day_of_week,
           start_time: formHeure,
           end_time: fin,
-          duration_minutes: formDuree,
+          duration_minutes: 60,
           course_title: formTitre || "Disponible",
           course_type: creneauEdite.course_type || "cours_essai",
           is_reported: modeModal === "report" ? 1 : 0,
@@ -261,7 +208,7 @@ function TeacherPlanning() {
     if (!creneauEdite) return;
     if (!window.confirm("Supprimer ce créneau ?")) return;
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/teacher-planning/${creneauEdite.id}/deactivate`, {
+      await apiFetch(`/api/teacher-planning/${creneauEdite.id}/deactivate`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ teacher_id: user.id }),
@@ -278,33 +225,8 @@ function TeacherPlanning() {
   return (
     <div style={S.wrap}>
       <div style={S.dash}>
-        <aside style={S.sidebar}>
-          <div style={S.sbBrand}>
-            <div style={S.logo}>NOVA<span style={S.logoEm}>DEMY</span></div>
-            <span style={S.sbRole}>Professeur</span>
-          </div>
-          <nav style={S.sbNav}>
-            <span style={S.sbLabel}>Principal</span>
-            <a style={S.sbLink} href="/teacher/dashboard">🏠 Tableau de bord</a>
-            <a style={S.sbLink} href="/teacher/profile">👤 Mon profil</a>
-            <a style={S.sbLink} href="/teacher/announcements">📢 Mes annonces</a>
-            <span style={S.sbLabel}>Organisation</span>
-            <a style={S.sbLinkActive} href="/teacher/planning">📅 Planning</a>
-            <a style={S.sbLink} href="/teacher/requests">📋 Demandes</a>
-            <a style={S.sbLink} href="/teacher/students">👩‍🎓 Mes élèves</a>
-            <a style={S.sbLink} href="/student/chat">💬 Messages</a>
-            <span style={S.sbLabel}>Compte</span>
-            <a style={S.sbLink} href="/teacher/revenue">💰 Revenus</a>
-            <a style={S.sbLink} href="/teacher/collective/classes">👥 Classes collectives</a>
-          </nav>
-          <div style={S.sbUser}>
-            <div style={S.av}>{user?.prenom?.[0]?.toUpperCase() || "P"}</div>
-            <div>
-              <div style={{ fontSize: 15, fontWeight: 700 }}>{user ? `${user.prenom} ${user.nom}` : "Prof"}</div>
-              <div style={{ fontSize: 13, color: "#9CA3AF" }}>Professeur</div>
-            </div>
-          </div>
-        </aside>
+        
+        <Sidebar role={"professeur"} user={user} active={"/teacher/planning"} />
 
         <main style={S.main}>
           <div style={S.pageTitle}>📅 Mon planning</div>
@@ -442,20 +364,8 @@ function TeacherPlanning() {
             <input type="time" value={formHeure} step="900"
               onChange={e => setFormHeure(e.target.value)} style={S.input} />
 
-            <label style={S.label}>Durée (1h min — 4h max)</label>
-            <div style={S.dureeRow}>
-              <button style={S.dureeBtn} type="button"
-                onClick={() => setFormDuree(d => Math.max(d - 15, 60))}
-                disabled={formDuree <= 60}>−</button>
-              <span style={S.dureeVal}>{formatDuree(formDuree)}</span>
-              <button style={S.dureeBtn} type="button"
-                onClick={() => setFormDuree(d => Math.min(d + 15, 240))}
-                disabled={formDuree >= 240}>+</button>
-              <span style={{ fontSize: 12, color: "#9CA3AF" }}>+15 min par clic</span>
-            </div>
-
-            <label style={S.label}>Heure de fin (calculée automatiquement)</label>
-            <div style={S.heureFinBox}>{fin}</div>
+            <label style={S.label}>Heure de fin</label>
+            <div style={S.heureFinBox}>{fin} <span style={{ fontSize: 12, color: "#9CA3AF" }}>(1h — fixé par le créneau)</span></div>
 
             <label style={S.label}>Titre (optionnel)</label>
             <input type="text" value={formTitre}

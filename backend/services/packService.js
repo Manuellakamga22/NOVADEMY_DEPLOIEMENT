@@ -38,7 +38,7 @@ exports.proposeFormula = async ({
     trial_request_id, teacher_id, student_id, announcement_id, teacher_rate, formula_id
   });
 
-  // je notifie l'élève que le prof lui a proposé une formule
+  // notif l'élève que le prof lui a proposé une formule
   try {
     const [teacherRows] = await db.query(
       `SELECT prenom, nom FROM users WHERE id = ? LIMIT 1`,
@@ -88,4 +88,17 @@ exports.acceptFormula = async (id) => {
 exports.getAcceptedFormula = async (studentId) => {
   if (!studentId) throw { status: 400, message: "studentId manquant" };
   return await packRepository.getAcceptedFormula(studentId);
+};
+
+exports.rejectFormula = async (id) => {
+  if (!id) throw { status: 400, message: "ID formule manquant" };
+  await packRepository.rejectFormula(id);
+  return { message: "Formule refusée" };
+};
+
+exports.getFormulaById = async (id) => {
+  if (!id) throw { status: 400, message: "ID formule manquant" };
+  const formula = await packRepository.getFormulaById(id);
+  if (!formula) throw { status: 404, message: "Formule introuvable" };
+  return formula;
 };

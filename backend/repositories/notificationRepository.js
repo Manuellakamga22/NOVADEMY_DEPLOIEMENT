@@ -33,48 +33,82 @@ notificationSchema.index({ user_id: 1, lue: 1 });
 
 const Notification = mongoose.model("Notification", notificationSchema);
 
+function mongoDisponible() {
+  return mongoose.connection.readyState === 1;
+}
+
 // crée une nouvelle notification
 exports.creer = async (data) => {
-  const notif = new Notification(data);
-  return await notif.save();
+  if (!mongoDisponible()) return null;
+  try {
+    const notif = new Notification(data);
+    return await notif.save();
+  } catch (err) {
+    console.error("Erreur création notification :", err.message);
+    return null;
+  }
 };
 
 // récupère les 30 dernières notifications d'un utilisateur
 exports.getParUtilisateur = async (userId) => {
-  return await Notification.find({ user_id: Number(userId) })
-    .sort({ createdAt: -1 })
-    .limit(30);
+  if (!mongoDisponible()) return [];
+  try {
+    return await Notification.find({ user_id: Number(userId) })
+      .sort({ createdAt: -1 })
+      .limit(30);
+  } catch (err) {
+    console.error("Erreur lecture notifications :", err.message);
+    return [];
+  }
 };
 
 // compte les non lues
 exports.compterNonLues = async (userId) => {
-  return await Notification.countDocuments({
-    user_id: Number(userId),
-    lue: false,
-  });
+  if (!mongoDisponible()) return 0;
+  try {
+    return await Notification.countDocuments({ user_id: Number(userId), lue: false });
+  } catch (err) {
+    console.error("Erreur comptage notifications :", err.message);
+    return 0;
+  }
 };
 
 // marque une notification comme lue
 exports.marquerLue = async (notifId, userId) => {
-  return await Notification.findOneAndUpdate(
-    { _id: notifId, user_id: Number(userId) },
-    { lue: true },
-    { new: true }
-  );
+  if (!mongoDisponible()) return null;
+  try {
+    return await Notification.findOneAndUpdate(
+      { _id: notifId, user_id: Number(userId) },
+      { lue: true },
+      { new: true }
+    );
+  } catch (err) {
+    console.error("Erreur marquer lue :", err.message);
+    return null;
+  }
 };
 
 // marque toutes les notifications d'un user comme lues
 exports.marquerToutesLues = async (userId) => {
-  return await Notification.updateMany(
-    { user_id: Number(userId), lue: false },
-    { lue: true }
-  );
+  if (!mongoDisponible()) return null;
+  try {
+    return await Notification.updateMany(
+      { user_id: Number(userId), lue: false },
+      { lue: true }
+    );
+  } catch (err) {
+    console.error("Erreur marquer toutes lues :", err.message);
+    return null;
+  }
 };
 
 // supprime une notification
 exports.supprimer = async (notifId, userId) => {
-  return await Notification.findOneAndDelete({
-    _id: notifId,
-    user_id: Number(userId),
-  });
+  if (!mongoDisponible()) return null;
+  try {
+    return await Notification.findOneAndDelete({ _id: notifId, user_id: Number(userId) });
+  } catch (err) {
+    console.error("Erreur suppression notification :", err.message);
+    return null;
+  }
 };

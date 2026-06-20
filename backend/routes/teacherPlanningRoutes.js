@@ -11,6 +11,13 @@ router.post(
   controller.createPlanning
 );
 
+// récupérer les créneaux avec statut réservation (usage élève — TrialRequest)
+router.get(
+  "/teacher/:teacherId/disponibilites",
+  verifyToken,
+  controller.getPlanningWithStatus
+);
+
 // récupérer tous les créneaux d'un prof
 router.get(
   "/teacher/:teacherId",

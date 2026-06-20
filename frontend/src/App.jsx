@@ -45,57 +45,71 @@ import StudentPayments from "./pages/StudentPayments";
 import AnnouncementDetails from "./pages/AnnouncementDetails";
 import AdminAlertIA from "./pages/AdminAlertIA";
 import Notifications from "./pages/Notifications";
+import StudentCollectiveClasses from "./pages/StudentCollectiveClasses";
+import CookieBanner from "./components/common/CookieBanner";
+import CGU from "./pages/CGU";
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import AccountActivation from "./pages/AccountActivation";
 
 function App() {
   return (
     <BrowserRouter>
+      <CookieBanner />
       <Routes>
         <Route path="/" element={<HomeTemp />} />
         <Route path="/login" element={<LoginTemp />} />
         <Route path="/register" element={<RegisterTemp />} />
         <Route path="/register/student" element={<StudentRegisterTemp />} />
         <Route path="/register/teacher" element={<TeacherRegisterTemp />} />
-        <Route path="/student/dashboard" element={<StudentDashboard />} />
-        <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/search" element={<SearchTeachers />} />
-        <Route path="/teacher/profile" element={<TeacherProfile />} />
-        <Route path="/student/profile" element={<StudentProfile />} />
-        <Route path="/student/planning" element={<StudentPlanning />} />
-        <Route path="/trial-request" element={<TrialRequest />} />
-        <Route path="/teacher/requests" element={<TeacherRequests />} />
-        <Route path="/chat" element={<StudentChat />} />
-        <Route path="/student/chat" element={<StudentChat />} />
-        <Route path="/pack-proposal" element={<PackProposal />} />
-        <Route path="/payment" element={<Payment />} />
+        <Route path="/student/dashboard" element={<ProtectedRoute allowedRole="student"><StudentDashboard /></ProtectedRoute>} />
+        <Route path="/teacher/dashboard" element={<ProtectedRoute allowedRole="teacher"><TeacherDashboard /></ProtectedRoute>} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute allowedRole="admin"><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/search" element={<ProtectedRoute><SearchTeachers /></ProtectedRoute>} />
+        <Route path="/teacher/profile" element={<ProtectedRoute allowedRole="teacher"><TeacherProfile /></ProtectedRoute>} />
+        <Route path="/student/profile" element={<ProtectedRoute allowedRole="student"><StudentProfile /></ProtectedRoute>} />
+        <Route path="/student/planning" element={<ProtectedRoute allowedRole="student"><StudentPlanning /></ProtectedRoute>} />
+        <Route path="/trial-request" element={<ProtectedRoute allowedRole="student"><TrialRequest /></ProtectedRoute>} />
+        <Route path="/teacher/requests" element={<ProtectedRoute allowedRole="teacher"><TeacherRequests /></ProtectedRoute>} />
+        <Route path="/chat" element={<ProtectedRoute><StudentChat /></ProtectedRoute>} />
+        <Route path="/student/chat" element={<ProtectedRoute allowedRole="student"><StudentChat /></ProtectedRoute>} />
+        <Route path="/teacher/chat" element={<ProtectedRoute allowedRole="teacher"><StudentChat /></ProtectedRoute>} />
+        <Route path="/pack-proposal" element={<ProtectedRoute allowedRole="teacher"><PackProposal /></ProtectedRoute>} />
+        <Route path="/payment" element={<ProtectedRoute allowedRole="student"><Payment /></ProtectedRoute>} />
+        <Route path="/payment/success" element={<ProtectedRoute allowedRole="student"><PaymentSuccess /></ProtectedRoute>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/teacher/planning" element={<TeacherPlanning />} />
-        <Route path="/teacher/announcements" element={<TeacherAnnouncements />} />
-        <Route path="/teacher/revenue" element={<TeacherRevenue />} />
-        <Route path="/student/requests" element={<StudentRequests />} />
-        <Route path="/student/review" element={<StudentReview />} />
-        <Route path="/student/courses" element={<StudentCourses />} />
+        <Route path="/teacher/planning" element={<ProtectedRoute allowedRole="teacher"><TeacherPlanning /></ProtectedRoute>} />
+        <Route path="/teacher/announcements" element={<ProtectedRoute allowedRole="teacher"><TeacherAnnouncements /></ProtectedRoute>} />
+        <Route path="/teacher/revenue" element={<ProtectedRoute allowedRole="teacher"><TeacherRevenue /></ProtectedRoute>} />
+        <Route path="/student/requests" element={<ProtectedRoute allowedRole="student"><StudentRequests /></ProtectedRoute>} />
+        <Route path="/student/review" element={<ProtectedRoute allowedRole="student"><StudentReview /></ProtectedRoute>} />
+        <Route path="/student/courses" element={<ProtectedRoute allowedRole="student"><StudentCourses /></ProtectedRoute>} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/student/packs" element={<StudentPacks />} />
+        <Route path="/activate/:token" element={<AccountActivation />} />
+        <Route path="/student/packs" element={<ProtectedRoute allowedRole="student"><StudentPacks /></ProtectedRoute>} />
         <Route path="/nos-formules" element={<NosFormules />} />
         <Route path="/donner-cours" element={<DonnerDesCours />} />
         <Route path="/aide" element={<Aide />} />
-        <Route path="/teacher/propose/formula" element={<TeacherProposeFormula />} />
-        <Route path="/teacher/collective/classes" element={<TeacherCollectiveClasses />} />
-        <Route path="/admin/teachers" element={<AdminTeachers />} />
-        <Route path="/admin/students" element={<AdminStudents />} />
-        <Route path="/admin/announcements" element={<AdminAnnouncements />} />
-        <Route path="/admin/payments" element={<AdminPayments />} />
-        <Route path="/admin/trials" element={<AdminTrials />} />
-        <Route path="/admin/stats" element={<AdminStats />} />
-        <Route path="/admin/settings" element={<AdminSettings />} />
-        <Route path="/admin/reviews" element={<AdminReviews />} />
-        <Route path="/teacher/students" element={<TeacherStudents />} />
-        <Route path="/student/teachers" element={<StudentTeachers />} />
-        <Route path="/student/payments" element={<StudentPayments />} />
-        <Route path="/announcement/:id" element={<AnnouncementDetails />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/admin/alerts" element={<AdminAlertIA />} />
+        <Route path="/teacher/propose/formula" element={<ProtectedRoute allowedRole="teacher"><TeacherProposeFormula /></ProtectedRoute>} />
+        <Route path="/teacher/collective/classes" element={<ProtectedRoute allowedRole="teacher"><TeacherCollectiveClasses /></ProtectedRoute>} />
+        <Route path="/student/collective/classes" element={<ProtectedRoute allowedRole="student"><StudentCollectiveClasses /></ProtectedRoute>} />
+        <Route path="/admin/teachers" element={<ProtectedRoute allowedRole="admin"><AdminTeachers /></ProtectedRoute>} />
+        <Route path="/admin/students" element={<ProtectedRoute allowedRole="admin"><AdminStudents /></ProtectedRoute>} />
+        <Route path="/admin/announcements" element={<ProtectedRoute allowedRole="admin"><AdminAnnouncements /></ProtectedRoute>} />
+        <Route path="/admin/payments" element={<ProtectedRoute allowedRole="admin"><AdminPayments /></ProtectedRoute>} />
+        <Route path="/admin/trials" element={<ProtectedRoute allowedRole="admin"><AdminTrials /></ProtectedRoute>} />
+        <Route path="/admin/stats" element={<ProtectedRoute allowedRole="admin"><AdminStats /></ProtectedRoute>} />
+        <Route path="/admin/settings" element={<ProtectedRoute allowedRole="admin"><AdminSettings /></ProtectedRoute>} />
+        <Route path="/admin/reviews" element={<ProtectedRoute allowedRole="admin"><AdminReviews /></ProtectedRoute>} />
+        <Route path="/teacher/students" element={<ProtectedRoute allowedRole="teacher"><TeacherStudents /></ProtectedRoute>} />
+        <Route path="/student/teachers" element={<ProtectedRoute allowedRole="student"><StudentTeachers /></ProtectedRoute>} />
+        <Route path="/student/payments" element={<ProtectedRoute allowedRole="student"><StudentPayments /></ProtectedRoute>} />
+        <Route path="/announcement/:id" element={<ProtectedRoute><AnnouncementDetails /></ProtectedRoute>} />
+        <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+        <Route path="/admin/alerts" element={<ProtectedRoute allowedRole="admin"><AdminAlertIA /></ProtectedRoute>} />
+        <Route path="/cgu" element={<CGU />} />
+        <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
       </Routes>
     </BrowserRouter>
   );

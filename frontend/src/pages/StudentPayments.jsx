@@ -1,41 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-const S = {
-  wrap: { fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#F9FAFB" },
-  logo: { fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em" },
-  logoEm: { color: "#2563EB" },
-  dash: { display: "grid", gridTemplateColumns: "280px 1fr", minHeight: "100vh" },
-  sidebar: { background: "#fff", borderRight: "1px solid #E5E7EB", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", overflowY: "auto" },
-  sbBrand: { padding: "26px 22px", borderBottom: "1px solid #E5E7EB" },
-  sbRole: { display: "inline-block", marginTop: 10, fontSize: 13, fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", padding: "5px 12px", borderRadius: 20, background: "#ECFDF5", color: "#059669" },
-  sbNav: { padding: 14, flex: 1 },
-  sbLabel: { fontSize: 12, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#9CA3AF", padding: "0 10px", margin: "18px 0 8px", display: "block" },
-  sbLink: { display: "flex", alignItems: "center", gap: 12, padding: "14px 15px", borderRadius: 10, fontSize: 17, fontWeight: 500, color: "#4B5563", textDecoration: "none", marginBottom: 4 },
-  sbLinkActive: { display: "flex", alignItems: "center", gap: 12, padding: "14px 15px", borderRadius: 10, fontSize: 17, fontWeight: 700, color: "#2563EB", background: "#EFF6FF", textDecoration: "none", marginBottom: 4 },
-  sbUser: { padding: "18px 22px", borderTop: "1px solid #E5E7EB", display: "flex", alignItems: "center", gap: 12 },
-  av: { width: 42, height: 42, borderRadius: "50%", background: "linear-gradient(135deg,#059669,#0891B2)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 16, flexShrink: 0 },
-  main: { padding: "30px 32px" },
-  pageTitle: { fontSize: 28, fontWeight: 800, color: "#111827", marginBottom: 6 },
-  pageSub: { fontSize: 15, color: "#9CA3AF", marginBottom: 22 },
-  stats: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, marginBottom: 24 },
-  statAccent: { background: "#2563EB", borderRadius: 14, padding: "20px 22px" },
-  stat: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "20px 22px" },
-  statLabelW: { fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,.7)", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 8 },
-  statLabel: { fontSize: 12, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 8 },
-  statValW: { fontSize: 28, fontWeight: 800, color: "#fff" },
-  statVal: { fontSize: 28, fontWeight: 800, color: "#111827" },
-  card: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 18 },
-  cardTitle: { fontSize: 17, fontWeight: 700, marginBottom: 16, color: "#111827" },
-  tbl: { width: "100%", borderCollapse: "collapse" },
-  tblTh: { textAlign: "left", padding: "10px 14px", fontSize: 12, fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#9CA3AF", borderBottom: "1.5px solid #E5E7EB" },
-  tblTd: { padding: "14px", borderBottom: "1px solid #F3F4F6", fontSize: 14, verticalAlign: "middle" },
-  pill: { fontSize: 12, fontWeight: 600, padding: "4px 12px", borderRadius: 20, display: "inline-block" },
-  empty: { textAlign: "center", padding: "40px 20px", color: "#9CA3AF" },
-  emptyIcon: { fontSize: 32, marginBottom: 12 },
-  btn: { display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit", fontSize: 14, fontWeight: 600, padding: "10px 18px", borderRadius: 10, border: "none", cursor: "pointer", textDecoration: "none" },
-  btnPrimary: { background: "#2563EB", color: "#fff" },
-  btnGhost: { background: "#F3F4F6", color: "#4B5563" },
-};
+import S from "../styles/pages/StudentPayments.styles.js";
+import { apiFetch } from "../config/api.js";
+import Sidebar from "../components/layout/Sidebar.jsx";
 
 const TYPE_LABELS = {
   suivi_regulier:   "Suivi régulier",
@@ -45,8 +12,7 @@ const TYPE_LABELS = {
 
 function StudentPayments() {
   const savedUser = localStorage.getItem("user");
-  const user  = savedUser ? JSON.parse(savedUser) : null;
-  const token = localStorage.getItem("token");
+  const user = savedUser ? JSON.parse(savedUser) : null;
 
   const [payments, setPayments] = useState([]);
   const [loading,  setLoading]  = useState(true);
@@ -57,10 +23,7 @@ function StudentPayments() {
 
     const fetchPayments = async () => {
       try {
-        const res  = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/payments/student/${user.id}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const res  = await apiFetch(`/api/payments/student/${user.id}`);
         if (!res.ok) return;
         const data = await res.json();
         setPayments(Array.isArray(data) ? data : []);
@@ -76,34 +39,8 @@ function StudentPayments() {
   return (
     <div style={S.wrap}>
       <div style={S.dash}>
-        <aside style={S.sidebar}>
-          <div style={S.sbBrand}>
-            <div style={{ ...S.logo, fontSize: 20 }}>NOVA<span style={S.logoEm}>DEMY</span></div>
-            <span style={S.sbRole}>Élève</span>
-          </div>
-          <nav style={S.sbNav}>
-            <span style={S.sbLabel}>Principal</span>
-            <a style={S.sbLink} href="/student/dashboard">🏠 Tableau de bord</a>
-            <a style={S.sbLink} href="/student/profile">👤 Mon profil</a>
-            <a style={S.sbLink} href="/search">🔍 Trouver un prof</a>
-            <span style={S.sbLabel}>Mes cours</span>
-            <a style={S.sbLink} href="/student/requests">📄 Mes demandes</a>
-            <a style={S.sbLink} href="/student/courses">📚 Mes cours</a>
-            <a style={S.sbLink} href="/student/teachers">👩‍🏫 Mes professeurs</a>
-            <a style={S.sbLink} href="/student/planning">📅 Mon calendrier</a>
-            <a style={S.sbLink} href="/student/chat">💬 Messages</a>
-            <span style={S.sbLabel}>Compte</span>
-            <a style={S.sbLinkActive} href="/student/payments">💳 Mes paiements</a>
-            <a style={S.sbLink} href="/student/review">⭐ Avis</a>
-          </nav>
-          <div style={S.sbUser}>
-            <div style={S.av}>{user?.prenom?.[0]?.toUpperCase() || "É"}</div>
-            <div>
-              <div style={{ fontSize: 16, fontWeight: 700 }}>{user ? `${user.prenom} ${user.nom}` : "Prénom Nom"}</div>
-              <div style={{ fontSize: 14, color: "#9CA3AF", marginTop: 2 }}>Élève</div>
-            </div>
-          </div>
-        </aside>
+        {/* ── SIDEBAR ── */}
+        <Sidebar role={"eleve"} user={user} active={"/payment"} />
 
         <main style={S.main}>
           <div style={S.pageTitle}>Mes paiements</div>

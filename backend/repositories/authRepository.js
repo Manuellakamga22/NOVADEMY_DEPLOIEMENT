@@ -10,10 +10,26 @@ exports.findUserByEmail = async (email) => {
 
 exports.createUser = async ({ nom, prenom, email, password, role }) => {
   const [result] = await db.query(
-    "INSERT INTO users (nom, prenom, email, password, role) VALUES (?, ?, ?, ?, ?)",
+    `INSERT INTO users (nom, prenom, email, password, role, is_active)
+     VALUES (?, ?, ?, ?, ?, 1)`,
     [nom, prenom, email, password, role]
   );
   return result;
+};
+
+exports.findByActivationToken = async (token) => {
+  const [rows] = await db.query(
+    "SELECT * FROM users WHERE activation_token = ? LIMIT 1",
+    [token]
+  );
+  return rows[0] || null;
+};
+
+exports.activateUser = async (userId) => {
+  await db.query(
+    "UPDATE users SET is_active = 1, activation_token = NULL, activation_token_expires_at = NULL WHERE id = ?",
+    [userId]
+  );
 };
 
 exports.createResetToken = async (userId, token, expiresAt) => {

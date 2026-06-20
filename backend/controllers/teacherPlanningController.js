@@ -15,6 +15,17 @@ exports.createPlanning = async (req, res) => {
   }
 };
 
+// récupère les créneaux avec statut de réservation (pour la page de demande de cours d'essai élève)
+exports.getPlanningWithStatus = async (req, res) => {
+  try {
+    const { teacherId } = req.params;
+    const result = await service.getPlanningWithStatus(teacherId);
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message || "Erreur serveur." });
+  }
+};
+
 // récupère tous les créneaux d'un prof
 exports.getPlanningByTeacherId = async (req, res) => {
   try {

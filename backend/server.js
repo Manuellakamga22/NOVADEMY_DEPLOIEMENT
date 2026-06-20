@@ -40,7 +40,7 @@ app.use(helmet());
 // Limitation globale des requêtes
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min
-  max: 200,
+  max: 2000,
   message: { message: "Trop de requêtes, réessayez plus tard." },
   standardHeaders: true,
   legacyHeaders: false,
@@ -163,5 +163,14 @@ app.listen(PORT, () => {
   console.log(`Serveur backend démarré sur http://localhost:${PORT}`);
 });
 
-// connexion MongoDB pour les notifications
+// Empêcher Node.js de crasher sur les erreurs non gérées
+process.on("uncaughtException", (err) => {
+  console.error("Erreur non capturée :", err.message);
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("Promesse rejetée non gérée :", reason?.message || reason);
+});
+
+// connexion MongoDB pour les notifications (non bloquant)
 connectMongo();

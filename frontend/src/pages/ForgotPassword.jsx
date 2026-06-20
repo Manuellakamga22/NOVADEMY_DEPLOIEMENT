@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "../config/api.js";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -7,7 +8,7 @@ function ForgotPassword() {
     e.preventDefault();
 
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/auth/forgot-password", {
+      const response = await apiFetch("/api/auth/forgot-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

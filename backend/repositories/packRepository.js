@@ -1,12 +1,12 @@
 const db = require("../db");
 
-// je récupère le catalogue des formules
+// get le catalogue des formules
 exports.getCatalog = async () => {
   const [rows] = await db.query("SELECT * FROM formulas_catalog");
   return rows;
 };
 
-// je propose une formule à un élève
+// propose une formule à un élève
 exports.proposeFormula = async ({
   trial_request_id, teacher_id, student_id, announcement_id, teacher_rate, formula_id
 }) => {
@@ -23,7 +23,7 @@ exports.proposeFormula = async ({
   return result;
 };
 
-// je récupère les propositions EN ATTENTE pour un élève (status proposee)
+// get les propositions EN ATTENTE pour un élève (status proposee)
 exports.getStudentProposals = async (studentId) => {
   const [rows] = await db.query(
     `SELECT fp.*,
@@ -36,7 +36,7 @@ exports.getStudentProposals = async (studentId) => {
   return rows;
 };
 
-// je récupère TOUTES les formules d'un élève (pour StudentCourses)
+// get TOUTES les formules d'un élève (pour StudentCourses)
 exports.getAllStudentFormulas = async (studentId) => {
   const [rows] = await db.query(
     `SELECT fp.*,
@@ -61,7 +61,28 @@ exports.acceptFormula = async (id) => {
   return result;
 };
 
-// je récupère la formule acceptée d'un élève
+// je refuse une formule
+exports.rejectFormula = async (id) => {
+  const [result] = await db.query(
+    "UPDATE formula_proposals SET status = 'refusee' WHERE id = ?",
+    [id]
+  );
+  return result;
+};
+
+// je récupère une formule par son id
+exports.getFormulaById = async (id) => {
+  const [rows] = await db.query(
+    `SELECT fp.*, u.prenom AS teacher_prenom, u.nom AS teacher_nom
+     FROM formula_proposals fp
+     LEFT JOIN users u ON u.id = fp.teacher_id
+     WHERE fp.id = ? LIMIT 1`,
+    [id]
+  );
+  return rows[0] || null;
+};
+
+// get la formule acceptée d'un élève
 exports.getAcceptedFormula = async (studentId) => {
   const [rows] = await db.query(
     "SELECT * FROM formula_proposals WHERE student_id = ? AND status = 'acceptee' LIMIT 1",

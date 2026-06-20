@@ -1,46 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-const S = {
-  wrap: { fontFamily: "'Segoe UI', sans-serif", minHeight: "100vh", background: "#F9FAFB" },
-  dash: { display: "grid", gridTemplateColumns: "260px 1fr", minHeight: "100vh" },
-  sidebar: { background: "#fff", borderRight: "1px solid #E5E7EB", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", overflowY: "auto" },
-  sbBrand: { padding: "24px 22px", borderBottom: "1px solid #E5E7EB" },
-  logo: { fontSize: 20, fontWeight: 800, letterSpacing: "-0.02em" },
-  logoEm: { color: "#2563EB" },
-  sbRole: { display: "inline-block", marginTop: 8, fontSize: 12, fontWeight: 700, textTransform: "uppercase", padding: "4px 12px", borderRadius: 20, background: "#ECFDF5", color: "#059669" },
-  sbNav: { padding: 14, flex: 1 },
-  sbLabel: { fontSize: 11, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "#9CA3AF", padding: "0 10px", margin: "18px 0 6px", display: "block" },
-  sbLink: { display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 9, fontSize: 15, fontWeight: 500, color: "#4B5563", textDecoration: "none", marginBottom: 2 },
-  sbLinkActive: { display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 9, fontSize: 15, fontWeight: 600, color: "#2563EB", background: "#EFF6FF", textDecoration: "none", marginBottom: 2 },
-  sbUser: { padding: "18px 22px", borderTop: "1px solid #E5E7EB", display: "flex", alignItems: "center", gap: 12 },
-  av: { width: 38, height: 38, borderRadius: "50%", background: "linear-gradient(135deg,#059669,#0891B2)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: 15, flexShrink: 0 },
-  main: { padding: "30px" },
-  pageTitle: { fontSize: 28, fontWeight: 800, color: "#111827", marginBottom: 6 },
-  pageSub: { fontSize: 15, color: "#6B7280", marginBottom: 24, lineHeight: 1.6 },
-  grid2: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 18 },
-  card: { background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "22px 24px", marginBottom: 18 },
-  cardTitle: { fontSize: 17, fontWeight: 800, marginBottom: 16, color: "#111827" },
-  label: { fontSize: 13, fontWeight: 700, color: "#374151", display: "block", marginBottom: 6 },
-  input: { width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #D1D5DB", fontSize: 14, fontFamily: "inherit", boxSizing: "border-box", marginBottom: 14 },
-  select: { width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #D1D5DB", fontSize: 14, fontFamily: "inherit", boxSizing: "border-box", marginBottom: 14, background: "#fff" },
-  btnPrimary: { background: "#059669", color: "#fff", border: "none", borderRadius: 10, padding: "11px 22px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" },
-  btnBlue: { background: "#2563EB", color: "#fff", border: "none", borderRadius: 10, padding: "11px 22px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" },
-  successMsg: { background: "#ECFDF5", border: "1px solid #A7F3D0", color: "#059669", borderRadius: 10, padding: "12px 16px", fontSize: 14, marginBottom: 16 },
-  errorMsg: { background: "#FEF2F2", border: "1px solid #FCA5A5", color: "#DC2626", borderRadius: 10, padding: "12px 16px", fontSize: 14, marginBottom: 16 },
-  sessionCard: { background: "#F9FAFB", border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, marginBottom: 12 },
-  sessionTop: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 },
-  sessionTitle: { fontSize: 15, fontWeight: 700, color: "#111827" },
-  codeBadge: { background: "#EFF6FF", color: "#2563EB", fontWeight: 800, fontSize: 13, padding: "4px 10px", borderRadius: 8, letterSpacing: ".05em" },
-  sessionMeta: { fontSize: 13, color: "#6B7280", lineHeight: 1.7 },
-  progressBar: { height: 6, background: "#E5E7EB", borderRadius: 4, marginTop: 8 },
-  progressFill: (pct) => ({ height: 6, borderRadius: 4, background: pct >= 100 ? "#059669" : "#2563EB", width: `${Math.min(pct, 100)}%` }),
-  pill: { fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 12, display: "inline-block" },
-  empty: { textAlign: "center", padding: "24px", color: "#9CA3AF", fontSize: 14 },
-  // compteur élèves
-  countRow: { display: "flex", alignItems: "center", gap: 10, marginBottom: 14 },
-  countBtn: { width: 34, height: 34, borderRadius: 8, border: "1px solid #D1D5DB", background: "#F3F4F6", fontSize: 18, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit" },
-  countVal: { minWidth: 50, textAlign: "center", fontSize: 15, fontWeight: 800, color: "#111827" },
-};
+import S from "../styles/pages/StudentCollectiveClasses.styles.js";
+import { apiFetch } from "../config/api.js";
+import Sidebar from "../components/layout/Sidebar.jsx";
 
 function StudentCollectiveClasses() {
   const savedUser = localStorage.getItem("user");
@@ -51,14 +13,20 @@ function StudentCollectiveClasses() {
   const [errorMsg, setErrorMsg] = useState("");
 
   // -- Créer une session --
-  const [formSubject, setFormSubject] = useState("");
-  const [formLevel, setFormLevel] = useState("lycee");
+  const [formSubject, setFormSubject]     = useState("");
+  const [formLevel, setFormLevel]         = useState("lycee");
   const [formTeacherId, setFormTeacherId] = useState("");
-  const [formMin, setFormMin] = useState(2);
-  const [formMax, setFormMax] = useState(4);
-  const [formDate, setFormDate] = useState("");
-  const [creating, setCreating] = useState(false);
-  const [sessionCreee, setSessionCreee] = useState(null);
+  const [formTeacherNom, setFormTeacherNom] = useState("");
+  const [formMin, setFormMin]             = useState(2);
+  const [formMax, setFormMax]             = useState(4);
+  const [formDate, setFormDate]           = useState("");
+  const [creating, setCreating]           = useState(false);
+  const [sessionCreee, setSessionCreee]   = useState(null);
+
+  // -- Recherche de professeurs --
+  const [profs, setProfs]           = useState([]);
+  const [rechercheProf, setRechercheProf] = useState("");
+  const [showProfs, setShowProfs]   = useState(false);
 
   // -- Rejoindre par code --
   const [codeJoin, setCodeJoin] = useState("");
@@ -76,10 +44,7 @@ function StudentCollectiveClasses() {
     if (!user?.id) return;
     setLoadingMes(true);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/group-classes/student/${user.id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await apiFetch(`/api/group-classes/student/${user.id}`);
       const data = await res.json();
       setMesSessions(Array.isArray(data) ? data : []);
     } catch { /* silencieux */ }
@@ -89,20 +54,39 @@ function StudentCollectiveClasses() {
   const chargerSessionsOuvertes = async () => {
     setLoadingOpen(true);
     try {
-      const res = await fetch(
-        "${import.meta.env.VITE_API_URL}/api/group-classes/open",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await apiFetch("/api/group-classes/open");
       const data = await res.json();
       setSessionsOuvertes(Array.isArray(data) ? data : []);
     } catch { /* silencieux */ }
     finally { setLoadingOpen(false); }
   };
 
+  const chargerProfs = async () => {
+    try {
+      const res = await apiFetch("/api/teachers");
+      const data = await res.json();
+      setProfs(Array.isArray(data) ? data : []);
+    } catch { /* silencieux */ }
+  };
+
   useEffect(() => {
     chargerMesSessions();
     chargerSessionsOuvertes();
+    chargerProfs();
   }, []);
+
+  const profsFiltres = profs.filter(p => {
+    if (!rechercheProf) return true;
+    const nom = `${p.prenom} ${p.nom}`.toLowerCase();
+    return nom.includes(rechercheProf.toLowerCase());
+  });
+
+  const choisirProf = (p) => {
+    setFormTeacherId(p.id);
+    setFormTeacherNom(`${p.prenom} ${p.nom}`);
+    setRechercheProf(`${p.prenom} ${p.nom}`);
+    setShowProfs(false);
+  };
 
   // crée une nouvelle session collective
   const handleCreer = async () => {
@@ -112,7 +96,7 @@ function StudentCollectiveClasses() {
     }
     setCreating(true);
     try {
-      const res = await fetch("${import.meta.env.VITE_API_URL}/api/group-classes", {
+      const res = await apiFetch("/api/group-classes", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
@@ -167,17 +151,14 @@ function StudentCollectiveClasses() {
     }
   };
 
-  // rejoint une session depuis la liste des sessions ouvertes
-  const handleJoindreSession = async (sessionId) => {
+  // rejoint une session depuis la liste des sessions ouvertes (via le code)
+  const handleJoindreSession = async (sessionCode) => {
+    if (!sessionCode) return;
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/group-classes/${sessionId}/enroll`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ student_id: user.id }),
-        }
-      );
+      const res = await apiFetch(`/api/group-classes/code/${sessionCode}/join`, {
+        method: "POST",
+        body: JSON.stringify({ student_id: user.id }),
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Erreur");
       setSuccessMsg("✓ Inscription confirmée !");
@@ -206,33 +187,8 @@ function StudentCollectiveClasses() {
   return (
     <div style={S.wrap}>
       <div style={S.dash}>
-        <aside style={S.sidebar}>
-          <div style={S.sbBrand}>
-            <div style={S.logo}>NOVA<span style={S.logoEm}>DEMY</span></div>
-            <span style={S.sbRole}>Élève</span>
-          </div>
-          <nav style={S.sbNav}>
-            <span style={S.sbLabel}>Principal</span>
-            <a style={S.sbLink} href="/student/dashboard">🏠 Tableau de bord</a>
-            <a style={S.sbLink} href="/student/profile">👤 Mon profil</a>
-            <a style={S.sbLink} href="/search">🔍 Trouver un prof</a>
-            <span style={S.sbLabel}>Mes cours</span>
-            <a style={S.sbLink} href="/student/requests">📬 Mes demandes</a>
-            <a style={S.sbLink} href="/student/courses">📚 Mes cours</a>
-            <a style={S.sbLink} href="/student/planning">📅 Mon calendrier</a>
-            <a style={S.sbLinkActive} href="/student/collective">👥 Classes collectives</a>
-            <a style={S.sbLink} href="/student/chat">💬 Messages</a>
-            <span style={S.sbLabel}>Compte</span>
-            <a style={S.sbLink} href="/student/payments">💳 Paiements</a>
-          </nav>
-          <div style={S.sbUser}>
-            <div style={S.av}>{user?.prenom?.[0]?.toUpperCase() || "É"}</div>
-            <div>
-              <div style={{ fontSize: 15, fontWeight: 600 }}>{user ? `${user.prenom} ${user.nom}` : "Élève"}</div>
-              <div style={{ fontSize: 13, color: "#9CA3AF" }}>Élève</div>
-            </div>
-          </div>
-        </aside>
+        {/* ── SIDEBAR ── */}
+        <Sidebar role={"eleve"} user={user} active={"/student/collective"} />
 
         <main style={S.main}>
           <div style={S.pageTitle}>👥 Classes collectives</div>
@@ -269,9 +225,46 @@ function StudentCollectiveClasses() {
                 <option value="prepa">Prépa</option>
               </select>
 
-              <label style={S.label}>ID du professeur</label>
-              <input type="number" value={formTeacherId} onChange={e => setFormTeacherId(e.target.value)}
-                placeholder="Ex : 3" style={S.input} />
+              <label style={S.label}>Professeur</label>
+              <div style={{ position: "relative" }}>
+                <input
+                  type="text"
+                  value={rechercheProf}
+                  onChange={e => { setRechercheProf(e.target.value); setFormTeacherId(""); setShowProfs(true); }}
+                  onFocus={() => setShowProfs(true)}
+                  placeholder="Rechercher un professeur par nom..."
+                  style={S.input}
+                  autoComplete="off"
+                />
+                {showProfs && rechercheProf.length > 0 && profsFiltres.length > 0 && (
+                  <div style={{
+                    position: "absolute", top: "100%", left: 0, right: 0, zIndex: 10,
+                    background: "#fff", border: "1px solid #E5E7EB", borderRadius: 8,
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)", maxHeight: 200, overflowY: "auto",
+                  }}>
+                    {profsFiltres.map(p => (
+                      <div
+                        key={p.id}
+                        onClick={() => choisirProf(p)}
+                        style={{
+                          padding: "10px 14px", cursor: "pointer", fontSize: 15,
+                          borderBottom: "1px solid #F3F4F6",
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.background = "#F9FAFB"}
+                        onMouseLeave={e => e.currentTarget.style.background = "#fff"}
+                      >
+                        <strong>{p.prenom} {p.nom}</strong>
+                        <span style={{ fontSize: 13, color: "#9CA3AF", marginLeft: 8 }}>{p.email}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {formTeacherNom && formTeacherId && (
+                  <div style={{ marginTop: 6, fontSize: 14, color: "#059669", fontWeight: 600 }}>
+                    ✓ {formTeacherNom} sélectionné
+                  </div>
+                )}
+              </div>
 
               <label style={S.label}>Date souhaitée</label>
               <input type="date" value={formDate} onChange={e => setFormDate(e.target.value)} style={S.input} />
@@ -383,7 +376,7 @@ function StudentCollectiveClasses() {
                       </div>
                       <button
                         style={{ ...S.btnPrimary, marginTop: 10, padding: "8px 14px", fontSize: 13, width: "100%", opacity: dejaInscrit ? 0.5 : 1 }}
-                        onClick={() => !dejaInscrit && handleJoindreSession(s.id)}
+                        onClick={() => !dejaInscrit && handleJoindreSession(s.session_code)}
                         disabled={dejaInscrit}
                       >
                         {dejaInscrit ? "✓ Déjà inscrit" : "Rejoindre"}

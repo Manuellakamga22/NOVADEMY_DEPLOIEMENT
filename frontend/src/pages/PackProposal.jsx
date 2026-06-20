@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "../config/api.js";
 
 function PackProposal() {
   const [formData, setFormData] = useState({
@@ -28,7 +29,7 @@ function PackProposal() {
     }
 
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/packs", {
+      const response = await apiFetch("/api/packs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

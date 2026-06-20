@@ -3,8 +3,8 @@ const router = express.Router();
 const packController = require("../controllers/packController");
 const { verifyToken, requireRole } = require("../middleware/authMiddleware");
 
-// catalogue des formules - prof
-router.get("/catalog", verifyToken, requireRole("teacher"), packController.getCatalog);
+// catalogue des formules (accessible à tous les utilisateurs connectés)
+router.get("/catalog", verifyToken, packController.getCatalog);
 
 // proposer une formule - prof
 router.post("/propose", verifyToken, requireRole("teacher"), packController.proposeFormula);
@@ -36,5 +36,11 @@ router.get(
 
 // accepter une formule - élève
 router.put("/accept/:id", verifyToken, requireRole("student"), packController.acceptFormula);
+
+// refuser une formule - élève
+router.put("/reject/:id", verifyToken, requireRole("student"), packController.rejectFormula);
+
+// récupérer une formule par son id
+router.get("/formula/:id", verifyToken, packController.getFormulaById);
 
 module.exports = router;

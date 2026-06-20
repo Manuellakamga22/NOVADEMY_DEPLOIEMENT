@@ -7,7 +7,18 @@ const authService = require("../services/authService");
 jest.mock("bcrypt");
 jest.mock("jsonwebtoken");
 jest.mock("crypto");
+jest.mock("nodemailer", () => ({
+  createTransport: jest.fn().mockReturnValue({
+    sendMail: jest.fn().mockResolvedValue({}),
+  }),
+}));
 jest.mock("../repositories/authRepository");
+jest.mock("../db", () => ({
+  query: jest.fn(),
+  getConnection: jest.fn().mockResolvedValue({
+    release: jest.fn(),
+  }),
+}));
 
 describe("authService", () => {
   beforeEach(() => {
@@ -15,12 +26,14 @@ describe("authService", () => {
     process.env.JWT_SECRET = "test_secret";
   });
 
+  // ─────────────────────────────────────────────────────────────────────────
   describe("register", () => {
+    // Mot de passe valide : 12 car., minuscule, majuscule, chiffre, spécial
     const validUserData = {
       nom: "Kamga",
       prenom: "Rosalie",
       email: "rosalie@gmail.com",
-      password: "Password1",
+      password: "Password1@secure",
       role: "ELEVE",
     };
 
@@ -32,7 +45,7 @@ describe("authService", () => {
       const result = await authService.register(validUserData);
 
       expect(authRepository.findUserByEmail).toHaveBeenCalledWith("rosalie@gmail.com");
-      expect(bcrypt.hash).toHaveBeenCalledWith("Password1", 10);
+      expect(bcrypt.hash).toHaveBeenCalledWith("Password1@secure", 10);
       expect(authRepository.createUser).toHaveBeenCalledWith({
         nom: "Kamga",
         prenom: "Rosalie",
@@ -40,7 +53,6 @@ describe("authService", () => {
         password: "hashedPassword123",
         role: "ELEVE",
       });
-
       expect(result).toEqual({
         message: "Utilisateur créé avec succès",
         user: {
@@ -59,7 +71,7 @@ describe("authService", () => {
           nom: "Kamga",
           prenom: "Rosalie",
           email: "",
-          password: "Password1",
+          password: "Password1@secure",
           role: "ELEVE",
         })
       ).rejects.toEqual({
@@ -83,7 +95,9 @@ describe("authService", () => {
         })
       ).rejects.toEqual({
         status: 400,
-        message: "Le mot de passe doit contenir au moins 8 caractères, 1 majuscule et 1 chiffre.",
+        // Message exact retourné par authService.js
+        message:
+          "Le mot de passe doit contenir au moins 12 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial.",
       });
 
       expect(authRepository.findUserByEmail).not.toHaveBeenCalled();
@@ -134,10 +148,11 @@ describe("authService", () => {
     });
   });
 
+  // ─────────────────────────────────────────────────────────────────────────
   describe("login", () => {
     const validLoginData = {
       email: "rosalie@gmail.com",
-      password: "Password1",
+      password: "Password1@secure",
     };
 
     const mockUser = {
@@ -157,13 +172,12 @@ describe("authService", () => {
       const result = await authService.login(validLoginData);
 
       expect(authRepository.findUserByEmail).toHaveBeenCalledWith("rosalie@gmail.com");
-      expect(bcrypt.compare).toHaveBeenCalledWith("Password1", "hashedPassword123");
+      expect(bcrypt.compare).toHaveBeenCalledWith("Password1@secure", "hashedPassword123");
       expect(jwt.sign).toHaveBeenCalledWith(
         { id: 1, role: "ELEVE", email: "rosalie@gmail.com" },
         "test_secret",
-        { expiresIn: "1d" }
+        { expiresIn: "7d" } // durée réelle dans authService.js
       );
-
       expect(result).toEqual({
         message: "Connexion réussie",
         token: "fake_jwt_token",
@@ -179,7 +193,7 @@ describe("authService", () => {
 
     it("should throw if email is missing", async () => {
       await expect(
-        authService.login({ email: "", password: "Password1" })
+        authService.login({ email: "", password: "Password1@secure" })
       ).rejects.toEqual({
         status: 400,
         message: "Email et mot de passe obligatoires.",
@@ -226,7 +240,7 @@ describe("authService", () => {
       });
 
       expect(authRepository.findUserByEmail).toHaveBeenCalledWith("rosalie@gmail.com");
-      expect(bcrypt.compare).toHaveBeenCalledWith("Password1", "hashedPassword123");
+      expect(bcrypt.compare).toHaveBeenCalledWith("Password1@secure", "hashedPassword123");
       expect(jwt.sign).not.toHaveBeenCalled();
     });
 
@@ -259,34 +273,32 @@ describe("authService", () => {
     });
   });
 
+  // ─────────────────────────────────────────────────────────────────────────
   describe("forgotPassword", () => {
     const mockUser = {
       id: 1,
+      prenom: "Rosalie",
       email: "rosalie@gmail.com",
     };
 
-    it("should generate reset token successfully", async () => {
+    it("should send reset email successfully", async () => {
       authRepository.findUserByEmail.mockResolvedValue(mockUser);
 
       const mockToString = jest.fn().mockReturnValue("reset_token_123");
-      crypto.randomBytes.mockReturnValue({
-        toString: mockToString,
-      });
+      crypto.randomBytes.mockReturnValue({ toString: mockToString });
 
       authRepository.createResetToken.mockResolvedValue();
 
-      const result = await authService.forgotPassword({
-        email: "rosalie@gmail.com",
-      });
+      const result = await authService.forgotPassword({ email: "rosalie@gmail.com" });
 
       expect(authRepository.findUserByEmail).toHaveBeenCalledWith("rosalie@gmail.com");
       expect(crypto.randomBytes).toHaveBeenCalledWith(32);
       expect(mockToString).toHaveBeenCalledWith("hex");
       expect(authRepository.createResetToken).toHaveBeenCalledTimes(1);
 
+      // authService envoie un email et retourne CE message (pas le token)
       expect(result).toEqual({
-        message: "Lien de réinitialisation généré.",
-        resetToken: "reset_token_123",
+        message: "Un email de réinitialisation a été envoyé.",
       });
     });
 
@@ -327,9 +339,7 @@ describe("authService", () => {
       authRepository.findUserByEmail.mockResolvedValue(mockUser);
 
       const mockToString = jest.fn().mockReturnValue("reset_token_123");
-      crypto.randomBytes.mockReturnValue({
-        toString: mockToString,
-      });
+      crypto.randomBytes.mockReturnValue({ toString: mockToString });
 
       authRepository.createResetToken.mockRejectedValue(new Error("Create token error"));
 
@@ -339,10 +349,12 @@ describe("authService", () => {
     });
   });
 
+  // ─────────────────────────────────────────────────────────────────────────
   describe("resetPassword", () => {
+    // Mot de passe valide pour les tests resetPassword
     const validResetData = {
       token: "reset_token_123",
-      newPassword: "NewPassword1",
+      newPassword: "NewPassword1@ok",
     };
 
     const mockResetRow = {
@@ -359,18 +371,15 @@ describe("authService", () => {
       const result = await authService.resetPassword(validResetData);
 
       expect(authRepository.findLatestResetToken).toHaveBeenCalledWith("reset_token_123");
-      expect(bcrypt.hash).toHaveBeenCalledWith("NewPassword1", 10);
+      expect(bcrypt.hash).toHaveBeenCalledWith("NewPassword1@ok", 10);
       expect(authRepository.updatePassword).toHaveBeenCalledWith(1, "newHashedPassword123");
       expect(authRepository.deleteResetTokensByUserId).toHaveBeenCalledWith(1);
-
-      expect(result).toEqual({
-        message: "Mot de passe réinitialisé avec succès.",
-      });
+      expect(result).toEqual({ message: "Mot de passe réinitialisé avec succès." });
     });
 
     it("should throw if token is missing", async () => {
       await expect(
-        authService.resetPassword({ token: "", newPassword: "NewPassword1" })
+        authService.resetPassword({ token: "", newPassword: "NewPassword1@ok" })
       ).rejects.toEqual({
         status: 400,
         message: "Token et nouveau mot de passe obligatoires.",
@@ -397,7 +406,9 @@ describe("authService", () => {
         authService.resetPassword({ token: "reset_token_123", newPassword: "weak" })
       ).rejects.toEqual({
         status: 400,
-        message: "Mot de passe non sécurisé.",
+        // Message exact retourné par authService.js (même règle que register)
+        message:
+          "Le mot de passe doit contenir au moins 12 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial.",
       });
 
       expect(authRepository.findLatestResetToken).not.toHaveBeenCalled();
@@ -409,7 +420,8 @@ describe("authService", () => {
 
       await expect(authService.resetPassword(validResetData)).rejects.toEqual({
         status: 404,
-        message: "Token invalide.",
+        // Message exact dans authService.js
+        message: "Token invalide ou expiré.",
       });
 
       expect(authRepository.findLatestResetToken).toHaveBeenCalledWith("reset_token_123");

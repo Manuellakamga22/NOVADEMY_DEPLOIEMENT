@@ -36,3 +36,15 @@ exports.getAcceptedFormula = async (req, res) => {
     return res.json(await packService.getAcceptedFormula(req.params.studentId));
   } catch (e) { return res.status(e.status||500).json({ message: e.message||"Erreur serveur" }); }
 };
+
+exports.rejectFormula = async (req, res) => {
+  try {
+    return res.json(await packService.rejectFormula(req.params.id));
+  } catch (e) { return res.status(e.status||500).json({ message: e.message||"Erreur serveur" }); }
+};
+
+exports.getFormulaById = async (req, res) => {
+  try {
+    return res.json(await packService.getFormulaById(req.params.id));
+  } catch (e) { return res.status(e.status||500).json({ message: e.message||"Erreur serveur" }); }
+};

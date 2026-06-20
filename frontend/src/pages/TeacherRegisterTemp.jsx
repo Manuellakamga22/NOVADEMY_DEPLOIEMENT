@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../config/api.js";
 
 function TeacherRegisterTemp() {
   const navigate = useNavigate();
@@ -12,8 +13,10 @@ function TeacherRegisterTemp() {
     role: "teacher",
   });
 
+  const [cguAccepted, setCguAccepted] = useState(false);
+
   const isStrongPassword = (password) => {
-    return /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{12,}$/.test(password);
   };
 
   const handleChange = (e) => {
@@ -23,8 +26,7 @@ function TeacherRegisterTemp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("SUBMIT REGISTER PROF déclenché");
-    console.log("Données envoyées :", formData);
+
 
     if (
       !formData.nom.trim() ||
@@ -37,12 +39,17 @@ function TeacherRegisterTemp() {
     }
 
     if (!isStrongPassword(formData.password)) {
-      alert("Le mot de passe doit contenir au moins 8 caractères, 1 majuscule et 1 chiffre.");
+      alert("Le mot de passe doit contenir au moins 12 caractères, 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial.");
+      return;
+    }
+
+    if (!cguAccepted) {
+      alert("Veuillez accepter les Conditions Générales d'Utilisation pour continuer.");
       return;
     }
 
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/auth/register", {
+      const response = await apiFetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,24 +57,17 @@ function TeacherRegisterTemp() {
         body: JSON.stringify(formData),
       });
 
-      console.log("STATUS HTTP REGISTER PROF :", response.status);
 
       const data = await response.json();
-      console.log("REPONSE BACKEND REGISTER PROF :", data);
 
       if (!response.ok) {
         alert(data.message || "Erreur lors de l'inscription");
         return;
       }
 
-      if (data.user) {
-        localStorage.setItem("user", JSON.stringify(data.user));
-      }
-
-      alert(data.message || "Utilisateur créé avec succès");
-      navigate("/teacher/profile");
-    } catch (error) {
-      console.error("Erreur register professeur :", error);
+      alert(data.message || "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.");
+      navigate("/login");
+    } catch {
       alert("Erreur de connexion au serveur");
     }
   };
@@ -127,8 +127,24 @@ function TeacherRegisterTemp() {
           />
 
           <p style={hint}>
-            8 caractères minimum, avec 1 majuscule et 1 chiffre.
+            12 caractères minimum, avec 1 minuscule, 1 majuscule, 1 chiffre et 1 caractère spécial (ex: @#$%!).
           </p>
+
+          <div style={cguRow}>
+            <input
+              type="checkbox"
+              id="cgu-prof"
+              checked={cguAccepted}
+              onChange={e => setCguAccepted(e.target.checked)}
+              style={{ width: 18, height: 18, cursor: "pointer", flexShrink: 0 }}
+            />
+            <label htmlFor="cgu-prof" style={cguLabel}>
+              J'accepte les{" "}
+              <a href="/cgu" style={cguLien}>Conditions Générales d'Utilisation</a>
+              {" "}et la{" "}
+              <a href="/politique-confidentialite" style={cguLien}>Politique de confidentialité</a>
+            </label>
+          </div>
 
           <button type="submit" style={button}>Créer mon compte professeur</button>
         </form>
@@ -232,6 +248,27 @@ const footer = {
   marginTop: "24px",
   fontSize: "18px",
   color: "#555",
+};
+
+const cguRow = {
+  display: "flex",
+  alignItems: "flex-start",
+  gap: 10,
+  marginBottom: 18,
+  marginTop: 4,
+};
+
+const cguLabel = {
+  fontSize: 15,
+  color: "#374151",
+  lineHeight: 1.5,
+  cursor: "pointer",
+};
+
+const cguLien = {
+  color: "#4f46e5",
+  fontWeight: 600,
+  textDecoration: "none",
 };
 
 export default TeacherRegisterTemp;

@@ -2,7 +2,7 @@ const express = require("express");
 const db      = require("../db");
 const router  = express.Router();
 
-// je récupère tous les profs
+// liste des profs
 router.get("/", async (req, res) => {
   try {
     const [results] = await db.query(
